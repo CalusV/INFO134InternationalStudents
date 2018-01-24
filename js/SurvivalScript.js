@@ -42,3 +42,16 @@ function getRequestedTable(value) {
   // Update currentSelection to the same value as x
   currentSelection = document.getElementById(value);
 }
+
+
+/* Show/Hide */
+function hideMe(value) {
+    var x = document.getElementById(value);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        /*x.style.color = "blue";*/
+    } else {
+        x.style.display = "none";
+        /*x.style.color= "red";*/
+    }
+}

@@ -16,12 +16,12 @@
 */
 
 /* Alternativ font-family satt inn i html-taggen. -TRL*/
-html{font-family: "Georgia", serif;}
-/* Fjernet marginene i body. -TRL */
-body{
-  margin: 0 0 0 0;
-  background-color: white;
+html{
+  font-family: "Georgia", serif;
+  color: #dadad9;
+  background-color: #485866;
 }
+body{}
 /**/
 main{
   display: flex;
@@ -34,30 +34,30 @@ main{
 NG
 **/
 header{
-  background-color: #0B3861;
+  background-color: #1A4A75;
   width:100%;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 header ul{
   list-style-type: none;
   float: left;
-  margin: 0;
-  padding: 0;
+  margin: -5px;
+  padding: 10px;
 }
 header li{
   float: left;
+  background-color: #305F89;
 }
 /**footer
 *NG
 **/
 footer{
   width:100%;
-  background-color: #0B3861;
-  color:#dadad9;
+  background-color: #1A4A75;
   padding:10px;
 }
 #footer_overskrift{
-  color:#963307;
+
   font-family: sans-serif;
 }
 
@@ -65,7 +65,8 @@ footer{
 
 /* Hva gjør denne? */
 .nav{
-  background-color: #022340;
+  background-color: #305F89;
+
   width:100%;
   margin: 0;
   padding:0;
@@ -76,29 +77,29 @@ footer{
 .nav a{
   text-align: center;
   transition: all 0.3s ease;
-  color: #dadad9;
+color: #dadad9;
   text-decoration:none;
-  padding:10px;
+  padding:0px;
   display: block;
   margin: 0;
 }
 /* Hva gjør denne? */
 .nav a:hover{
-  background-color: #963307;
-  color: white;
+  background-color: #01192E;
+
   text-decoration: none;
 }
 /* Hva gjør denne? */
 .nav a.active{
-  background-color: #963307;
-  color: white;
+  background-color: #01192E;
+
   text-decoration: none;
   opacity: 0.8;
 }
 /* Hva gjør denne? */
 #logo{
   width:10%;
-  padding-left: 4px;
+  padding-left: 0px;
 }
 /* Hva gjør denne? */
 #fjell{
@@ -107,7 +108,7 @@ footer{
 /* Hva gjør denne? */
 .search{
   display: block;
-  color:#dadad9;
+
   background-color: #0B3861;
   font-family: sans-serif;
 
@@ -198,6 +199,7 @@ footer{
 
 .interactivity {
   float: right;
+
   margin:0;
   padding:0;
 
@@ -219,7 +221,7 @@ footer{
 .search{
   display:block;
   background-color: #0B3861;
-  color:#dadad9;
+
   padding:4px;
   font-family: sans-serif;
   font-weight:lighter;
@@ -269,26 +271,6 @@ footer{
   border-radius: 8px;
   display: flex;
   background-color: darkgrey;
-}
-
-#drinking {
-  display: none;
-}
-
-#uib {
-  display: none;
-}
-
-#culture {
-  display: none;
-}
-
-#hikes {
-  display: none;
-}
-
-#stores {
-  display: none;
 }
 
 .location-image {
