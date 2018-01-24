@@ -106,7 +106,6 @@ header li{
 @media (min-width : 320px) and (max-width : 480px) {
   #logo{
     width:30%;
-    padding-left: 4px;
   }
   #fjell{
     width:20%;
@@ -137,7 +136,6 @@ footer{
 */
 @media (min-width : 320px) and (max-width : 480px) {
   .frontpage {
-    display:flex;
     flex-direction: column;
   }
 }
@@ -186,7 +184,8 @@ footer{
 
 .interactiveHeader{
     display:block;
-.search{
+}
+.search {
   display:block;
   background-color: #0B3861;
   color:#dadad9;
@@ -213,16 +212,25 @@ footer{
 }
 
 .dropdown-menu {
+  height: 2rem;
   width: 100%;
   margin: 5px;
   border: 1px solid;
+}
+
+.defaultOption {
+  color: grey;
+}
+
+select {
+  font-size: 1.2rem;
 }
 /* Media screen for large screens - RHJ
 
  */
 @media (min-width : 1824px) {
 
-  }
+}
 
 }
 /* Media screen for small screens - RHJ
