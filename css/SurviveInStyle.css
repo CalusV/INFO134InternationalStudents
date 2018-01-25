@@ -4,49 +4,92 @@
 *navigation bar blå #022340
 *hover oransje: #963307
 *font farge #dadad9
+****
+* I suggest that we create a separate .txt for the current colour-schemes.
+* -TRL, 25012018
 */
 
-/**
+/*****
 * Survival-page structure
+*   Survival-page specific css. Mostly modelled on the main style.css, but aims to
+*   showcase different alternatives and to create a leaner css file with
+*   more extensive markup and comments.
+******
 * @author: TRL
-* @version: 0.1
-* @date, current: 23012018
+* @version: 0.2
+* @date, current: 25012018
 *
+* Previous version, 0.1:
 * Grunnkode hentet fra "style.css". Merknader er satt inn der endringer er gjort i koden.
+*
+* Current version, 0.2:
+* Eksperimenter med border, font-typer, etc.
+* Noen endringer i css-struktur.
 */
 
-/* Alternativ font-family satt inn i html-taggen. -TRL*/
+/*
+html{}
+Her har jeg lagt inn standard
+  font-family:
+  font-size:
+  color:
+  background-color:
+for hele dokumentet.
+*/
 html{
-  font-family: "Georgia", serif;
+  font-family: "MisoRegular", serif;
+  font-size: 12px;
   color: #dadad9;
   background-color: #485866;
 }
+/*
 body{}
-/**/
+*/
+body{}
+/*
+main{}
+  display:
+  flex-direction:
+*/
 main{
   display: flex;
   flex-direction: column;
 }
 
-/* Samlet header- og footer-kode. -TRL */
 /**
 *header
 NG
 **/
+/* header */
 header{
+  /*Optional crazy stuff*/
+	text-shadow:
+  0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2d95,
+  0 0 30px #ff2d95, 0 0 40px #ff2d95, 0 0 50px #ff2d95, 0 0 75px #ff2d95;
+	letter-spacing: 2px;
+
+  /*Normal stuff*/
   background-color: #1A4A75;
   width:100%;
   margin-bottom: 0px;
 }
+/* For ul-tag i header-tag. Se "header li"*/
 header ul{
   list-style-type: none;
   float: left;
   margin: -5px;
   padding: 10px;
 }
+/* For li-tag i header-tag. Se "header ul"*/
 header li{
+  /*Optional crazy stuff*/
+  border-style: ridge;
+     border-color: #2E5E89;
+     border-width: 7px;
+     /*Normal stuff*/
+  background-color: #4A779C;
   float: left;
-  background-color: #305F89;
+  padding: 3px;
 }
 /**footer
 *NG
@@ -57,13 +100,15 @@ footer{
   padding:10px;
 }
 #footer_overskrift{
-
   font-family: sans-serif;
 }
 
-
-
-/* Hva gjør denne? */
+/* Primary menu line, class="nav"
+Setting this to be named class="nav" conflicts with the nav tag
+name. This is not ideal. Names should be use-case specific.
+I volunteer to go through, change and document the overall css-naming at a later stage.
+-TRL, 25012018
+*/
 .nav{
   background-color: #305F89;
 
@@ -72,8 +117,30 @@ footer{
   padding:0;
   overflow:hidden;
   font-family: sans-serif;
+
+
 }
-/* Hva gjør denne? */
+/*
+.secondary-nav = Second menu line.
+Needs separate styling of a-elements, and same issue with naming scheme as above.
+The class has also been changed in the survival.html to allow different styles.
+-TRL, 25012018
+*/
+.secondary-nav{
+  background-color: #305F89;
+
+  width:100%;
+  margin: 0;
+  padding:0;
+  overflow:hidden;
+  font-family: sans-serif;
+}
+/*
+class="nav" a
+  alternativt
+    nav a (gjør det samme)
+Skillet er kun viktig om nav og class="nav" skal være forskjellige ting.
+*/
 .nav a{
   text-align: center;
   transition: all 0.3s ease;
@@ -83,35 +150,32 @@ color: #dadad9;
   display: block;
   margin: 0;
 }
-/* Hva gjør denne? */
+/* onHover på class="nav" a */
 .nav a:hover{
   background-color: #01192E;
 
   text-decoration: none;
 }
-/* Hva gjør denne? */
+/* onActive på class="nav" a */
 .nav a.active{
   background-color: #01192E;
-
   text-decoration: none;
   opacity: 0.8;
 }
-/* Hva gjør denne? */
+/* id="logo" styling */
 #logo{
   width:10%;
   padding-left: 0px;
 }
-/* Hva gjør denne? */
+/* id="fjell" styling*/
 #fjell{
   width:5%;
 }
-/* Hva gjør denne? */
+/* class="search" */
 .search{
   display: block;
-
   background-color: #0B3861;
   font-family: sans-serif;
-
 }
 
 /* Media Queries for forskjellige skjermstørrelser. Gjør disse det de skal? */
@@ -197,16 +261,9 @@ color: #dadad9;
   }
 }
 
-.interactivity {
-  float: right;
 
-  margin:0;
-  padding:0;
 
-}
-#facebook{
-  width:30%;
-}
+
 /* Media screen for small screens - RHJ
   - Make Facebook logo smaller on phones.
 */
@@ -214,6 +271,19 @@ color: #dadad9;
   #facebook{
    width:20%;
   }
+}
+
+/* Sidebar m/ info */
+.interactivity {
+  float: right;
+
+  margin:0;
+  padding:0;
+
+}
+/* id="facebook" for styling av facebook-ikon */
+#facebook{
+  width:30%;
 }
 
 .interactiveHeader{
@@ -226,6 +296,7 @@ color: #dadad9;
   font-family: sans-serif;
   font-weight:lighter;
 }
+/* Samme som over. */
 #facebook{
   width:30%;
 }
