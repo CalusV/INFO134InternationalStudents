@@ -238,7 +238,7 @@ footer{
   border: 1px solid;
   border-radius: 8px;
   display: flex;
-  background-color: darkgrey;
+  background-color: #022340;
 }
 
 #drinking {
@@ -268,7 +268,8 @@ footer{
   border: 1px solid;
   border-radius: 8px;
   padding: 5px;
-  background-color: lightgrey;
+  background-color: white;
+  box-shadow: inset 0 0 10px #000000;
 }
 
 .img {
@@ -279,6 +280,7 @@ footer{
   height: auto;
   border-radius: 8px;
   border: 1px solid;
+  box-shadow: 0 0 2px #000000;
 }
 
 .location-info {
@@ -288,7 +290,8 @@ footer{
   border: 1px solid;
   border-radius: 8px;
   padding: 5px;
-  background-color: lightgrey;
+  background-color: white;
+  box-shadow: inset 0 0 10px #000000;
 }
 
 .location-button {
