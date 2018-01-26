@@ -310,3 +310,42 @@ select {
 .skyss{
   width: 20%;
 }
+
+/** NAV bars styled using curriculum techniques - RHJ **/
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navBar {
+  margin-right: 1rem;
+}
+.searchBar{
+  vertical-align: center;
+  margin-left: auto;
+}
+
+/* Small margin for search menu */
+#mapSearch {
+  margin-right: 1rem;
+}
+
+.subNav {
+  display: flex;
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  background-color: white;
+  border-bottom: 2px solid;
+  border-bottom-color: #022340;
+  justify-content: space-between;
+}
+
+.navItem {
+  text-decoration: none;
+  color: #0B3861;
+  font-size: 1.2rem;
+}
+
+.top img{
+  width: 70%;
+}

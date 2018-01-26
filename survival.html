@@ -13,32 +13,47 @@ trying to establish them selv in Norway -->
   <body>
     <!--header NG-->
     <header class="site">
-      <a href="index.html">
-          <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
-      </a>
        <img src="img/logo/fjellene.png"  id="fjell">
+       <a href="index.html">
+           <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+       </a>
        <img src="img/logo/fjellet.png"  id="fjell">
        <img src="img/logo/fjellene.png"  id="fjell">
        <br>
        <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
        <nav class="nav">
-          <ul>
+          <ul class="navBar">
             <li><a href="index.html">Frontpage</a></li>
             <li><a href="map.html">Map</a></li>
             <li><a class="active" href="survival.html">Survival Guide</a></li>
           </ul>
+          <section="searchBar">
+            <input type="text" name="searchQuery">
+            <input id="mapSearch" type="submit" value="search">
+          </section>
+      </nav>
+      <nav class="subNav">
+        <a onclick="" href="" class="navItem">Dating</a>
+        <a onclick="" href="" class="navItem">Friendships</a>
+        <a onclick="" href="" class="navItem">Student Life</a>
+        <a onclick="" href="" class="navItem">Finances</a>
+        <a onclick="" href="" class="navItem">Public Transportation</a>
+        <a onclick="" href="" class="navItem">Hitchhiker's guide</a>
       </nav>
     </header>
     <main>
       <!-- Her endrer vi innholdet basert på hvilken side man er på. -->
       <section class="top">
-        <figure class="map">
-            <!-- Insert map here -->
-            <figcaption class="mapDescription">Handy locations to know in Bergen</figcaption>
-        </figure>
+            <img src="img/siteImages/happysadangrydrunk.jpg" alt="Norwegian moods">
+            <p>
+              Decoding Norwegians and their culture might seem a daunting task, but several other foreigners have already laid down
+              useful groundwork for you! Follow in their footsteps as you explore the various aspects of life in Bergen, and the advice
+              that they give.
+            </p>
       </section>
       <section class="dropdown">
         <select class="dropdown-menu">
+          <option class="defaultOption">What advice do you need?</option>
           <option value="dating">Dating in Norway</option>
           <option value="friendships">Making friends (Is it possible?)</option>
           <option value="student-life">Student life in Bergen</option>
@@ -93,10 +108,21 @@ trying to establish them selv in Norway -->
       </section>
     </main>
     <footer>
-      <!-- Her bør innholdet være den samme for hver side.
-        - Navn på prosjektmedarbeidere
-        -
-      -->
+      <h3 id="footer_overskrift">Om BIS</h3>
+      <p>
+        Bergen International Student er en side laget for faget INFO134 på UIB.
+        Dette er laget av gruppemedlemmene:
+        Her kan det også stå noe helt annet.
+        Kan kopieres til de andre da.
+      </p>
+      <p>
+        <ul>
+            <li>Nora Gedde (nge005)</li>
+            <li>Tormod Renberg Lerøy</li>
+            <li>Roy H. Jenssen</li>
+            <li>Øyvind Johannessen</li>
+        </ul>
+      </p>
     </footer>
   </body>
 </html>
