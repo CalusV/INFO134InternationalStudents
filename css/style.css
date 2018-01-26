@@ -310,6 +310,8 @@ select {
 .skyss{
   width: 20%;
 }
+
+/** NAV bars styled using curriculum techniques - RHJ **/
 .nav {
   display: flex;
   justify-content: space-between;
@@ -323,6 +325,7 @@ select {
   margin-left: auto;
 }
 
+/* Small margin for search menu */
 #mapSearch {
   margin-right: 1rem;
 }
@@ -339,5 +342,10 @@ select {
 
 .navItem {
   text-decoration: none;
-  font-size: 1.1rem;
+  color: #0B3861;
+  font-size: 1.2rem;
+}
+
+.top img{
+  width: 70%;
 }
