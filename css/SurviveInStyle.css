@@ -1,0 +1,448 @@
+/**
+*These are the colors we use
+*#0B3861 header lyser
+*navigation bar blå #022340
+*hover oransje: #963307
+*font farge #dadad9
+****
+* I suggest that we create a separate .txt for the current colour-schemes.
+* -TRL, 25012018
+*/
+
+/*****
+* Survival-page structure
+*   Survival-page specific css. Mostly modelled on the main style.css, but aims to
+*   showcase different alternatives and to create a leaner css file with
+*   more extensive markup and comments.
+******
+* @author: TRL
+* @version: 0.2
+* @date, current: 25012018
+*
+* Previous version, 0.1:
+* Grunnkode hentet fra "style.css". Merknader er satt inn der endringer er gjort i koden.
+*
+* Current version, 0.2:
+* Eksperimenter med border, font-typer, etc.
+* Noen endringer i css-struktur.
+*/
+
+/*
+html{}
+Her har jeg lagt inn standard
+  font-family:
+  font-size:
+  color:
+  background-color:
+for hele dokumentet.
+*/
+html{
+  font-family: "MisoRegular", serif;
+  font-size: 12px;
+  color: #dadad9;
+  background-color: #485866;
+}
+/*
+body{}
+*/
+body{}
+/*
+main{}
+  display:
+  flex-direction:
+*/
+main{
+  display: flex;
+  flex-direction: column;
+}
+
+/**
+*header
+NG
+**/
+/* header */
+header{
+  /*Optional crazy stuff*/
+	text-shadow:
+  0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2d95,
+  0 0 30px #ff2d95, 0 0 40px #ff2d95, 0 0 50px #ff2d95, 0 0 75px #ff2d95;
+	letter-spacing: 2px;
+
+  /*Normal stuff*/
+  background-color: #1A4A75;
+  width:100%;
+  margin-bottom: 0px;
+}
+/* For ul-tag i header-tag. Se "header li"*/
+header ul{
+  list-style-type: none;
+  float: left;
+  margin: -5px;
+  padding: 10px;
+}
+/* For li-tag i header-tag. Se "header ul"*/
+header li{
+  /*Optional crazy stuff*/
+  border-style: ridge;
+     border-color: #2E5E89;
+     border-width: 7px;
+     /*Normal stuff*/
+  background-color: #4A779C;
+  float: left;
+  padding: 3px;
+}
+/**footer
+*NG
+**/
+footer{
+  width:100%;
+  background-color: #1A4A75;
+  padding:10px;
+}
+#footer_overskrift{
+  font-family: sans-serif;
+}
+
+/* Primary menu line, class="nav"
+Setting this to be named class="nav" conflicts with the nav tag
+name. This is not ideal. Names should be use-case specific.
+I volunteer to go through, change and document the overall css-naming at a later stage.
+-TRL, 25012018
+*/
+.nav{
+  background-color: #305F89;
+
+  width:100%;
+  margin: 0;
+  padding:0;
+  overflow:hidden;
+  font-family: sans-serif;
+
+
+}
+/*
+.secondary-nav = Second menu line.
+Needs separate styling of a-elements, and same issue with naming scheme as above.
+The class has also been changed in the survival.html to allow different styles.
+-TRL, 25012018
+*/
+.secondary-nav{
+  background-color: #305F89;
+
+  width:100%;
+  margin: 0;
+  padding:0;
+  overflow:hidden;
+  font-family: sans-serif;
+}
+/*
+class="nav" a
+  alternativt
+    nav a (gjør det samme)
+Skillet er kun viktig om nav og class="nav" skal være forskjellige ting.
+*/
+.nav a{
+  text-align: center;
+  transition: all 0.3s ease;
+color: #dadad9;
+  text-decoration:none;
+  padding:0px;
+  display: block;
+  margin: 0;
+}
+/* onHover på class="nav" a */
+.nav a:hover{
+  background-color: #01192E;
+
+  text-decoration: none;
+}
+/* onActive på class="nav" a */
+.nav a.active{
+  background-color: #01192E;
+  text-decoration: none;
+  opacity: 0.8;
+}
+/* id="logo" styling */
+#logo{
+  width:10%;
+  padding-left: 0px;
+}
+/* id="fjell" styling*/
+#fjell{
+  width:5%;
+}
+/* class="search" */
+.search{
+  display: block;
+  background-color: #0B3861;
+  font-family: sans-serif;
+}
+
+/* Media Queries for forskjellige skjermstørrelser. Gjør disse det de skal? */
+
+  /* Media screen for large screens - RHJ
+    - More white space required for large screen.
+  */
+  @media (min-width : 1824px) {
+    body{
+        margin: 0 25% 0 25%;
+    }
+  }
+
+    /* Jeg kommenterte ut den øverste av de to small screen @media-queriene under.
+    Hvilken skal brukes? Er de ferdig?
+    TRL*/
+
+    /* Media screen for small screens - RHJ
+      - Much white space is unnecessary on phone
+    */
+    /* @media (min-width : 320px) and (max-width : 480px) {
+      body{
+          margin: 0 5% 0 5%;
+      }
+    } */
+
+    /* Media screen for small screens - RHJ
+      - Make logo much bigger on phone screens
+    */
+    @media (min-width : 320px) and (max-width : 480px) {
+      #logo{
+        width:30%;
+        padding-left: 4px;
+      }
+      #fjell{
+        width:20%;
+      }
+    }
+/* END @media*/
+
+
+/**
+* Opprinnelig kode fra style.css
+*   FRONT PAGE
+*   RHJ -
+*
+* Endret for å brukes i survival.html.
+*/
+.SurvivalPage {
+  display:flex;
+}
+  /* Media screen for small screens - RHJ
+    - Move to a column display on phones to prevent cramped space
+  */
+  @media (min-width : 320px) and (max-width : 480px) {
+    .SurvivalPage {
+      display:flex;
+      flex-direction: column;
+    }
+}
+
+.front-picture {
+  max-width: 100%;
+}
+/* Media screen for large screens - RHJ
+  - Shrink front image on small screens.
+*/
+@media (min-width : 1824px) {
+  .front-picture {
+    max-width: 80%;
+  }
+}
+
+.information {
+  width: 60%;
+}
+/* Media screen for small screens - RHJ
+  - Make information section fill screen width
+*/
+@media (min-width : 320px) and (max-width : 480px) {
+  .information {
+    width: auto;
+  }
+}
+
+
+
+
+/* Media screen for small screens - RHJ
+  - Make Facebook logo smaller on phones.
+*/
+@media (min-width : 320px) and (max-width : 480px) {
+  #facebook{
+   width:20%;
+  }
+}
+
+/* Sidebar m/ info */
+.interactivity {
+  float: right;
+
+  margin:0;
+  padding:0;
+
+}
+/* id="facebook" for styling av facebook-ikon */
+#facebook{
+  width:30%;
+}
+
+.interactiveHeader{
+    display:block;
+.search{
+  display:block;
+  background-color: #0B3861;
+
+  padding:4px;
+  font-family: sans-serif;
+  font-weight:lighter;
+}
+/* Samme som over. */
+#facebook{
+  width:30%;
+}
+/**
+* MAP PAGE
+* RHJ -
+*/
+.mapDescription {
+  margin: 5px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-menu {
+  width: 100%;
+  margin: 5px;
+  border: 1px solid;
+}
+/* Media screen for large screens - RHJ
+
+ */
+@media (min-width : 1824px) {
+
+  }
+
+}
+/* Media screen for small screens - RHJ
+
+*/
+@media (min-width : 320px) and (max-width : 480px) {
+
+}
+
+.location {
+  margin: 5px;
+  max-width: 100%;
+  border: 1px solid;
+  border-radius: 8px;
+  display: flex;
+  background-color: darkgrey;
+}
+
+.location-image {
+  flex: 0.5 0 auto;
+  width: 25%;
+  margin: 5px;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: lightgrey;
+}
+
+.img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.location-info {
+  flex: 1 0 auto;
+  width: 50%;
+  margin: 5px;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: lightgrey;
+}
+
+.location-button {
+  align-self: center;
+  flex: 0.5 0 auto;
+}
+
+/**The Beating Heart of Bergen**/
+
+@keyframes heartbeat {
+  0% {
+    transform: scale( .75);
+  }
+  20% {
+    transform: scale( 1);
+  }
+  40% {
+    transform: scale( .75);
+  }
+  60% {
+    transform: scale( 1);
+  }
+  80% {
+    transform: scale( .75);
+  }
+  100% {
+    transform: scale( .75);
+  }
+}
+
+#heart {
+  position: relative;
+  width: 100px;
+  height: 90px;
+  animation: heartbeat 1s infinite;
+}
+
+#heart:before,
+#heart:after {
+  position: absolute;
+  content: "";
+  left: 50px;
+  top: 0;
+  width: 50px;
+  height: 80px;
+  background: red;
+  -moz-border-radius: 50px 50px 0 0;
+  border-radius: 50px 50px 0 0;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 0 100%;
+  -moz-transform-origin: 0 100%;
+  -ms-transform-origin: 0 100%;
+  -o-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+}
+
+#heart:after {
+  left: 0;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+}
+/*Heartstop*/
