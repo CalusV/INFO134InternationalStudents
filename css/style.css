@@ -106,7 +106,6 @@ header li{
 @media (min-width : 320px) and (max-width : 480px) {
   #logo{
     width:30%;
-    padding-left: 4px;
   }
   #fjell{
     width:20%;
@@ -137,7 +136,6 @@ footer{
 */
 @media (min-width : 320px) and (max-width : 480px) {
   .frontpage {
-    display:flex;
     flex-direction: column;
   }
 }
@@ -186,7 +184,8 @@ footer{
 
 .interactiveHeader{
     display:block;
-.search{
+}
+.search {
   display:block;
   background-color: #0B3861;
   color:#dadad9;
@@ -213,16 +212,25 @@ footer{
 }
 
 .dropdown-menu {
+  height: 2rem;
   width: 100%;
   margin: 5px;
   border: 1px solid;
+}
+
+.defaultOption {
+  color: grey;
+}
+
+select {
+  font-size: 1.2rem;
 }
 /* Media screen for large screens - RHJ
 
  */
 @media (min-width : 1824px) {
 
-  }
+}
 
 }
 /* Media screen for small screens - RHJ
@@ -238,7 +246,7 @@ footer{
   border: 1px solid;
   border-radius: 8px;
   display: flex;
-  background-color: darkgrey;
+  background-color: #022340;
 }
 
 #drinking {
@@ -268,7 +276,8 @@ footer{
   border: 1px solid;
   border-radius: 8px;
   padding: 5px;
-  background-color: lightgrey;
+  background-color: white;
+  box-shadow: inset 0 0 10px #000000;
 }
 
 .img {
@@ -279,6 +288,7 @@ footer{
   height: auto;
   border-radius: 8px;
   border: 1px solid;
+  box-shadow: 0 0 2px #000000;
 }
 
 .location-info {
@@ -288,10 +298,54 @@ footer{
   border: 1px solid;
   border-radius: 8px;
   padding: 5px;
-  background-color: lightgrey;
+  background-color: white;
+  box-shadow: inset 0 0 10px #000000;
 }
 
 .location-button {
   align-self: center;
   flex: 0.5 0 auto;
+}
+/*Survival*/
+.skyss{
+  width: 20%;
+}
+
+/** NAV bars styled using curriculum techniques - RHJ **/
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navBar {
+  margin-right: 1rem;
+}
+.searchBar{
+  vertical-align: center;
+  margin-left: auto;
+}
+
+/* Small margin for search menu */
+#mapSearch {
+  margin-right: 1rem;
+}
+
+.subNav {
+  display: flex;
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  background-color: white;
+  border-bottom: 2px solid;
+  border-bottom-color: #022340;
+  justify-content: space-between;
+}
+
+.navItem {
+  text-decoration: none;
+  color: #0B3861;
+  font-size: 1.2rem;
+}
+
+.top img{
+  width: 70%;
 }
