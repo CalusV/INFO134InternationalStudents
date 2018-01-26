@@ -310,3 +310,34 @@ select {
 .skyss{
   width: 20%;
 }
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navBar {
+  margin-right: 1rem;
+}
+.searchBar{
+  vertical-align: center;
+  margin-left: auto;
+}
+
+#mapSearch {
+  margin-right: 1rem;
+}
+
+.subNav {
+  display: flex;
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  background-color: white;
+  border-bottom: 2px solid;
+  border-bottom-color: #022340;
+  justify-content: space-between;
+}
+
+.navItem {
+  text-decoration: none;
+  font-size: 1.1rem;
+}
