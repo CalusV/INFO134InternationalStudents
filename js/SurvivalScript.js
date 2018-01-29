@@ -11,12 +11,12 @@ function hideMe(value) {
         currentSelection.style.display = "none";
     }
 
-          x.style.display === "block";
-      if (x.style.display === "block") {
+          x.style.display === "flex";
+      if (x.style.display === "flex") {
           x.style.display = "none";
           /*x.style.color = "blue";*/
       } else {
-          x.style.display = "block";
+          x.style.display = "flex";
           /*x.style.color= "red";*/
     }
     currentSelection = x;
