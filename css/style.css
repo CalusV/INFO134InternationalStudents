@@ -33,7 +33,7 @@ body{
 /* Media screen for small screens - RHJ
   - Much white space is unnecessary on phone
 */
-@media (min-width : 320px) and (max-width : 480px) {
+@media (max-width : 800px) {
   body{
       margin: 0 5% 0 5%;
   }
@@ -47,7 +47,10 @@ header{
   background-color: #0B3861;
   width:100%;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
+
 header ul{
   list-style-type: none;
   float: left;
@@ -64,8 +67,26 @@ header li{
   padding:0;
   overflow:hidden;
   font-family: sans-serif;
-
+  display: flex;
 }
+
+@media (max-width: 800px) {
+  .nav {
+      flex-direction: column;
+      justify-content: space-between;
+  }
+}
+
+.searchBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+#searchInput {
+  width: 60%;
+  height: 1.5rem;
+}
+
 .nav a{
   text-align: center;
   transition: all 0.3s ease;
@@ -90,7 +111,7 @@ header li{
   width:10%;
   padding-left: 4px;
 }
-#fjell{
+.fjell{
   width:5%;
 }
 .search{
@@ -101,19 +122,23 @@ header li{
 
 }
 #facebook{
-  width: 1%;
+  max-width: 8%;
   float: right;
   opacity: 0.8;
 }
 /* Media screen for small screens - RHJ
   - Make logo much bigger on phone screens
 */
-@media (min-width : 320px) and (max-width : 480px) {
+@media (max-width : 800px) {
   #logo{
-    width:30%;
-  }
-  #fjell{
     width:20%;
+  }
+  .fjell{
+    width:10%;
+  }
+
+  #facebook {
+    max-width: 50%;
   }
 }
 /**footer
@@ -139,14 +164,14 @@ footer{
 /* Media screen for small screens - RHJ
   - Move to a column display on phones to prevent cramped space
 */
-@media (min-width : 320px) and (max-width : 480px) {
+@media (max-width : 800px) {
   .frontpage {
     flex-direction: column;
   }
 }
 
 .front-picture {
-  max-width: 100%;
+  max-width: 60%;
 }
 /* Media screen for large screens - RHJ
   - Shrink front image on small screens.
@@ -157,9 +182,6 @@ footer{
   }
 }
 
-.information {
-  width: 60%;
-}
 /* Media screen for small screens - RHJ
   - Make information section fill screen width
 */
@@ -227,20 +249,17 @@ footer{
 select {
   font-size: 1.2rem;
 }
-/* Media screen for large screens - RHJ
-
+/* Media screen for large and medium screens - RHJ
+  - Don't display the dropdown menu if the screen is laptop size or bigger.
  */
-@media (min-width : 1824px) {
-
+@media (min-width : 850px) {
+.survivalDropdown {
+    display: none;
+  }
 }
 
 }
-/* Media screen for small screens - RHJ
 
-*/
-@media (min-width : 320px) and (max-width : 480px) {
-
-}
 
 .location {
   margin: 5px;
@@ -342,6 +361,15 @@ select {
   justify-content: space-between;
 }
 
+/* Media screen for small screens - RHJ
+ - Don't display the submenu if the screen is below a certain size.
+*/
+@media (max-width: 850px) {
+.subNav {
+    display: none;
+  }
+}
+
 .navItem {
   text-decoration: none;
   color: #0B3861;
@@ -349,5 +377,5 @@ select {
 }
 
 .top img{
-  width: 70%;
+  width: 50%;
 }
