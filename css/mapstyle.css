@@ -4,7 +4,12 @@
  * ID: #map
  * Author: (Øyvind Johannessen)
 **/
+@keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
  #map {
+   animation: fadein 2s;
    display: flex;
    width: 80%;
    height: 25rem;
