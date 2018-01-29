@@ -35,7 +35,7 @@ An Exchange Student Tells all
             <li><a class="active" href="survival.html">Survival Guide</a></li>
           </ul>
           <section="searchBar">
-            <input type="text" name="searchQuery" id="searchInput">
+            <input placeholder="Hi there sweetie.." type="text" name="searchQuery" id="searchInput">
             <input type="submit" value="search" id="searchButton">
           </section>
       </nav>
@@ -48,14 +48,14 @@ An Exchange Student Tells all
         <a onclick=hideMe("myFreeRide") href="#" class="navItem">Hitchhiker's guide</a>
       </nav>
       <section class="dropdown survivalDropdown">
-        <select class="dropdown-menu">
+        <select class="dropdown-menu" onchange="hideMe(value)">
           <option class="defaultOption">What advice do you need?</option>
-          <option onclick=hideMe("myHeart")>Dating in Norway</option>
-          <option onclick=hideMe("myFriends")>Making friends (Is it possible?)</option>
-          <option onclick=hideMe("myLife")>Student life in Bergen</option>
-          <option onclick=hideMe("myMoney")>Surviving financially (Is it possible?)</option>
-          <option onclick=hideMe("myTransport")>Public transportation</option>
-          <option onclick=hideMe("myFreeRide")>Don't panic, bring a towel.</option>
+          <option value="myHeart">Dating in Norway</option>
+          <option value="myFriends">Making friends (Is it possible?)</option>
+          <option value="myLife">Student life in Bergen</option>
+          <option value="myMoney">Surviving financially (Is it possible?)</option>
+          <option value="myTransport">Public transportation</option>
+          <option value="myFreeRide">Don't panic, bring a towel.</option>
         </select>
       </section>
       </header>
