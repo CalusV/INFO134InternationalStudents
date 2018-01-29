@@ -1,5 +1,6 @@
 /**
  * Function for showing and hiding subNav elements
+ * Author: Øyvind Johannessen
 **/
 var currentSelection = getElementById("description-text");
 function hideMe(value) {
