@@ -402,6 +402,40 @@ color: #dadad9;
   }
 }
 
+/**
+ * This ID is for the first text below the first image of the survival page
+ * It is mainly here to activate the show/hide myFunction
+ * The other ID's are for showing and hiding depending on user request at subNav
+ * Author: Øyvind Johannessen
+**/
+#description-text {
+  display: block;
+}
+
+#myHeart {
+  display: none;
+}
+
+#myFriends {
+  display: none
+}
+
+#myLife {
+  display: none
+}
+
+#myMoney {
+  display: none
+}
+
+#myTransport {
+  display: none
+}
+
+#myFreeRide {
+  display: none
+}
+
 #heart {
   position: relative;
   width: 100px;
