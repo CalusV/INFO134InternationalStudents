@@ -16,36 +16,48 @@ An Exchange Student Tells all
   <body>
     <!--header NG-->
     <header class="site">
-      <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebook">
-        <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
-      </a>
-       <img src="img/logo/fjellene.png"  id="fjell">
-       <a href="index.html">
-           <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
-       </a>
-       <img src="img/logo/fjellet.png"  id="fjell">
-       <img src="img/logo/fjellene.png"  id="fjell">
-       <br>
+      <section class="banner">
+        <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
+          <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
+        </a>
+        <img src="img/logo/fjellene.png"  class="fjell">
+        <a href="index.html">
+            <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+        </a>
+        <img src="img/logo/fjellet.png"  class="fjell">
+        <img src="img/logo/fjellene.png"  class="fjell">
+      </section>
        <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
        <nav class="nav">
-          <ul class="navBar">
+          <ul>
             <li><a href="index.html">Frontpage</a></li>
             <li><a href="map.html">Map</a></li>
             <li><a class="active" href="survival.html">Survival Guide</a></li>
           </ul>
           <section="searchBar">
-            <input type="text" name="searchQuery">
-            <input id="mapSearch" type="submit" value="search">
+            <input type="text" name="searchQuery" id="searchInput">
+            <input type="submit" value="search" id="searchButton">
           </section>
-        </nav>
-        <nav class="subNav">
-          <a onclick=hideMe("myHeart") href="#" class="navItem">Dating</a>
-          <a onclick=hideMe("myFriends") href="#" class="navItem">Friendships</a>
-          <a onclick=hideMe("myLife") href="#" class="navItem">Student Life</a>
-          <a onclick=hideMe("myMoney") href="#" class="navItem">Finances</a>
-          <a onclick=hideMe("myTransport") href="#" class="navItem">Public Transportation</a>
-          <a onclick=hideMe("myFreeRide") href="#" class="navItem">Hitchhiker's guide</a>
-        </nav>
+      </nav>
+      <nav class="subNav">
+        <a onclick=hideMe("myHeart") href="#" class="navItem">Dating</a>
+        <a onclick=hideMe("myFriends") href="#" class="navItem">Friendships</a>
+        <a onclick=hideMe("myLife") href="#" class="navItem">Student Life</a>
+        <a onclick=hideMe("myMoney") href="#" class="navItem">Finances</a>
+        <a onclick=hideMe("myTransport") href="#" class="navItem">Public Transportation</a>
+        <a onclick=hideMe("myFreeRide") href="#" class="navItem">Hitchhiker's guide</a>
+      </nav>
+      <section class="dropdown survivalDropdown">
+        <select class="dropdown-menu">
+          <option class="defaultOption">What advice do you need?</option>
+          <option onclick=hideMe("myHeart")>Dating in Norway</option>
+          <option onclick=hideMe("myFriends")>Making friends (Is it possible?)</option>
+          <option onclick=hideMe("myLife")>Student life in Bergen</option>
+          <option onclick=hideMe("myMoney")>Surviving financially (Is it possible?)</option>
+          <option onclick=hideMe("myTransport")>Public transportation</option>
+          <option onclick=hideMe("myFreeRide")>Don't panic, bring a towel.</option>
+        </select>
+      </section>
       </header>
     <main>
       <!-- Her endrer vi innholdet basert på hvilken side man er på. -->
@@ -56,17 +68,6 @@ An Exchange Student Tells all
               useful groundwork for you! Follow in their footsteps as you explore the various aspects of life in Bergen, and the advice
               that they give.
             </p>
-      </section>
-      <section class="dropdown">
-        <select class="dropdown-menu">
-          <option class="defaultOption">What advice do you need?</option>
-          <option value="dating">Dating in Norway</option>
-          <option value="friendships">Making friends (Is it possible?)</option>
-          <option value="student-life">Student life in Bergen</option>
-          <option value="finances">Surviving financially (Is it possible?)</option>
-          <option value="public transportation">Public transportation</option>
-          <option value="hitchhikers">Don't panic, bring a towel.</option>
-        </select>
       </section>
       <section class="table-of-contents">
         <!-- Tormod Survival content -->
