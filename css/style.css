@@ -78,11 +78,6 @@ header li{
   }
 }
 
-.searchBar {
-  justify-content: space-between;
-  width: 20%;
-
-}
 #searchInput {
   width: 60%;
   height: 1.5rem;
@@ -173,10 +168,11 @@ footer{
   }
 }
 .information {
-  border: solid 1px;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
-.front-picture {
+#front-picture {
   max-width: 50%;
   align-self: center;
   border: solid 1px;
@@ -185,19 +181,20 @@ footer{
   - Shrink front image on small screens.
 */
 @media (min-width : 1824px) {
-  .front-picture {
+  #front-picture {
     max-width: 80%;
+  }
+}
+
+@media (max-width : 800px) {
+  #front-picture {
+    max-width: 60%;
   }
 }
 
 /* Media screen for small screens - RHJ
   - Make information section fill screen width
 */
-@media (min-width : 320px) and (max-width : 480px) {
-  .information {
-    width: auto;
-  }
-}
 
 .interactivity {
   float: right;
