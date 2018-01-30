@@ -74,7 +74,7 @@ header li{
 
 @media (max-width: 800px) {
   .nav {
-      flex-direction: column;
+      flex-direction: row;
       justify-content: space-between;
   }
 }
@@ -83,6 +83,12 @@ header li{
   width: 60%;
   height: 1.5rem;
   border-radius: 2px;
+}
+
+@media (max-width: 800px) {
+  #searchInput {
+    display: none;
+  }
 }
 
 .nav a{
@@ -321,12 +327,12 @@ select {
 }
 
 #description-text {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: flex;
 }
 
 #myHeart {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: none;
   flex-direction: column;
 }
@@ -336,7 +342,7 @@ select {
 }
 
 #myFriends {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: none;
   flex-direction: column;
 }
@@ -346,7 +352,7 @@ select {
 }
 
 #myLife {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: none;
   flex-direction: column;
 }
@@ -356,7 +362,7 @@ select {
 }
 
 #myMoney {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: none;
   flex-direction: column;
 }
@@ -366,7 +372,7 @@ select {
 }
 
 #myTransport {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: none;
   flex-direction: column;
 }
@@ -376,7 +382,7 @@ select {
 }
 
 #myFreeRide {
-  animation: fadein 2s;
+  animation: fadein 0.5s;
   display: none;
   flex-direction: column;
 }
