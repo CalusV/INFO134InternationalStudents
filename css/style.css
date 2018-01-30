@@ -61,6 +61,7 @@ header ul{
 header li{
   float: left;
 }
+/*The navigation bar in the header with a link to the other pages*/
 .nav{
   background-color: #022340;
   width:100%;
@@ -104,20 +105,16 @@ header li{
   text-decoration: none;
   opacity: 0.8;
 }
+/*The logo in the header*/
 #logo{
   width:10%;
   padding-left: 4px;
 }
+/*The mointain icons in the header*/
 .fjell{
   width:5%;
 }
-.search{
-  display: block;
-  color:#dadad9;
-  background-color: #0B3861;
-  font-family: sans-serif;
-
-}
+/*The facebook icon on the top right*/
 #facebook{
   max-width: 8%;
   float: right;
