@@ -79,9 +79,8 @@ header li{
 }
 
 .searchBar {
-  display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 20%;
 
 }
 #searchInput {
@@ -173,9 +172,14 @@ footer{
     flex-direction: column;
   }
 }
-
+.information {
+  border: solid 1px;
+  align-items: center;
+}
 .front-picture {
-  max-width: 60%;
+  max-width: 50%;
+  align-self: center;
+  border: solid 1px;
 }
 /* Media screen for large screens - RHJ
   - Shrink front image on small screens.
