@@ -263,7 +263,7 @@ select {
 }
 
 .table-of-contents {
-  animation: fadein 2s;
+  animation: fadein 1s;
   display: flex;
   align-items: center;
   justify-content: left;
@@ -432,7 +432,7 @@ select {
  * Author: Øyvind Johannessen
  **/
 .location-button {
-  animation: fadein 3s;
+  animation: fadein 0.5s;
   flex: 0.5 0 auto;
   align-self: stretch;
   margin: 5px;
