@@ -439,7 +439,7 @@ select {
 
 }
 
-#mark-button {
+.mark-button {
   height: 100%;
   width: 100%;
 }
@@ -512,4 +512,11 @@ select {
 
 .top img{
   width: 50%;
+}
+
+#footer-list {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  justify-content: space-between;
 }
