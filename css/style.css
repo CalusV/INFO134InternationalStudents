@@ -300,7 +300,7 @@ select {
 }
 
 /**
- * Id's for controlling the dropdown meny's show and hide.
+ * Id's for controlling the dropdown meny's show and hide on map page.
  * Author: Øyvind Johannessen
 **/
 #drinking {
@@ -327,7 +327,7 @@ select {
  * This ID is for the first text below the first image of the survival page
  * It is mainly here to activate the show/hide myFunction
  * The other ID's are for showing and hiding depending on user request at subNav
- * Author: Øyvind Johannessen
+ * Author: Øyvind Johannessen (html by Tormod Renberg Lerøy)
 **/
 @keyframes fadein {
     from { opacity: 0; }
