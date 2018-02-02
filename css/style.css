@@ -169,24 +169,12 @@ footer{
 */
 .frontpage {
   display:flex;
-}
-/* Media screen for small screens - RHJ
-  - Move to a column display on phones to prevent cramped space
-*/
-@media (max-width : 800px) {
-  .frontpage {
-    flex-direction: column;
-  }
-}
-.information {
-  align-items: center;
-  display: flex;
   flex-direction: column;
 }
+
 #front-picture {
   max-width: 50%;
   align-self: center;
-  border: solid 1px;
 }
 /* Media screen for large screens - RHJ
   - Shrink front image on small screens.
@@ -278,7 +266,6 @@ select {
   animation: fadein 1s;
   display: flex;
   align-items: center;
-  justify-content: left;
   border-top: 2px solid #022340;
   padding: 5px;
   margin: 5px;
@@ -410,8 +397,6 @@ select {
   width: 10%;
   margin: 5px;
   border: 1px solid;
-  border-color: #dadad9;
-  border-radius: 2px;
   background-color: #dadad9;
 }
 
@@ -529,6 +514,5 @@ select {
 #footer-list {
   display: flex;
   flex-direction: row;
-  align-items: left;
   justify-content: space-between;
 }
