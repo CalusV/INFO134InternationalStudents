@@ -16,7 +16,7 @@ An Exchange Student Tells all
   <body>
     <!--header NG-->
     <header class="site">
-      <section class="banner">
+      <div class="banner">
         <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
           <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
         </a>
@@ -26,7 +26,7 @@ An Exchange Student Tells all
         </a>
         <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
         <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
-      </section>
+      </div>
        <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
        <nav class="nav">
           <ul>
@@ -34,10 +34,10 @@ An Exchange Student Tells all
             <li><a href="map.html">Map</a></li>
             <li><a class="active" href="survival.html">Survival Guide</a></li>
           </ul>
-          <section class="searchBar">
+          <div class="searchBar">
             <input placeholder="Hi there sweetie.." type="text" name="searchQuery" id="searchInput">
             <input type="submit" value="search" id="searchButton">
-          </section>
+          </div>
       </nav>
       <nav class="subNav">
         <a onclick="hideMe('myHeart')" href="#" class="navItem">Dating</a>
@@ -47,7 +47,7 @@ An Exchange Student Tells all
         <a onclick="hideMe('myTransport')" href="#" class="navItem">Public Transportation</a>
         <a onclick="hideMe('myFreeRide')" href="#" class="navItem">Hitchhiker's guide</a>
       </nav>
-      <section class="dropdown survivalDropdown">
+      <div class="dropdown survivalDropdown">
         <select class="dropdown-menu" onchange="hideMe(value)">
           <option class="defaultOption">What advice do you need?</option>
           <option value="myHeart">Dating in Norway</option>
@@ -57,16 +57,17 @@ An Exchange Student Tells all
           <option value="myTransport">Public transportation</option>
           <option value="myFreeRide">Don't panic, bring a towel.</option>
         </select>
-      </section>
+      </div>
       </header>
     <main>
       <!-- Her endrer vi innholdet basert på hvilken side man er på. -->
       <section class="top">
+            <h1>Survival Guide</h1>
             <img src="img/siteImages/happysadangrydrunk.jpg" alt="Norwegian moods">
             <p id="description-text">
               Decoding Norwegians and their culture might seem a daunting task, but several other foreigners have already laid down
               useful groundwork for you! Follow in their footsteps as you explore the various aspects of life in Bergen, and the advice
-              that they give.
+              that they give. Select from various categories of life in Bergen for tips and tricks.
             </p>
       </section>
       <section class="table-of-contents">
@@ -80,7 +81,7 @@ An Exchange Student Tells all
             <p> Another important thing is that norwegian women might seem rude when a boy tries to be romantic by carrying her bag,open a door or pay for the date.
                     She is not trying to be rude, but are accustomed to and concerned abut equality. So do not worry, it does not meen that she does not like you.
             </p>
-            <img src="img/siteImages/equality.jpg" alt="dating" width="40%">
+            <img src="img/siteImages/equality.jpg" alt="dating">
         </div>
         <div id="myFriends">
           <h3>Making friends (Is it possible?)</h3>
@@ -122,7 +123,7 @@ An Exchange Student Tells all
       </section>
     </main>
     <footer>
-      <h3 id="">(B)ergen (I)nternation (S)tudent</h3>
+      <h3>(B)ergen (I)nternation (S)tudent</h3>
       <p>
         BIS er en side laget for faget INFO134 på UIB.<br>
         Den er laget av de følgende gruppemedlemmene:
