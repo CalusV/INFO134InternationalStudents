@@ -1,7 +1,7 @@
 /**
  * Script for sending a http request to the server so that
  * we can read and write to the JSON file dokart.json as an
- * javascript object. 
+ * Javascript object.
  * Author (Øyvind Johannessen)
  * Version (0.1)
 **/
