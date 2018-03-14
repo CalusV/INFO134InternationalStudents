@@ -1,7 +1,7 @@
 /**
  * Script for sending a http request to the server so that
  * we can read and write to the JSON file dokart.json as an
- * javascript object. 
+ * javascript object.
  * Author (Øyvind Johannessen)
  * Version (0.1)
 **/
@@ -38,7 +38,7 @@ function initMap() {
 		var marker = new google.maps.Marker({
 			position: dassPos,
 			map: map,
-			info: desc			
+			info: desc
 		});
 		var infoW = new google.maps.InfoWindow();
 		marker.addListener('click', function() {
@@ -46,11 +46,10 @@ function initMap() {
 			infoW.open(map, this);
 			});
 		}
-		 
-	}
+	};
 
-    
-	
+
+
 var dassPlasser = {
 "entries":[
 	{
