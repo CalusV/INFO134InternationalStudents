@@ -1,0 +1,119 @@
+<!-- Index frontpage for Bergensproject. This site is for exchange students
+trying to establish them selv in Norway -->
+<!Doctype HTML>
+<html lang="en">
+  <head>
+    <title>Welcome</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width = device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/toiletscript.js"></script>
+    <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
+  </head>
+  <body>
+    <!--Header NG-->
+    <header class="site">
+      <div class="banner">
+        <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
+          <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
+        </a>
+        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+        <a href="index.html">
+            <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+        </a>
+        <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
+        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+      </div>
+       <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
+       <nav class="nav">
+          <ul>
+            <li><a href="index.html">Frontpage</a></li>
+            <li><a href="map.html">Map</a></li>
+            <li><a class="active" href="toiletsearch.html">Toilets</a></li>
+            <li><a href="survival.html">Survival Guide</a></li>
+          </ul>
+          <div class="searchBar">
+            <input placeholder="Hi there sweetie.." type="text" name="searchQuery" id="searchInput">
+            <input type="submit" value="search" id="searchButton">
+          </div>
+      </nav>
+    </header>
+    <main>
+      <div class="freeformSearchBar">
+        <h3>Freeform search:</h3>
+        <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
+        <button onclick="loadTable('search')">Search</button>
+      </div>
+      <div class="advancedSearchBar">
+        <div class="form">
+          <h3>Advanced Search:</h3>
+            <h4>Toilet details</h4>
+              Name: <input placeholder="Toilet name" type="text" name="searchQuery" id="advName"> <br>
+              Address: <input placeholder="Address" type="text" name="searchQuery" id="advAdr"> <br>
+              Date: <input type="date" name="requiredDate" id="advDate">
+              <input type="number" name="hour" min="00" max="23" id="advHour"> :
+              <input type="number" name="minute" min="00" max="59" id="advMin"> <br>
+              Open now?  <input type="checkbox" id="advOpen"><br></p>
+            <h4>Price details</h4>
+              <input placeholder="Max price" type="text" name="searchQuery" id="advMaxPrice">
+              <input type="checkbox" id="advFree">Is free<br>
+            <h4>Accessibility details </h4>
+              <input type="checkbox" id="advMale">Male
+              <input type="checkbox" id="advFemale">Female<br>
+              <input type="checkbox" id="advAccess">Wheelchair Accessible
+              <input type="checkbox" id="advBaby">Changing station<br>
+              <button onclick="loadTable('search')">Search</button>
+        </div>
+      </div>
+      <div class="results">
+        <h3>Search results:</h3>
+        <table id="searchTable">
+          <tr>
+            <th>Index</th>
+            <th>Location name</th>
+            <th>Address</th>
+            <th>Weekdays</th>
+            <th>Saturdays</th>
+            <th>Sundays</th>
+            <th>Genders</th>
+            <th>Accessibility</th>
+            <th>Changing station</th>
+            <th>Price:</th>
+          </tr>
+        </table>
+      </div>
+      <div class="allResults">
+        <h3>Complete object table:</h3>
+        <button onclick="loadTable('full')">Load all toilets</button>
+        <table id="fullTable">
+          <tr>
+            <th>Index</th>
+            <th>Location name</th>
+            <th>Address</th>
+            <th>Weekdays</th>
+            <th>Saturdays</th>
+            <th>Sundays</th>
+            <th>Genders</th>
+            <th>Accessibility</th>
+            <th>Changing station</th>
+            <th>Price:</th>
+          </tr>
+        </table>
+      </div>
+    </main>
+    <footer>
+      <h3>(B)ergen (I)International (S)tudent</h3>
+      <p>
+        BIS er en side laget for faget INFO134 på UIB.<br>
+        Den er laget av de følgende gruppemedlemmene:
+      </p>
+        <ul id="footer-list">
+            <li>Nora Gedde (nge005)</li>
+            <li>Tormod Renberg Lerøy(tre081)</li>
+            <li>Roy H. Jenssen (rje005)</li>
+            <li>Øyvind Johannessen (ojo014)</li>
+        </ul>
+        <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
+    </footer>
+  </body>
+</html>
