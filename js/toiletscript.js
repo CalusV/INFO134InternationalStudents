@@ -1,16 +1,16 @@
 /* 	Funksjon for å laste inn kart og befolke det med marker, samt å sette opp en nummerert
-	liste over totalettplasseringene i en separat <ol>-tag*/	  
+	liste over totalettplasseringene i en separat <ol>-tag*/
 function initMap() {
 	var bergen = {lat: 60.391, lng: 5.324};
 	var map = new google.maps.Map(document.getElementById('map'), {
 	  zoom: 14,
 	  center: bergen
 	});
-	
+
 	/* Lager element("ol") og legger det til <body> */
 	var orderedList = document.createElement("ol");
 	document.body.appendChild(orderedList);
-	
+
 	/* Leter gjennom 'var dassPlasser' og plasserer en markør på kartet for hver entry i listen */
 	for (i=0;i<dassPlasser.entries.length;i++) {
 		var lat = dassPlasser.entries[i].latitude;
@@ -18,42 +18,43 @@ function initMap() {
 		var desc = dassPlasser.entries[i].plassering;
 		var listElement = document.createElement("li");
 		var txt = document.createTextNode(dassPlasser.entries[i].plassering);
-		
+
 		 //var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       //var labelIndex = i;
 
-		
+
 		/* Oppretter nytt LatLng-objekt med koordinater fra listen */
 		var dassPos = new google.maps.LatLng(lat, lng);
-		
+
 		/* Oppretter nytt Marker-objekt og plasserer det på kartet basert på dassPos-koordinater */
 		var marker = new google.maps.Marker({
 			position: dassPos,
-			map: map,			
+			map: map,
 			label: dassPlasser.entries[i].id,
 
 			//label: dassIndex++ % dassIndex.length,
-			info: desc 		//Når denne blir satt til var txt(se over) fjerner den entries i listen når bruker klikker på marker lol		
+			info: desc, 		//Når denne blir satt til var txt(se over) fjerner den entries i listen når bruker klikker på marker lol
+			gender: "Mann"
 		});
-		
+
 		var infoW = new google.maps.InfoWindow();
 		marker.addListener('click', function() {
-			infoW.setContent(this.info);
+			infoW.setContent(this.info + "<br>" + this.gender);
 			infoW.open(map, this);
 			console.log(this.info);
 			});
-		
+
 		/* Befolker listen med plasseringer fra dassPlasser */
-	
+
 		orderedList.appendChild(listElement);
 		listElement.appendChild(txt);
 		}
-		 
+
 	}
 
-    
-/* Listen over toaletter. Skal kobles til online-version. 
-Kan denne overskrives dynamisk basert på online? Slik at den alltid er oppdatert? 
+
+/* Listen over toaletter. Skal kobles til online-version.
+Kan denne overskrives dynamisk basert på online? Slik at den alltid er oppdatert?
 Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 var dassPlasser = {
 "entries":[
