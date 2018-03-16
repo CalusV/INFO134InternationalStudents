@@ -232,7 +232,12 @@ function initMap() {
 
 	  }
 	}
-
+//Nora Regexkode
+function frisearch(){
+	var str=document.getElementById("searchInput").value;
+	document.getElementById("demo").innerHTML = str;
+}
+//Slutt Nora Regexkode
 	function generateSearch(){
 	  var freeInput = document.getElementById('searchInput');
 	  var advInputName = document.getElementById('advName');
