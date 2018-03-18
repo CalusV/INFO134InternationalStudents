@@ -516,3 +516,101 @@ select {
   flex-direction: row;
   justify-content: space-between;
 }
+
+/**
+ * Styling for the toilet map site (Ø.J)
+**/
+.freeformSearchBar {
+  color: #dadad9;
+  background-color: #022340;
+  margin: 10px;
+  width: 80%;
+}
+
+.freeformSearchBar input {
+  margin: 10px;
+}
+
+.freeformSearchBar h3 {
+  margin: 10px;
+}
+
+#advDetails {
+  background-color: #dadad9;
+  padding: 10px;
+  margin: 10px;
+  outline: 0;
+}
+
+summary:focus {
+  outline: 0;
+}
+
+input:focus {
+  outline: 0;
+}
+
+.advancedSearchBar {
+  color: #dadad9;
+  background-color: #022340;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  margin: 10px;
+}
+
+.form button {
+  font-size: 18px;
+  padding: 10px;
+}
+
+.date-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.date-container input {
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: #dadad9;
+  width: 100%;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+
+}
+
+th {
+  color: #dadad9;
+  border: 1px solid #022340;
+  background-color: #022340;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+td {
+    color: #022340;
+    border: 1px solid #022340;
+    background-color: #dadad9;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#alltoilets-details {
+  background-color: #dadad9;
+  padding: 10px;
+  margin: 10px;
+  outline: 0;
+}

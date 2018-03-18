@@ -5,16 +5,16 @@
  * Author (Øyvind Johannessen)
  * Version (0.1)
 **/
-// var xmlhttp = new XMLHttpRequest(),
-    // dokart;
+var xmlhttp = new XMLHttpRequest(),
+    dokart;
 
-// xmlhttp.onreadystatechange = function() {
-  // if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-    // dokart = JSON.parse(xmlhttp.responseText);
-  // }
-// }
-// xmlhttp.open('GET', 'js/dokart.json', true);
-// xmlhttp.send();
+xmlhttp.onreadystatechange = function() {
+  if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+    dokart = JSON.parse(xmlhttp.responseText);
+  }
+}
+xmlhttp.open('GET', 'js/dokart.json', true);
+xmlhttp.send();
 
 
       // This example displays a marker at the center of Australia.
