@@ -1,56 +1,9 @@
-/* 	Funksjon for å laste inn kart og befolke det med marker, samt å sette opp en nummerert
-	liste over totalettplasseringene i en separat <ol>-tag*/
-function initMap() {
-	var bergen = {lat: 60.391, lng: 5.324};
-	var map = new google.maps.Map(document.getElementById('map'), {
-	  zoom: 14,
-	  center: bergen
-	});
-
-	/* Lager element("ol") og legger det til <body> */
-	var orderedList = document.createElement("ol");
-	document.body.appendChild(orderedList);
 
 
-	/* Leter gjennom 'var dassPlasser' og plasserer en markør på kartet for hver entry i listen */
-	for (i=0;i<dassPlasser.entries.length;i++) {
-		var lat = dassPlasser.entries[i].latitude;
-		var lng = dassPlasser.entries[i].longitude;
-		var desc = dassPlasser.entries[i].plassering;
-		var listElement = document.createElement("li");
-		var txt = document.createTextNode(dassPlasser.entries[i].plassering);
+/* Listen over toaletter. Skal kobles til online-version.
+Kan denne overskrives dynamisk basert på online? Slik at den alltid er oppdatert?
+Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 
-		 //var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      //var labelIndex = i;
-
-
-		/* Oppretter nytt LatLng-objekt med koordinater fra listen */
-		var dassPos = new google.maps.LatLng(lat, lng);
-
-		/* Oppretter nytt Marker-objekt og plasserer det på kartet basert på dassPos-koordinater */
-		var marker = new google.maps.Marker({
-			position: dassPos,
-			map: map,
-			label: dassPlasser.entries[i].id,
-
-			//label: dassIndex++ % dassIndex.length,
-			info: desc 		//Når denne blir satt til var txt(se over) fjerner den entries i listen når bruker klikker på marker lol
-		});
-
-		var infoW = new google.maps.InfoWindow();
-		marker.addListener('click', function() {
-			infoW.setContent(this.info);
-			infoW.open(map, this);
-			console.log(this.info);
-			});
-
-		/* Befolker listen med plasseringer fra dassPlasser
-		*/
-		orderedList.appendChild(listElement);
-		listElement.appendChild(txt);
-		}
-
-	}
 
 	/*
 		KODEDEL FRA Roy
@@ -108,7 +61,7 @@ function initMap() {
 	            doKart = executeSearch(myObj.entries);
 	            toiletEntries = doKart.length;
 
-	            clearTable(searchTable);
+	            clearTable(fullTable); // Denne var tidligere searchTable
 	            populateTable();
 	          }
 
@@ -121,7 +74,7 @@ function initMap() {
 	    SEARCH QUERY FUNCTIONALITY
 	*/
 	//Build a constructor object for a search query
-	function searchQuery (searchString, name, address, date, hour, minute, openNow, access, maxPrice, free, male, female, baby) {
+	function SearchQuery (searchString, name, address, date, hour, minute, openNow, access, maxPrice, free, male, female, baby) {
 	  this.searchString = searchString;
 	  this.toiletName = name;
 	  this.toiletAddress =  address;
@@ -275,7 +228,7 @@ function initMap() {
 	  var qParamBaby = advInputBaby.checked;
 	  console.log("Baby returned: " + qParamBaby);
 
-	  var generatedQuery = new searchQuery(qParamFreeSearch,
+	  var generatedQuery = new SearchQuery(qParamFreeSearch,
 	                                      qParamName,
 	                                      qParamAddress,
 	                                      qParamDate,
@@ -299,252 +252,54 @@ function initMap() {
 	  return toiletCollection;
 	}
 
-/*
-	SLUTT PÅ KODEDEL FRA ROY
-*/
+	// Laster inn fullTable slik at var doKart har verdi som markørene kan utnytte til å hente nødvendig data
+	loadTable('full');
 
-/* Listen over toaletter. Skal kobles til online-version.
-Kan denne overskrives dynamisk basert på online? Slik at den alltid er oppdatert?
-Farlig med tanke på at den kan overskrives med tom liste etc etc
-*/
-var dassPlasser = {
-"entries":[
-	{
-		"herre":"1",
-		"tid_sondag":"07.00 - 23.15",
-		"pissoir_only":"NULL",
-		"stellerom":"NULL",
-		"latitude":"60.3879681",
-		"tid_hverdag":"07.00 - 23.15",
-		"plassering":"NONNESETER TERMINAL, SØR",
-		"tid_lordag":"07.00 - 23.15",
-		"rullestol":"1","adresse":"Lungegårdskaien",
-		"pris":"12",
-		"id":"1",
-		"place":"NONNESETER TERMINAL, SOUTH",
-		"dame":"1",
-		"longitude":"5.334608"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"NULL",
-		"latitude":"60.3884988",
-		"tid_hverdag":"05.30 - 23.50",
-		"plassering":"NONNESETER TERMINAL , NORD",
-		"tid_lordag":"07.00 - 23.15",
-		"rullestol":"1",
-		"adresse":"Østre Strømkai",
-		"pris":"12",
-		"id":"2",
-		"place":"NONNESETER TERMINAL , NORTH",
-		"dame":"1",
-		"longitude":"5.3345382"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"NULL",
-		"latitude":"60.388868",
-		"tid_hverdag":"09.00 - 17.00",
-		"plassering":"SKYSS KUNDESENTER",
-		"tid_lordag":"09.00 - 15.00",
-		"rullestol":"1",
-		"adresse":"Østre Strømkai",
-		"pris":"12",
-		"id":"3",
-		"place":"SKYSS CUSTOMER CENTRE",
-		"dame":"1","longitude":"5.3337597"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"07.00 - 23.00",
-		"pissoir_only":"NULL",
-		"stellerom":"NULL",
-		"latitude":"60.39041",
-		"tid_hverdag":"07.00 - 23.00",
-		"plassering":"JERNBANESTASJONEN",
-		"tid_lordag":"07.00 - 23.00",
-		"rullestol":"NULL",
-		"adresse":"Strømgaten 4",
-		"pris":"10",
-		"id":"4","place":"RAILWAY STATION",
-		"dame":"1",
-		"longitude":"5.332995"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"08.30 - 22.00",
-		"pissoir_only":"NULL",
-		"stellerom":"1",
-		"latitude":"60.394554",
-		"tid_hverdag":"09.00 - 23.00",
-		"plassering":"MATHALLEN",
-		"tid_lordag":"08.30 - 22.00",
-		"rullestol":"1",
-		"adresse":"Strandkaien 3",
-		"pris":"10",
-		"id":"5",
-		"place":"FISH MARKET",
-		"dame":"1",
-		"longitude":"5.324099"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"08.00 - 18.00",
-		"pissoir_only":"NULL",
-		"stellerom":"",
-		"latitude":"60.3951003",
-		"tid_hverdag":"08.00 - 18.00",
-		"plassering":"STRANDKAITERMINALEN",
-		"tid_lordag":"08.00 - 18.00",
-		"rullestol":"",
-		"adresse":"Strandkaien",
-		"pris":"10",
-		"id":"6",
-		"place":"STRANDKAI BOAT TERMINAL",
-		"dame":"1",
-		"longitude":"5.3220606"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"NULL",
-		"latitude":"60.3913793",
-		"tid_hverdag":"08.00 - 15.00",
-		"plassering":"BERGEN KOMMUNE, INNBYGGERSERVICE",
-		"tid_lordag":"NULL",
-		"rullestol":"1",
-		"adresse":"Kaigaten 4",
-		"pris":"0",
-		"id":"7",
-		"place":"CITIZEN SERVICE CENTRE",
-		"dame":"1",
-		"longitude":"5.3290558"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"1",
-		"latitude":"60.3891105",
-		"tid_hverdag":"09.00 - 21.00",
-		"plassering":"BERGEN STORSENTER",
-		"tid_lordag":"09.00 - 18.00",
-		"rullestol":"1",
-		"adresse":"Strømgaten 8",
-		"pris":"10",
-		"id":"8",
-		"place":"BERGEN STORSENTER",
-		"dame":"1",
-		"longitude":"5.3322315"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"1",
-		"latitude":"60.392209",
-		"tid_hverdag":"09.00 - 21.00",
-		"plassering":"SUNDT MOTEHUS",
-		"tid_lordag":"09.00 - 18.00",
-		"rullestol":"1",
-		"adresse":"Torgallmenningen 14",
-		"pris":"10",
-		"id":"9",
-		"place":"SUNDT FASHION HOUSE",
-		"dame":"1",
-		"longitude":"5.324011"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"1",
-		"latitude":"60.3927098",
-		"tid_hverdag":"09.00 - 20.00",
-		"plassering":"XHIBITION",
-		"tid_lordag":"09.00 - 18.00",
-		"rullestol":"1",
-		"adresse":"Småstrandgaten 3",
-		"pris":"10",
-		"id":"10",
-		"place":"XHIBITION",
-		"dame":"1",
-		"longitude":"5.3262019"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"1",
-		"latitude":"60.3932345",
-		"tid_hverdag":"09.00 - 21.00",
-		"plassering":"GALLERIET",
-		"tid_lordag":"09.00 - 18.00",
-		"rullestol":"1",
-		"adresse":"Torgallmenningen 8",
-		"pris":"10",
-		"id":"11",
-		"place":"GALLERIET",
-		"dame":"1",
-		"longitude":"5.3252363"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"NULL",
-		"pissoir_only":"NULL",
-		"stellerom":"1",
-		"latitude":"60.3944194",
-		"tid_hverdag":"10.00 - 20.00",
-		"plassering":"KLØVERHUSET",
-		"tid_lordag":"10.00 - 18.00",
-		"rullestol":"1",
-		"adresse":"Strandgaten 13 -15",
-		"pris":"10",
-		"id":"12",
-		"place":"KLØVERHUSET",
-		"dame":"1",
-		"longitude":"5.3205649"
-	},
-	{
-		"herre":"1",
-		"tid_sondag":"09.00 - 18.00",
-		"pissoir_only":"NULL",
-		"stellerom":"NULL",
-		"latitude":"60.3975913",
-		"tid_hverdag":"09.00 - 18.00",
-		"plassering":"BRYGGEN BESØKSSENTER",
-		"tid_lordag":"09.00 - 18.00",
-		"rullestol":"1",
-		"adresse":"Jacobsfjorden, Bryggen",
-		"pris":"10",
-		"id":"13",
-		"place":"BRYGGEN VISITOR CENTRE",
-		"dame":"1",
-		"longitude":"5.3244317"
-	},
-	{
-		"herre":"NULL",
-		"tid_sondag":"ALL",
-		"pissoir_only":"1",
-		"stellerom":"NULL",
-		"latitude":"60.3973581",
-		"tid_hverdag":"ALL",
-		"plassering":"C. SUNDTSGT",
-		"tid_lordag":"ALL",
-		"rullestol":"NULL",
-		"adresse":"C. Sundts gt",
-		"pris":"NULL",
-		"id":"14",
-		"place":"C. SUNDTSGT",
-		"dame":"NULL",
-		"longitude":"5.3132629"
-	}
-],
-"page":1,
-"pages":1,
-"posts":14}
+	/**
+	 * Funksjon for å laste inn kart og befolke det med marker
+	**/
+	function initMap() {
+		var bergen = {lat: 60.391, lng: 5.324};
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 14,
+			center: bergen
+		});
+
+		// Leter gjennom 'var doKart' og plasserer en markør på kartet for hver entry i listen
+		for (i = 0; i < doKart.length; i++) {
+			/* Oppretter nytt Marker-objekt og plasserer det på kartet basert på dassPos-koordinater */
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(doKart[i].latitude, doKart[i].longitude),
+				map: map,
+				label: doKart[i].id,
+				placement: doKart[i].plassering,
+				address: doKart[i].adresse,
+				ladies: (doKart[i].dame === "1")?"Yes":"No",
+				gentlemen: (doKart[i].herre === "1")?"Yes":"No",
+				price: doKart[i].pris,
+				wheelchair: (doKart[i].rullestol === "1")?"Yes":"No",
+				weekday: doKart[i].tid_hverdag,
+				saturday: doKart[i].tid_lordag,
+				sunday: doKart[i].tid_sondag,
+			});
+
+			// Legg til nytt infoWindow med riktig informasjon
+			var infoW = new google.maps.InfoWindow();
+			marker.addListener('click', function() {
+				// Oppdatert infoWindow hos marker (Ø.J)
+				infoW.setContent("<h3>This Toilet</h3>" +
+												 "<b>Placement:</b> " + this.placement + "<br>" +
+												 "<b>Address:</b> " + this.address + "<br>" +
+												 "<b>Ladies:</b> " + this.ladies + "<br>" +
+											 	 "<b>Gentlemen:</b> " + this.gentlemen + "<br>" +
+											 	 "<b>Price:</b> " + this.price + " ,-" + "<br>" +
+											 	 "<b>Wheelchair:</b> " + this.wheelchair + "<br>" +
+												 " " + "<br>" +
+											   "<h3>Availability</h3> " +
+											 	 "<b>Weekday:</b> " + this.weekday + "<br>" +
+											 	 "<b>Saturday:</b> " + this.saturday + "<br>" +
+											 	 "<b>Sunday:</b> " + this.sunday);
+				infoW.open(map, this);
+				});
+			}
+		}

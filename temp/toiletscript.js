@@ -1,20 +1,20 @@
 /**
  * Script for sending a http request to the server so that
  * we can read and write to the JSON file dokart.json as an
- * javascript object. 
+ * javascript object.
  * Author (Øyvind Johannessen)
  * Version (0.1)
 **/
-// var xmlhttp = new XMLHttpRequest(),
-    // dokart;
+var xmlhttp = new XMLHttpRequest(),
+    dokart;
 
-// xmlhttp.onreadystatechange = function() {
-  // if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-    // dokart = JSON.parse(xmlhttp.responseText);
-  // }
-// }
-// xmlhttp.open('GET', 'js/dokart.json', true);
-// xmlhttp.send();
+xmlhttp.onreadystatechange = function() {
+  if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+    dokart = JSON.parse(xmlhttp.responseText);
+  }
+}
+xmlhttp.open('GET', 'js/dokart.json', true);
+xmlhttp.send();
 
 
       // This example displays a marker at the center of Australia.
@@ -38,7 +38,7 @@ function initMap() {
 		var marker = new google.maps.Marker({
 			position: dassPos,
 			map: map,
-			info: desc			
+			info: desc
 		});
 		var infoW = new google.maps.InfoWindow();
 		marker.addListener('click', function() {
@@ -46,11 +46,10 @@ function initMap() {
 			infoW.open(map, this);
 			});
 		}
-		 
-	}
+	};
 
-    
-	
+
+
 var dassPlasser = {
 "entries":[
 	{
