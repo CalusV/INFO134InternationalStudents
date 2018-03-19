@@ -61,16 +61,6 @@ header ul{
 header li{
   float: left;
 }
-/*The navigation bar in the header with a link to the other pages*/
-.nav{
-  background-color: #022340;
-  width:100%;
-  margin: 0;
-  padding:0;
-  overflow:hidden;
-  font-family: sans-serif;
-  display: flex;
-}
 
 @media (max-width: 800px) {
   .nav {
@@ -79,26 +69,6 @@ header li{
   }
 }
 
-#searchInput {
-  width: 60%;
-  height: 1.5rem;
-  border-radius: 2px;
-}
-
-@media (max-width: 800px) {
-  #searchInput {
-    display: none;
-   background-color: #f9f9f9;
-   min-width: 160px;
-   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-   z-index: 1;
-  }
-}
-@media (max-width:800px){
-  .searchBar:hover #searchInput{
-    display:block;
-  }
-}
 .nav a{
   text-align: center;
   transition: all 0.3s ease;
@@ -204,9 +174,12 @@ footer{
 /* Media screen for small screens - RHJ
   - Make Facebook logo smaller on phones.
 */
-@media (min-width : 320px) and (max-width : 480px) {
-  #facebook{
+@media (max-width : 480px) {
+  #facebook {
    width:20%;
+  }
+  body {
+    margin: 0 0 0 0;
   }
 }
 
@@ -241,7 +214,7 @@ footer{
 
 .dropdown-menu {
   height: 2rem;
-  width: 100%;
+  width: 97%;
   margin: 5px;
   border: 1px solid;
 }
@@ -253,6 +226,11 @@ footer{
 select {
   font-size: 1.2rem;
 }
+
+.survivalDropdown {
+  margin: 5px;
+}
+
 /* Media screen for large and medium screens - RHJ
   - Don't display the dropdown menu if the screen is laptop size or bigger.
  */
@@ -453,7 +431,12 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  background-color: #022340;
+  width:100%;
+  margin: 0;
+  padding:0;
+  overflow:hidden;
+  font-family: sans-serif;
 }
 .navBar {
   margin-right: 1rem;
@@ -521,14 +504,21 @@ select {
  * Styling for the toilet map site (Ø.J)
 **/
 .freeformSearchBar {
+  display: flex;
   color: #dadad9;
   background-color: #022340;
   margin: 10px;
+  padding: 20px;
   width: 80%;
 }
 
 .freeformSearchBar input {
-  margin: 10px;
+  width: 100%;
+}
+
+.freeformSearchBar button {
+  width: 20%;
+  margin-left: 1px;
 }
 
 .freeformSearchBar h3 {
@@ -587,7 +577,6 @@ table {
   background-color: #dadad9;
   width: 100%;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-
 }
 
 th {
@@ -600,12 +589,12 @@ th {
 }
 
 td {
-    color: #022340;
-    border: 1px solid #022340;
-    background-color: #dadad9;
-    text-align: left;
-    padding-left: 10px;
-    padding-right: 10px;
+  color: #022340;
+  border: 1px solid #022340;
+  background-color: #dadad9;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #alltoilets-details {
@@ -613,4 +602,46 @@ td {
   padding: 10px;
   margin: 10px;
   outline: 0;
+}
+
+/**
+ * Table with less data on smaller screens (Ø.J)
+**/
+@media (max-width: 520px) {
+  th {
+    display: none;
+  }
+
+  td {
+    display: none;
+  }
+
+  #th-1, #th-2 {
+    display: table-cell;
+  }
+
+  #cell1, #cell2 {
+    display: table-cell;
+  }
+}
+
+/**
+ * Table with less data on pads screens (Ø.J)
+**/
+@media (min-width: 520px) and (max-width: 1024px) {
+  th {
+    display: none;
+  }
+
+  td {
+    display: none;
+  }
+
+  #th-1, #th-2, #th-3, #th-4 {
+    display: table-cell;
+  }
+
+  #cell1, #cell2, #cell3, #cell4 {
+    display: table-cell;
+  }
 }
