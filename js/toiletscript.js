@@ -40,30 +40,20 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	  JSON parse
 	*/
 	// Parse the JSON-file
-	function loadTable(tableType) {
+	function loadTable() {
 	  var xmlhttp = new XMLHttpRequest();
 	  xmlhttp.onreadystatechange = function() {
 	      if (this.readyState == 4 && this.status == 200) {
 
-	          var myObj = JSON.parse(this.responseText);
-	          var fullTable = document.getElementById("fullTable");
-	          var searchTable = document.getElementById("searchTable");
+	      var myObj = JSON.parse(this.responseText);
+	      var searchTable = document.getElementById("searchTable");
 
-	          if (tableType == "full"){
-	            doKart = myObj.entries;
-	            toiletEntries = doKart.length;
-	            var fullTable = document.getElementById("fullTable");
-	            clearTable(fullTable);
+	      doKart = executeSearch(myObj.entries);
+	      toiletEntries = doKart.length;
+
+	            clearTable(searchTable); // Denne var tidligere searchTable
 	            populateTable();
-	          }
 
-	          else if (tableType == "search"){
-	            doKart = executeSearch(myObj.entries);
-	            toiletEntries = doKart.length;
-
-	            clearTable(fullTable); // Denne var tidligere searchTable
-	            populateTable();
-	          }
 
 	      }
 	  };
@@ -103,14 +93,14 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	  //If table is already built, delete table and rebuild.
 	    var rowCount = clearingTable.rows.length;
 	    for (var i=tableHeaderRowCount; i < rowCount; i++){
-	      fullTable.deleteRow(tableHeaderRowCount);
+	      searchTable.deleteRow(tableHeaderRowCount);
 	    }
 	}
 
 	function populateTable() {
 	  //Construct new table
 	  for (i = 0; i < toiletEntries; i++) {
-	    var newRow = fullTable.insertRow(i+1);
+	    var newRow = searchTable.insertRow(i+1);
 	    var firstCell = newRow.insertCell(0);
 	    var locCell = newRow.insertCell(1);
 	    var adrCell = newRow.insertCell(2);
@@ -202,31 +192,18 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	  var advInputBaby = document.getElementById('advBaby');
 
 	  var qParamFreeSearch = freeInput.value;
-	  console.log("Search returned: " + qParamFreeSearch);
 	  var qParamName = advInputName.value;
-	  console.log("Name returned: " + qParamName);
 	  var qParamAddress = advInputAddress.value;
-	  console.log("Address returned: " + qParamAddress);
 	  var qParamDate = advInputDate.value;
-	  console.log("Input Date returned: " + qParamDate);
 	  var qParamHour = advInputHour.value;
-	  console.log("Hour returned: " + qParamHour);
 	  var qParamMinute = advInputMinute.value;
-	  console.log("Minute returned: " + qParamMinute);
 	  var qParamOpen = advInputOpen.checked;
-	  console.log("Open returned: " + qParamOpen);
 	  var qParamAccess = advInputAccess.checked;
-	  console.log("Access returned: " + qParamAccess);
 	  var qParamMaxPrice = advInputMaxPrice.value;
-	  console.log("Max Price returned: " + qParamMaxPrice);
 	  var qParamFree = advInputFree.checked;
-	  console.log("Free returned: " + qParamFree);
 	  var qParamMale = advInputMale.checked;
-	  console.log("Male returned: " + qParamMale);
 	  var qParamFemale = advInputFemale.checked;
-	  console.log("Female returned: " + qParamFemale);
 	  var qParamBaby = advInputBaby.checked;
-	  console.log("Baby returned: " + qParamBaby);
 
 	  var generatedQuery = new SearchQuery(qParamFreeSearch,
 	                                      qParamName,
@@ -246,14 +223,36 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	}
 
 	function executeSearch(fullCollection) {
-	  searchQuery = generateSearch();
-	  toiletCollection = fullCollection;
+	  var newQuery = generateSearch();
+	  var toiletCollection = fullCollection;
 
-	  return toiletCollection;
+		var results = [];
+		var params = Object.keys(newQuery);
+
+		for (i=0; i< toiletCollection.length; i++){
+			var qualifier = [];
+			for (y=0; y < params.length; y++) {
+				if(toiletCollection[i][params[y]] == newQuery[params[y]]){
+					qualifier.push(true);
+				}
+				//if(qualifier.length  params.length){
+				if(qualifier.length > 2){ //IF more than two search fields are correct
+					results.push(toiletCollection[i]);
+				}
+			}
+		}
+
+		if (results.length > 0){
+			return results;
+		}
+		else {
+			return toiletCollection;
+		}
+
 	}
 
 	// Laster inn fullTable slik at var doKart har verdi som markørene kan utnytte til å hente nødvendig data
-	loadTable('full');
+	loadTable();
 
 	/**
 	 * Funksjon for å laste inn kart og befolke det med marker

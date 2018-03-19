@@ -44,7 +44,7 @@ trying to establish them selv in Norway -->
         <div class="freeformSearchBar">
           <h3>Freeform search:</h3>
           <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
-          <button onclick="loadTable('search')">Search</button>
+          <button onclick="loadTable()">Search</button>
         </div>
         <div id="map"></div>
         <script async defer
@@ -89,7 +89,7 @@ trying to establish them selv in Norway -->
                     <input type="checkbox" id="advAccess">
                     <label>Changing station</label>
                     <input type="checkbox" id="advBaby">
-                    <button onclick="loadTable('search')">Search</button>
+                    <button onclick="loadTable()">Search</button>
                   </div>
                 </div>
       </details>
@@ -113,7 +113,7 @@ trying to establish them selv in Norway -->
       <details open id="alltoilets-details">
         <summary><h3>Complete Toilet Table:</h3></summary>
         <div class="allResults">
-          <table id="fullTable">
+          <table id="searchTable">
             <tr>
               <th>Index</th>
               <th>Location name</th>
