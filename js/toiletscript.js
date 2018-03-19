@@ -122,6 +122,17 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	    var babyCell = newRow.insertCell(8);
 	    var priceCell = newRow.insertCell(9);
 
+			/**
+			 * These lines concernes Media Queries
+			 * Add id attribute for cell 1 and 2. This is used for
+			 * media queries in css when on smaller screens we only want
+			 * to show the two to four first cells in every row.
+			**/
+			firstCell.setAttribute("id", "cell1");
+			locCell.setAttribute("id", "cell2");
+			adrCell.setAttribute("id", "cell3");
+			wDayCell.setAttribute("id", "cell4");
+
 	    //Unique identifier
 	    firstCell.innerHTML = i+1 + ".";
 
