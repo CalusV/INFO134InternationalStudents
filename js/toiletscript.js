@@ -41,6 +41,7 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	*/
 	// Parse the JSON-file
 	function loadTable() {
+		console.log("Loading table");
 	  var xmlhttp = new XMLHttpRequest();
 	  xmlhttp.onreadystatechange = function() {
 	      if (this.readyState == 4 && this.status == 200) {
@@ -48,7 +49,9 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	      var myObj = JSON.parse(this.responseText);
 	      var searchTable = document.getElementById("searchTable");
 
+				console.log("Updating table from search.");
 	      doKart = executeSearch(myObj.entries);
+				console.log(doKart);
 	      toiletEntries = doKart.length;
 
 	            clearTable(searchTable); // Denne var tidligere searchTable
@@ -234,30 +237,45 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	}
 
 	function executeSearch(fullCollection) {
-	  var newQuery = generateSearch();
-	  var toiletCollection = fullCollection;
+		console.log("Executing search.");
+	  var newQuery = generateSearch();	//The search object
+	  var toiletCollection = fullCollection; //The full toilet list
 
-		var results = [];
-		var params = Object.keys(newQuery);
 
-		for (i=0; i< toiletCollection.length; i++){
-			var qualifier = [];
-			for (y=0; y < params.length; y++) {
-				if(toiletCollection[i][params[y]] == newQuery[params[y]]){
-					qualifier.push(true);
+		var results = []; //Our new result list
+		var params = Object.keys(newQuery); //List of parameters in the search object
+
+
+
+		for (i=0; i< toiletCollection.length; i++){ //For each object in the toilet list
+			var definedParameters = 0; //Define a counter for defined parameters
+			var matchingParameters = 0; //Define a counter for matching parameters
+			console.log("Checking toilets.");
+			for (y=0; y < params.length; y++) { // For each parameter in the object
+				console.log("Contains:" + newQuery[params[y]]);
+				if(newQuery[params[y]] != (undefined || false)){ //If the parameter is not undefined or false
+					definedParameters = definedParameters+1; //Add +1 to the defined counter
+					console.log("Defined Parameter added!");
+					if(toiletCollection[i][params[y]] === newQuery[params[y]]){ //If the parameter matches the search
+						matchingParameters = matchingParameters+1; //Add +1 to the matching counter
+					  console.log("Matching Parameter added!");
+					}
 				}
-				//if(qualifier.length  params.length){
-				if(qualifier.length > 2){ //IF more than two search fields are correct
-					results.push(toiletCollection[i]);
-				}
+			}
+
+			if ((definedParameters === matchingParameters) && definedParameters != 0){ //If the counters match
+				results.push(toiletCollection[i]); //Push the item to the result collection
+				console.log("Approving toilet:" + toiletCOllection[i]);
 			}
 		}
 
-		if (results.length > 0){
-			return results;
+		if (results.length != 0){ //If there are items in the result collection
+			return results; //Return result collection7
+			console.log("Returning new list");
 		}
 		else {
 			return toiletCollection;
+			console.log("Returning full list");
 		}
 
 	}
