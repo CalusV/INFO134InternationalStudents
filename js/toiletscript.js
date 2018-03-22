@@ -1,11 +1,15 @@
 
+// All global variables
+var doKart;
+var toiletEntries;
+var query;
+var map = "";
+var markers = [];
 
-/* Listen over toaletter. Skal kobles til online-version.
-Kan denne overskrives dynamisk basert på online? Slik at den alltid er oppdatert?
-Farlig med tanke på at den kan overskrives med tom liste etc etc*/
+// Laster inn fullTable slik at var doKart har verdi som markørene kan utnytte til å hente nødvendig data
+loadTable();
 
-
-	/*
+/*
 		KODEDEL FRA Roy
 
 		loadTable() = Laster en ny liste med toaletter fra JSON-filen. Kan knyttes til API om nødvendig.
@@ -32,9 +36,6 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 		generateSearch() = Lager et searchQuery-objekt basert på data fra HTML-skjema.
 		UFERDIG - executeSearch() = Genererer en mindre liste avhengig av søkekriterier.
 	*/
-	var doKart;
-	var toiletEntries;
-	var query;
 
 	/*
 	  JSON parse
@@ -46,6 +47,9 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 		var url = "https://hotell.difi.no/api/json/bergen/dokart?";
 	  xmlhttp.onreadystatechange = function() {
 	      if (this.readyState == 4 && this.status == 200) {
+					if(doKart !== undefined) {
+						deleteMarkers();
+					}
 
 	      var myObj = JSON.parse(this.responseText);
 	      var searchTable = document.getElementById("searchTable");
@@ -57,9 +61,14 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 
 	            clearTable(searchTable); // Denne var tidligere searchTable
 	            populateTable();
-
-
-	      }
+							generateAndReturnMarkers();
+							for(i = 0; i < markers.length; i++) {
+								if(markers[i] !==  null) {
+									markers[i].setMap(map);
+								}
+							}
+							generateInfoWindow(markers);
+						}
 	  };
 	  xmlhttp.open("GET", url, true);
 	  xmlhttp.send();
@@ -126,7 +135,7 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 			wDayCell.setAttribute("id", "cell4");
 
 	    //Unique identifier
-	    firstCell.innerHTML = i+1 + ".";
+	    firstCell.innerHTML = doKart[i].id + ".";
 
 	    //Location
 	    locCell.innerHTML = doKart[i].place;
@@ -424,34 +433,34 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 		if (results.length != 0){ //If there are items in the result collection
 			console.log("Returning new list");
 			return results; //Return result collection7
-
 		}
 		else {
 			console.log("Returning full list");
 			return toiletCollection;
 		}
-
 	}
 
-	// Laster inn fullTable slik at var doKart har verdi som markørene kan utnytte til å hente nødvendig data
-	loadTable();
-
 	/**
-	 * Funksjon for å laste inn kart og befolke det med marker
+	 * Funksjon for å laste inn kart.
 	**/
 	function initMap() {
 		var bergen = {lat: 60.391, lng: 5.324};
-		var map = new google.maps.Map(document.getElementById('map'), {
+		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 14,
 			center: bergen
 		});
+	}
 
-		// Leter gjennom 'var doKart' og plasserer en markør på kartet for hver entry i listen
+	/*
+	 * Function for generation a list of markers
+	 * When all markers are made with the appropriate data, it is pushed in
+	 * to the markers array (markers array is a gloabl variable).
+	 * This way each marker can be set to a map with the setMap function.
+	*/
+	function generateAndReturnMarkers() {
 		for (i = 0; i < doKart.length; i++) {
-			/* Oppretter nytt Marker-objekt og plasserer det på kartet basert på dassPos-koordinater */
-			var marker = new google.maps.Marker({
+				var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(doKart[i].latitude, doKart[i].longitude),
-				map: map,
 				label: doKart[i].id,
 				placement: doKart[i].plassering,
 				address: doKart[i].adresse,
@@ -463,24 +472,51 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 				saturday: doKart[i].tid_lordag,
 				sunday: doKart[i].tid_sondag,
 			});
+			markers.push(marker);
+	}
+}
 
-			// Legg til nytt infoWindow med riktig informasjon
-			var infoW = new google.maps.InfoWindow();
-			marker.addListener('click', function() {
+/*
+ * Function for generating information windows for each marker
+ * Param: array of markers
+ * The setContent method used 'this' (a marker instance) and its attribute
+ * value to fill the iWindow with value
+*/
+function generateInfoWindow(marker) {
+	for(i = 0; i < doKart.length; i++) {
+		var infoW = new google.maps.InfoWindow();
+		if(markers[i] !== null) {
+			marker[i].addListener('click', function() {
 				// Oppdatert infoWindow hos marker (Ø.J)
 				infoW.setContent("<h3>This Toilet</h3>" +
 												 "<b>Placement:</b> " + this.placement + "<br>" +
 												 "<b>Address:</b> " + this.address + "<br>" +
 												 "<b>Ladies:</b> " + this.ladies + "<br>" +
-											 	 "<b>Gentlemen:</b> " + this.gentlemen + "<br>" +
-											 	 "<b>Price:</b> " + this.price + " ,-" + "<br>" +
-											 	 "<b>Wheelchair:</b> " + this.wheelchair + "<br>" +
+												 "<b>Gentlemen:</b> " + this.gentlemen + "<br>" +
+												 "<b>Price:</b> " + this.price + " ,-" + "<br>" +
+												 "<b>Wheelchair:</b> " + this.wheelchair + "<br>" +
 												 " " + "<br>" +
-											   "<h3>Availability</h3> " +
-											 	 "<b>Weekday:</b> " + this.weekday + "<br>" +
-											 	 "<b>Saturday:</b> " + this.saturday + "<br>" +
-											 	 "<b>Sunday:</b> " + this.sunday);
+												 "<h3>Availability</h3> " +
+												 "<b>Weekday:</b> " + this.weekday + "<br>" +
+												 "<b>Saturday:</b> " + this.saturday + "<br>" +
+												 "<b>Sunday:</b> " + this.sunday);
 				infoW.open(map, this);
 				});
-			}
 		}
+	}
+}
+
+/*
+ * Function for deleting all markers on the map
+ * This is mainly used for refreshing the map with new markers when
+ * someone makes a search. (Ø.j)
+*/
+function deleteMarkers() {
+	for(i = 0; i < markers.length; i++) {
+		if(markers[i] !== null) {
+			markers[i].setMap(null);
+			markers[i] = null;
+		}
+	}
+	markers = [];
+}
