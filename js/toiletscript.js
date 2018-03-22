@@ -42,6 +42,7 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 	// Parse the JSON-file
 	function loadTable(tableType) {
 	  var xmlhttp = new XMLHttpRequest();
+		var url = "https://hotell.difi.no/api/json/bergen/dokart?";
 	  xmlhttp.onreadystatechange = function() {
 	      if (this.readyState == 4 && this.status == 200) {
 
@@ -67,7 +68,7 @@ Farlig med tanke på at den kan overskrives med tom liste etc etc*/
 
 	      }
 	  };
-	  xmlhttp.open("GET", "js/dokart.json", true);
+	  xmlhttp.open("GET", url, true);
 	  xmlhttp.send();
 	}
 	/*
