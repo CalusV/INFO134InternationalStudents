@@ -77,16 +77,14 @@ loadTable();
 	    SEARCH QUERY FUNCTIONALITY
 	*/
 	//Build a constructor object for a search query
-	function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, name, access, address, maxPrice, female, freeSearch) {
+	function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
 
 		this.herre = male;
 		this.stellerom = baby;
 		this.tid_sondag = openSunday;
 		this.tid_lordag = openSaturday;
 		this.tid_hverdag = openEveryday;
-		this.place = name;
 		this.rullestol = access;
-		this.adresse = address;
 		this.pris = maxPrice;
 		this.dame = female;
 		this.search = freeSearch;
@@ -200,8 +198,7 @@ loadTable();
 
 	function generateSearch(){
 	  var freeInput = document.getElementById('searchInput');
-	  var advInputName = document.getElementById('advName');
-	  var advInputAddress = document.getElementById('advAdr');
+	  var advSearchInput = document.getElementById('advSearchInput');
 	  var advInputDate = document.getElementById('advDate');
 	  var advInputHour = document.getElementById('advHour');
 	  var advInputMinute = document.getElementById('advMin');
@@ -212,9 +209,6 @@ loadTable();
 	  var advInputMale = document.getElementById('advMale');
 	  var advInputFemale = document.getElementById('advFemale');
 	  var advInputBaby = document.getElementById('advBaby');
-
-	  var qParamName = advInputName.value;
-	  var qParamAddress = advInputAddress.value;
 
 		/*
 				If the user has selected a time and date, we will process this into usable variables.
@@ -248,7 +242,8 @@ loadTable();
 			}
 
 			//CURRENT DATE AND TIME
-			if (advInputOpen.checked === true){
+			if ((advInputOpen.checked === true) || (freeInputOpen === true)){
+				freeInputOpen == false;
 				var currentDate = new Date();
 				qParamHour = currentDate.getHours();
 				qParamMinute = currentDate.getMinutes();
@@ -257,13 +252,13 @@ loadTable();
 
 				var day = currentDate.getDay();
 					switch(day){
-						case 0: qParamOpenEveryday = timeBuilder; break;
+						case 0: qParamOpenSunday = timeBuilder; break;
 						case 1: qParamOpenEveryday = timeBuilder; break;
 						case 2: qParamOpenEveryday = timeBuilder; break;
 						case 3: qParamOpenEveryday = timeBuilder; break;
 						case 4: qParamOpenEveryday = timeBuilder; break;
-						case 5: qParamOpenSaturday = timeBuilder; break;
-						case 6: qParamOpenSunday = timeBuilder; break;
+						case 5: qParamOpenEveryday = timeBuilder; break;
+						case 6: qParamOpenSaturday = timeBuilder; break;
 					}
 			}
 
@@ -284,8 +279,104 @@ loadTable();
 	  var qParamFemale = (advInputFemale.checked === true)?"1":"0";
 	  var qParamBaby = (advInputBaby.checked === true)?"1":"0";
 
-		//Add the free search variable for processing by regex.
+		/*
+			HANDLING FREE SEARCH LAST AS IT MIGHT OVERWRITE OTHER VALUES
+		*/
+
 		var qParamFreeSearch = freeInput.value;
+
+		if (advSearchInput.value){
+			qParamFreeSearch = advSearchInput.value;
+		}
+		var freeInputOpen = false;
+		var freeSearchDefined = false;
+
+		if(qParamFreeSearch){
+			var inputString = qParamFreeSearch;
+			var stringArray = inputString.split(" "); //Splitting at space to check for other written parameters
+			console.log(stringArray);
+
+			//HANDLING ANY HANDWRITTEN PARAMETERS
+			if(stringArray.length >= 1){
+				for (i=0; i < stringArray.length; i++){
+
+					var paramRegex = /\w+(?::)\w/;
+					var paramArray = stringArray[i].split(":");
+					var genderRegex = /(?:kjønn|gender|sex)/i;
+					var wheelChairRegex = /(?:wheelchair|rullestol|handicap|hc)/i;
+					var openRegex = /(?:open|åpen)/i;
+					var babyRegex = /(?:baby|diaper|stellerom)/i;
+					var priceRegex = /(?:pris|price|cost)/i;
+					var freeRegex = /(?:gratis|free)/i;
+					var maleRegex = /(?:mann|male|gutt|herre)/i;
+					var femaleRegex = /(?:kvinne|woman|female|ladies|frue|dame)/i;
+					var positiveRegex = /(?:1|yes|checked|true)/i;
+					var numberRegex = /\d\d/;
+					console.log(paramArray);
+
+					if(paramRegex.test(stringArray[i])){ //If the search follows rule of parameters, run through checks
+						if (genderRegex.test(paramArray[0])){
+							if (maleRegex.test(paramArray[1])){
+								qParamMale = "1";
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+							else if (femaleRegex.test(paramArray[1])){
+								qParamFemale = "1";
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+						}
+						else if (wheelChairRegex.test(paramArray[0])){
+							if(positiveRegex.test(paramArray[1])){
+								qParamAccess = "1";
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+						}
+						else if (openRegex.test(paramArray[0])){
+							if(positiveRegex.test(paramArray[1])){
+								freeInputOpen = true;
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+						}
+						else if (babyRegex.test(paramArray[0])){
+							if(positiveRegex.test(paramArray[1])){
+								qParamBaby = "1";
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+						}
+						else if (priceRegex.test(paramArray[0])){
+							if (numberRegex.test(paramArray[1])){
+								qParamMaxPrice = paramArray[1];
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+						}
+						else if (freeRegex.test(paramArray[0])){
+							if (positiveRegex.test(paramArray[1])){
+								qParamMaxPrice = "Free";
+								if(!freeSearchDefined){
+										qParamFreeSearch = "";
+								}
+							}
+						}
+					}
+					else {
+						qParamFreeSearch = stringArray[i];
+						freeSearchDefined = true;
+					}
+			}
+		}
+	}
 
 		//Generate the query
 	  var generatedQuery = new SearchQuery(qParamMale,
@@ -293,14 +384,15 @@ loadTable();
 	                                      qParamOpenSunday,
 	                                      qParamOpenSaturday,
 	                                      qParamOpenEveryday,
-	                                      qParamName,
 	                                      qParamAccess,
-	                                      qParamAddress,
 	                                      qParamMaxPrice,
 	                                      qParamFemale,
 																				qParamFreeSearch);
 	  query = generatedQuery;
-	  return query;
+		console.log(query);
+		freeSearchDefined = false; //Swap the free search toggle back for the next search
+
+		return query;
 	}
 
 	/*
@@ -309,45 +401,58 @@ loadTable();
 		It takes the full list and the search object, and starts picking it apart to find matching objects.
 	*/
 	function executeSearch(fullCollection) {
-		console.log("Executing search.");
 	  var newQuery = generateSearch();	//The search object
 	  var toiletCollection = fullCollection; //The full toilet list
-		console.log(newQuery);
-		console.log(toiletCollection);
-
-
 		var results = []; //Our new result list
 		var params = Object.keys(newQuery); //List of parameters in the search object
-
-
+		var searchOccurred = false; //Boolean to check if a search has happened or not, used for markers.
 
 		for (i=0; i< toiletCollection.length; i++){ //For each object in the toilet list
 			var definedParameters = 0; //Define a counter for defined parameters
 			var matchingParameters = 0; //Define a counter for matching parameters
 			console.log("Checking toilet #" + (i+1));
-			for (y=0; y < params.length; y++) { // For each parameter in the object
-	//			console.log("Contains:" + newQuery[params[y]]);
-				if(newQuery[params[y]] != (undefined || false)){ //If the parameter is not undefined or false
+			for (x=0; x < params.length; x++) { // For each parameter in the object
+				if(newQuery[params[x]] != (undefined || false)){ //If the parameter is not undefined, false, or null
 					definedParameters++; //Add +1 to the defined counter
-					console.log("Collection parameter: " + toiletCollection[i][params[y]] + " is being compared to search parameter: " + newQuery[params[y]]);
+					searchOccurred = true;
+					console.log("Collection parameter: " + toiletCollection[i][params[x]] + " is being compared to search parameter: " + newQuery[params[x]]);
 
+					/*FREETEXT SEARCH WITH REGEX.
+							Any word not preceded by a : will be interpreted as free text search
+					*/
+					if(newQuery[params[x]] === newQuery["search"]){
+						//ALLOWING SINGLE LETTER VOWELS TO BE SWAPPED FOR SCANDIANVIAN ONES
+						var freeSearchArray = newQuery["search"].split("");
+						var builtRegString = "";
+						for (y=0; y < freeSearchArray.length; y++){
+							if (freeSearchArray[y] === "o"){
+								builtRegString += "(?:o|ø)";
+							} else if (freeSearchArray[y] === "a"){
+								builtRegString += "(?:a|æ|å)";
+							} else if (freeSearchArray[y] === "e") {
+								builtRegString += "(?:e|æ)";
+							} else {
+								builtRegString += freeSearchArray[y];
+							}
+						}
+
+						var matchString = new RegExp(builtRegString, "i");
+						if(matchString.test(toiletCollection[i]["plassering"]) || matchString.test(toiletCollection[i]["place"]) || matchString.test(toiletCollection[i]["adresse"])){
+							matchingParameters++;
+						}
+					}
 					/*
 					 	HANDLING DATES AND TIMES IN THE SEARCH ENGINE
 					*/
-					console.log(newQuery);
-					console.log(toiletCollection[i]);
 
-					if((newQuery["tid_hverdag"]||newQuery["tid_lordag"]||newQuery["tid_sondag"]) && (toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]) === "ALL"){
+					if((newQuery[params[x]] === (newQuery["tid_hverdag"]||newQuery["tid_lordag"]||newQuery["tid_sondag"])) && (toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]) === "ALL"){
 						matchingParameters++;
 					}
 
-					if((newQuery["tid_hverdag"] && toiletCollection[i]["tid_hverdag"]) && (toiletCollection[i]["tid_hverdag"] != "ALL")){ //If we're investigating opening times on a weekday
+					else if(((newQuery[params[x]] === newQuery["tid_hverdag"]) && toiletCollection[i]["tid_hverdag"]) && (toiletCollection[i]["tid_hverdag"] != "ALL")){ //If we're investigating opening times on a weekday
 						var weekdayTimeSplit = toiletCollection[i]["tid_hverdag"].split(" - ");
-						console.log(weekdayTimeSplit);
 						var openingTime = weekdayTimeSplit[0].split(".");
-						console.log(openingTime);
 						var closingTime = weekdayTimeSplit[1].split(".");
-						console.log(closingTime);
 						var requestedTime = newQuery["tid_hverdag"].split(".");
 
 						if ((openingTime[0] < requestedTime[0]) && (requestedTime[0] < closingTime[0])){
@@ -363,10 +468,14 @@ loadTable();
 						}
 					}
 
-					if((newQuery["tid_lordag"] && toiletCollection[i]["tid_lordag"]) && (toiletCollection[i]["tid_lordag"] != "ALL")){ //If we're investigating opening times on a saturday
+					else if(((newQuery[params[x]] === newQuery["tid_lordag"]) && toiletCollection[i]["tid_lordag"]) && (toiletCollection[i]["tid_lordag"] != "ALL")){ //If we're investigating opening times on a saturday
 						var saturdayTimeSplit = toiletCollection[i]["tid_lordag"].split(" - ");
 						var openingTime = saturdayTimeSplit[0].split(".");
-						var closingTime = saturdayTimeSplit[1].split(".");
+
+						if (saturdayTimeSplit[1]){
+							var closingTime = saturdayTimeSplit[1].split(".");
+						}
+
 						var requestedTime = newQuery["tid_lordag"].split(".");
 
 						if ((openingTime[0] < requestedTime[0]) && (requestedTime[0] < closingTime[0])){
@@ -382,10 +491,14 @@ loadTable();
 							}
 					}
 
-					if((newQuery["tid_sondag"] && toiletCollection[i]["tid_sondag"]) && (toiletCollection[i]["tid_sondag"] != "ALL")){ //If we're investigating opening times on a sunday
+					else if(((newQuery[params[x]] === newQuery["tid_sondag"]) && toiletCollection[i]["tid_sondag"]) && (toiletCollection[i]["tid_sondag"] != "ALL")){ //If we're investigating opening times on a sunday
 						var sundayTimeSplit = toiletCollection[i]["tid_sondag"].split(" - ");
 						var openingTime = sundayTimeSplit[0].split(".");
-						var closingTime = sundayTimeSplit[1].split(".");
+
+						if (sundayTimeSplit[1]){
+							var closingTime = sundayTimeSplit[1].split(".");
+						}
+
 						var requestedTime = newQuery["tid_sondag"].split(".");
 
 						if ((openingTime[0] < requestedTime[0]) && (requestedTime[0] < closingTime[0])){
@@ -402,37 +515,33 @@ loadTable();
 					}
 
 					//Because the general comparison will only accept exact values, this hack accepts less than values for prices.
-					if((newQuery["pris"] > toiletCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
-
-						console.log("Query price is greater than collection price.");
-						console.log("Query price is: " + newQuery["pris"]);
-						console.log("Collection price is: " + toiletCollection[i]["pris"]);
+					if(((newQuery[params[x]] === newQuery["pris"]) > toiletCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
 						matchingParameters++;
-					} else if ((newQuery["pris"] === 0) && (toiletCollection[i]["pris"] == "0")){
-												console.log("0 is equal to 0.");
+					} else if (((newQuery[params[x]] === newQuery["pris"]) === 0) && (toiletCollection[i]["pris"] == "0")){
 						matchingParameters++;
-					} else if ((newQuery["pris"] === "Free") && (toiletCollection[i]["pris"] === "0")){
+					} else if (((newQuery[params[x]] === newQuery["pris"]) === "Free") && (toiletCollection[i]["pris"] === "0")){
 						matchingParameters++;
 					}
 
 					/*
 						GENERAL COMPARISON FOR ALL OTHER VALUES
 					*/
-					if(toiletCollection[i][params[y]] === newQuery[params[y]]){ //If the parameter matches the search
+					if((toiletCollection[i][params[x]] === newQuery[params[x]]) && (toiletCollection[i][params[x]] != "NULL")){ //If the parameter matches the search
 						matchingParameters++; //Add +1 to the matching counter
 					}
 				}
 			}
-			console.log("Defined parameters: " + definedParameters + "| Matching parameters: " + matchingParameters);
+			console.log("Defined: " + definedParameters + "| Matching: " + matchingParameters);
 			if ((definedParameters === matchingParameters) && definedParameters != 0){ //If the counters match
 				results.push(toiletCollection[i]); //Push the item to the result collection
-				console.log("Approving toilet:" + toiletCollection[i]);
 			}
 		}
 
-		if (results.length != 0){ //If there are items in the result collection
+		if (searchOccurred){ //If there are items in the result collection
 			console.log("Returning new list");
-			return results; //Return result collection7
+			searchOccurred = false;
+			return results; //Return result collection
+
 		}
 		else {
 			console.log("Returning full list");
