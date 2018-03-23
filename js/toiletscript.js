@@ -15,32 +15,26 @@ loadTable();
 		loadTable() = Laster en ny liste med toaletter fra JSON-filen. Kan knyttes til API om nødvendig.
 			* DET ER DENNE VI PUTTER INN I HTML
 
-		searchQuery() = PROTOTYPEN for query-objekter som brukes til å søke.
-						- searchString[STRING] er fritekstsøket som kan brukes med rege
-						- toiletName[STRING] er toalettets navn på listen. Kan brukes med regex og fritekst.
-						- toiletAddress[STRING] er toalettets adresse, kan brukes med regex og fritekst.
-						- toiletDate[DATE(dd.mm.yyyy)] dato der man ønsker å gå på toalettet. Kan fjernes om vi ikke har tid.
-												> Om vi skal fjerne dato må vi legge til "dag" som i ukedag istedet.
-						- toiletHour[NUMBER(0-23)] Klokkeslett som kan sjekkes mot åpningstidene.
-						- toiletMinute[NUMBER(0-59)] Minuttviser på klokkeslett.
-						- toiletOpenNow[BOOLEAN] Enkel boolean for å se om toalettet er åpent nå.
-											> Kan bli vanskelig å implementere.
-						- toiletAccess[BOOLEAN] Enkel boolean for om toalettet har handicaptilgang
-						- toiletMaxPrice[NUMBER] Tallverdi for makspris i NOK
-						- toiletFREE[BOOLEAN] Enkel boolean for om toalettet er gratis eller ikke
-						- toiletMale[BOOLEAN] om toalettet har fasiliteter for menn
-						- toiletFemale[BOOLEAN] om toalettet har fasiliteter for kvinner
-						- toiletBaby[BOOLEAN] om toalettet har stellerom for baby
+		SearchQuery() = PROTOTYPEN for query-objekter som brukes til å søke.
+						- herre[BOOLEAN] om toalettet har fasiliteter for menn
+						- stellerom[BOOLEAN] om toalettet har stellerom for baby
+						- tid_sondag[STRING] Klokkeslett for om man skal på toalettet en søndag
+						- tid_lordag[STRING]  Klokkeslett for om man skal på toalettet en lørdag
+						- tid_hverdag[STRING]  Klokkeslett for om man skal på toalettet en hverdag
+						- rullestol[BOOLEAN] Enkel boolean for om toalettet har handicaptilgang
+						- pris[NUMBER] Tallverdi for makspris i NOK
+						- dame[BOOLEAN] om toalettet har fasiliteter for kvinner
+						- search[STRING] er fritekstsøket som kan brukes med regex
+
 		clearTable() = Brukes til å tømme et table, slik at det ikke holder på gamle søk om man søker flere ganger uten å refreshe siden.
 		populateTable() = Brukes til å generere listene over toaletter.
 		generateSearch() = Lager et searchQuery-objekt basert på data fra HTML-skjema.
-		UFERDIG - executeSearch() = Genererer en mindre liste avhengig av søkekriterier.
+		executeSearch() = Genererer en mindre liste avhengig av søkekriterier.
 	*/
 
 	/*
 	  JSON parse
 	*/
-	// Parse the JSON-file
 	function loadTable() {
 		console.log("Loading table");
 	  var xmlhttp = new XMLHttpRequest();
@@ -74,9 +68,9 @@ loadTable();
 	  xmlhttp.send();
 	}
 	/*
-	    SEARCH QUERY FUNCTIONALITY
+	    SØKEFUNKSJONALITET
 	*/
-	//Build a constructor object for a search query
+	//Konstruktør for søkeobjekt
 	function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
 
 		this.herre = male;
@@ -90,16 +84,10 @@ loadTable();
 		this.search = freeSearch;
 	}
 
-	/*
-	  FULL TABLE LIST FUNCTIONALITY
-	    Populates a table from the gathered collection.
-	    Some table values are mapped to other values depending on content.
-	*/
-	function clearTable(table) {
+	function clearTable(table) { //Tøm tabellen fra søk til søk
 	  var tableHeaderRowCount = 1;
 	  var clearingTable = table;
 
-	  //If table is already built, delete table and rebuild.
 	    var rowCount = clearingTable.rows.length;
 	    for (var i=tableHeaderRowCount; i < rowCount; i++){
 	      searchTable.deleteRow(tableHeaderRowCount);
@@ -107,7 +95,7 @@ loadTable();
 	}
 
 	function populateTable() {
-	  //Construct new table
+	  //Bygg en ny tabell
 	  for (i = 0; i < toiletEntries; i++) {
 	    var newRow = searchTable.insertRow(i+1);
 	    var firstCell = newRow.insertCell(0);
@@ -132,14 +120,14 @@ loadTable();
 			adrCell.setAttribute("id", "cell3");
 			wDayCell.setAttribute("id", "cell4");
 
-	    //Unique identifier
+	    //ID for hvert objekt
 	    firstCell.innerHTML = doKart[i].id + ".";
 
-	    //Location
+	    //Lokasjon
 	    locCell.innerHTML = doKart[i].place;
 	    adrCell.innerHTML = doKart[i].adresse;
 
-	    //Opening times
+	    //Åpningstider
 	    wDayCell.innerHTML = doKart[i].tid_hverdag;
 
 	    if (doKart[i].tid_lordag == "NULL"){
@@ -154,7 +142,7 @@ loadTable();
 	      sunCell.innerHTML = doKart[i].tid_sondag;
 	    }
 
-	    //Gender availability
+	    //Kjønn
 	    var genderString = "";
 	    if (doKart[i].herre == "1") {
 	      genderString += "M";
@@ -168,21 +156,21 @@ loadTable();
 
 	    genderCell.innerHTML = genderString;
 
-	    //Wheelchair-accessibility
+	    //Handicaptilgang
 	    if (doKart[i].rullestol == "1") {
 	      wChairCell.innerHTML = "Yes";
 	    } else {
 	      wChairCell.innerHTML = "No";
 	    }
 
-	    //Changing room for baby
+	    //Stellerom for baby
 	    if (doKart[i].stellerom == "1") {
 	      babyCell.innerHTML = "Yes";
 	    } else {
 	      babyCell.innerHTML = "No";
 	    }
 
-	    //Price
+	    //Pris
 	    if (doKart[i].pris == 0){
 	      priceCell.innerHTML = "FREE";
 	    }
@@ -196,7 +184,8 @@ loadTable();
 	  }
 	}
 
-	function generateSearch(){
+
+	function generateSearch(){ //Lag et nytt søkeobjekt fra HTML-data
 	  var freeInput = document.getElementById('searchInput');
 	  var advSearchInput = document.getElementById('advSearchInput');
 	  var advInputDate = document.getElementById('advDate');
@@ -211,14 +200,14 @@ loadTable();
 	  var advInputBaby = document.getElementById('advBaby');
 
 		/*
-				If the user has selected a time and date, we will process this into usable variables.
-				If the user has selected "open now?" we take the current date and time to process that.
+				Om bruker har valgt tid og dato må vi gjøre dette om til en String-verdi i relevant felt
+				Om bruker har valgt "Open now" må vi gjøre dette om til String-verdi i relevant felt
 		*/
 			var qParamOpenEveryday = "";
 			var qParamOpenSaturday = "";
 			var qParamOpenSunday = "";
 
-			//USER DEFINED DATE AND TIME
+			//BRUKERDEFINERT DATO OG TID
 			var qParamDate = advInputDate.value;
 			var qParamHour = advInputHour.value;
 			var qParamMinute = advInputMinute.value;
@@ -241,7 +230,7 @@ loadTable();
 					}
 			}
 
-			//CURRENT DATE AND TIME
+			//NÅVÆRENDE DATO OG TID
 			if ((advInputOpen.checked === true) || (freeInputOpen === true)){
 				freeInputOpen == false;
 				var currentDate = new Date();
@@ -263,24 +252,24 @@ loadTable();
 			}
 
 
-		//HANDICAP ACCESS
+		//HANDICAPTILGANG
 	  var qParamAccess = (advInputAccess.checked === true)?"1":"0";
 
-		//MAX PRICE FOR TOILET USE
+		//MAKSPRIS FOR TOALETT
 	  var qParamMaxPrice = advInputMaxPrice.value;
 
-		//FREE TOILET?
+		//GRATIS TOALETT
 		if (advInputFree.checked === true){
 			qParamMaxPrice = "Free";
 		}
 
-		//Process boolean true/false values into binary values for comparison.
+		//Behandle booleanske verdier for enkle ja/nei spørsmål
 	  var qParamMale = (advInputMale.checked === true)?"1":"0";
 	  var qParamFemale = (advInputFemale.checked === true)?"1":"0";
 	  var qParamBaby = (advInputBaby.checked === true)?"1":"0";
 
 		/*
-			HANDLING FREE SEARCH LAST AS IT MIGHT OVERWRITE OTHER VALUES
+			BEHANDLER FRITEKTSSØK TIL SLUTTEN I TILFELLE OVERSKREVNE VERDIER
 		*/
 
 		var qParamFreeSearch = freeInput.value;
@@ -293,10 +282,10 @@ loadTable();
 
 		if(qParamFreeSearch){
 			var inputString = qParamFreeSearch;
-			var stringArray = inputString.split(" "); //Splitting at space to check for other written parameters
+			var stringArray = inputString.split(" "); //Del ved space for å se etter andre parametre
 			console.log(stringArray);
 
-			//HANDLING ANY HANDWRITTEN PARAMETERS
+			//Behandle håndskrevne parametre
 			if(stringArray.length >= 1){
 				for (i=0; i < stringArray.length; i++){
 
@@ -314,7 +303,7 @@ loadTable();
 					var numberRegex = /\d\d/;
 					console.log(paramArray);
 
-					if(paramRegex.test(stringArray[i])){ //If the search follows rule of parameters, run through checks
+					if(paramRegex.test(stringArray[i])){ //Om søket følger reglene for parametre, loop gjennom arrayet.
 						if (genderRegex.test(paramArray[0])){
 							if (maleRegex.test(paramArray[1])){
 								qParamMale = "1";
@@ -378,7 +367,7 @@ loadTable();
 		}
 	}
 
-		//Generate the query
+		//Bygg søkeobjektet
 	  var generatedQuery = new SearchQuery(qParamMale,
 	                                      qParamBaby,
 	                                      qParamOpenSunday,
@@ -390,38 +379,38 @@ loadTable();
 																				qParamFreeSearch);
 	  query = generatedQuery;
 		console.log(query);
-		freeSearchDefined = false; //Swap the free search toggle back for the next search
+		freeSearchDefined = false; //Endre frisøksverdien tilbake til false for å forberede neste søk
 
 		return query;
 	}
 
 	/*
 		EXECUTE SEARCH FUNCTION
-		This is our search engine
-		It takes the full list and the search object, and starts picking it apart to find matching objects.
+		Dette er søkemotoren vår.
+		Tar en full liste og et søkeobjekt, bygger en ny liste med matchende objekter.
 	*/
 	function executeSearch(fullCollection) {
-	  var newQuery = generateSearch();	//The search object
-	  var toiletCollection = fullCollection; //The full toilet list
-		var results = []; //Our new result list
-		var params = Object.keys(newQuery); //List of parameters in the search object
-		var searchOccurred = false; //Boolean to check if a search has happened or not, used for markers.
+	  var newQuery = generateSearch();	//Søkeobjektet
+	  var toiletCollection = fullCollection; //Den fulle lista
+		var results = []; //Den nye resultatslista
+		var params = Object.keys(newQuery); //Liste over parameter i søkeobjektet
+		var searchOccurred = false; //Booleansk verdi for å se om et søk er gjort eller ikke, i tilfelle listen lastes uten et søk.
 
-		for (i=0; i< toiletCollection.length; i++){ //For each object in the toilet list
-			var definedParameters = 0; //Define a counter for defined parameters
-			var matchingParameters = 0; //Define a counter for matching parameters
+		for (i=0; i< toiletCollection.length; i++){
+			var definedParameters = 0; //Teller for definerte parametre
+			var matchingParameters = 0; //Teller for matchende parametre
 			console.log("Checking toilet #" + (i+1));
-			for (x=0; x < params.length; x++) { // For each parameter in the object
-				if(newQuery[params[x]] != (undefined || false)){ //If the parameter is not undefined, false, or null
-					definedParameters++; //Add +1 to the defined counter
+			for (x=0; x < params.length; x++) {
+				if(newQuery[params[x]] != (undefined || false)){ //Om parameteret er definert, skal det telles
+					definedParameters++;
 					searchOccurred = true;
 					console.log("Collection parameter: " + toiletCollection[i][params[x]] + " is being compared to search parameter: " + newQuery[params[x]]);
 
-					/*FREETEXT SEARCH WITH REGEX.
-							Any word not preceded by a : will be interpreted as free text search
+					/*
+					FRITEKSTSSØK MED REGEX
 					*/
 					if(newQuery[params[x]] === newQuery["search"]){
-						//ALLOWING SINGLE LETTER VOWELS TO BE SWAPPED FOR SCANDIANVIAN ONES
+						//Må tilrettelegge for ikke-norske tastatur
 						var freeSearchArray = newQuery["search"].split("");
 						var builtRegString = "";
 						for (y=0; y < freeSearchArray.length; y++){
@@ -442,7 +431,7 @@ loadTable();
 						}
 					}
 					/*
-					 	HANDLING DATES AND TIMES IN THE SEARCH ENGINE
+					 	Behandle tid og dato
 					*/
 
 					if((newQuery[params[x]] === (newQuery["tid_hverdag"]||newQuery["tid_lordag"]||newQuery["tid_sondag"])) && (toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]) === "ALL"){
@@ -514,7 +503,7 @@ loadTable();
 						}
 					}
 
-					//Because the general comparison will only accept exact values, this hack accepts less than values for prices.
+					//Sett til sann verdi også dersom satt pris er mindre enn ønsket pris.
 					if(((newQuery[params[x]] === newQuery["pris"]) > toiletCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
 						matchingParameters++;
 					} else if (((newQuery[params[x]] === newQuery["pris"]) === 0) && (toiletCollection[i]["pris"] == "0")){
@@ -524,26 +513,26 @@ loadTable();
 					}
 
 					/*
-						GENERAL COMPARISON FOR ALL OTHER VALUES
+						SAMMENLIGN ALLE VERDIER SOM IKKE ALLEREDE ER DEFINERT
 					*/
-					if((toiletCollection[i][params[x]] === newQuery[params[x]]) && (toiletCollection[i][params[x]] != "NULL")){ //If the parameter matches the search
-						matchingParameters++; //Add +1 to the matching counter
+					if((toiletCollection[i][params[x]] === newQuery[params[x]]) && (toiletCollection[i][params[x]] != "NULL")){ //Om parameter samsvarer med søk, tell
+						matchingParameters++;
 					}
 				}
 			}
 			console.log("Defined: " + definedParameters + "| Matching: " + matchingParameters);
-			if ((definedParameters === matchingParameters) && definedParameters != 0){ //If the counters match
-				results.push(toiletCollection[i]); //Push the item to the result collection
+			if ((definedParameters === matchingParameters) && definedParameters != 0){ //Om tellerne har like mange verdier
+				results.push(toiletCollection[i]); //Legg til objektet i den nye lista
 			}
 		}
 
-		if (searchOccurred){ //If there are items in the result collection
+		if (searchOccurred){ //Om et søk har forekommet(Booleansk verdi)
 			console.log("Returning new list");
 			searchOccurred = false;
-			return results; //Return result collection
+			return results; //Returner den nye listen, selv om den er tom.
 
 		}
-		else {
+		else { // Ellers kan den fulle listen returneres.
 			console.log("Returning full list");
 			return toiletCollection;
 		}
