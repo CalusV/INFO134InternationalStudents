@@ -45,49 +45,48 @@ trying to establish them selv in Norway -->
         <div id="map"></div>
         <script async defer
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
-          </script>
+        </script>
       </section>
       <details closed id="advDetails">
         <summary><h3>Advanced Search:</h3></summary>
         <div class="advancedSearchBar">
           <div class="form">
-              <h4>Toilet details</h4>
-                <label>Name:</label>
-                <input placeholder="Toilet name" type="text" name="searchQuery" id="advName">
-                <label>Address:</label>
-                <input placeholder="Address" type="text" name="searchQuery" id="advAdr">
-                <label>Date:</label>
-                <div class="date-container">
+              <div class="freeformSearchBar">
+                <h3>Search:</h3>
+                <input type="text" name="searchQuery" id="advSearchInput">
+              </div>
+              <div class="searchForm">
+                <div class="dateContainer">
+                  <h4>Date details:</h4>
                   <input type="date" name="requiredDate" id="advDate">
-                  <input type="number" name="hour" min="00" max="23" id="advHour" placeholder="Hour">
-                  <input type="number" name="minute" min="00" max="59" id="advMin" placeholder="Minute">
-                </div>
-                <label>Open now?</label>
-                <input type="checkbox" id="advOpen">
-                </div>
-                </div>
-                <div class="advancedSearchBar">
-                  <div class="form">
-                    <h4>Price details</h4>
-                    <input placeholder="Max price" type="text" name="searchQuery" id="advMaxPrice">
-                    <label>Is free</label>
-                    <input type="checkbox" id="advFree">
+                  <div class"clock">
+                    <input type="number" name="hour" min="00" max="23" id="advHour" placeholder="Hour"> :
+                    <input type="number" name="minute" min="00" max="59" id="advMin" placeholder="Minute">
                   </div>
+                  <label>Open now?</label>
+                  <input type="checkbox" id="advOpen">
                 </div>
-                <div class="advancedSearchBar">
-                  <div class="form">
-                    <h4>Accessibility details</h4>
-                    <label>Male</label>
-                    <input type="checkbox" id="advMale">
-                    <label>Female</label>
-                    <input type="checkbox" id="advFemale">
-                    <label>Wheelchair Accessible</label>
-                    <input type="checkbox" id="advAccess">
-                    <label>Changing station</label>
-                    <input type="checkbox" id="advBaby">
-                    <button onclick="loadTable()">Search</button>
-                  </div>
+                <div class="priceContainer">
+                  <h4>Price details</h4>
+                  <input placeholder="Max price" type="text" name="searchQuery" id="advMaxPrice">
+                  <label>Is free</label>
+                  <input type="checkbox" id="advFree">
                 </div>
+                <div class="accessContainer">
+                  <h4>Accessibility details</h4>
+                  <label>Male</label>
+                  <input type="checkbox" id="advMale">
+                  <label>Female</label>
+                  <input type="checkbox" id="advFemale">
+                  <label>Wheelchair Accessible</label>
+                  <input type="checkbox" id="advAccess">
+                  <label>Changing station</label>
+                  <input type="checkbox" id="advBaby">
+                </div>
+              </div>
+              <button onclick="loadTable()">Search</button>
+            </div>
+          </div>
       </details>
       <!-- <div class="results">
         <h3>Search results:</h3>

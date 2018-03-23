@@ -556,7 +556,12 @@ input:focus {
 
 .form {
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
+}
+
+.searchForm {
+  display: flex;
+  justify-content: space-around;
 }
 
 .form input {
@@ -568,14 +573,24 @@ input:focus {
   padding: 10px;
 }
 
-.date-container {
+.dateContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
-.date-container input {
-  width: 100%;
+.priceContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.accessContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.clock {
+  display: flex;
+  flex-direction: row;
 }
 
 table {
