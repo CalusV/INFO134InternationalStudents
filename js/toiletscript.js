@@ -55,13 +55,16 @@ loadTable();
 
 	            clearTable(searchTable); // Denne var tidligere searchTable
 	            populateTable();
-							generateAndReturnMarkers();
-							for(i = 0; i < markers.length; i++) {
-								if(markers[i] !==  null) {
-									markers[i].setMap(map);
+							// setTimeout på 1,5 sekunder. Dette er en sikkerhet for at doKart er ferdig lastet ned fra difi.no før vi prøver å hente data fra objektet. 
+							setTimeout(function() {
+								generateAndReturnMarkers();
+								for(i = 0; i < markers.length; i++) {
+									if(markers[i] !==  null) {
+										markers[i].setMap(map);
+									}
 								}
-							}
-							generateInfoWindow(markers);
+								generateInfoWindow(markers);
+							}, 1500);
 						}
 	  };
 	  xmlhttp.open("GET", url, true);
