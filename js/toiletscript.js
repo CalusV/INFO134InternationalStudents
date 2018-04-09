@@ -1,13 +1,16 @@
 
 // All global variables
-var doKart;
+var lokasjonsListe;
 var toiletEntries;
 var query;
 var map = "";
 var markers = [];
 
-// Laster inn fullTable slik at var doKart har verdi som markørene kan utnytte til å hente nødvendig data
-loadTable();
+var toiletURL = "https://hotell.difi.no/api/json/bergen/dokart?";
+var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
+
+// Laster inn fullTable slik at var lokasjonsListe har verdi som markørene kan utnytte til å hente nødvendig data
+loadTable(toiletURL);
 
 /*
 		KODEDEL FRA Roy
@@ -35,27 +38,30 @@ loadTable();
 	/*
 	  JSON parse
 	*/
-	function loadTable() {
+	function loadTable(url) {
 		console.log("Loading table");
 	  var xmlhttp = new XMLHttpRequest();
-		var url = "https://hotell.difi.no/api/json/bergen/dokart?";
 	  xmlhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-					if(doKart !== undefined) {
+			if (this.readyState == 4 && this.status == 200) {
+
+					if(lokasjonsListe !== undefined) {
 						deleteMarkers();
 					}
 
 	      var myObj = JSON.parse(this.responseText);
 	      var searchTable = document.getElementById("searchTable");
+				var isToiletRegex = /dokart/;
+				var isToiletSearch = isToiletRegex.test(url);
+				var searchType = (isToiletSearch === true)?"toilet":"playground";
 
 				console.log("Updating table from search.");
-	      doKart = executeSearch(myObj.entries);
-				console.log(doKart);
-	      toiletEntries = doKart.length;
+	      lokasjonsListe = executeSearch(myObj.entries, searchType);
+				console.log(lokasjonsListe);
+	      toiletEntries = lokasjonsListe.length;
 
 	            clearTable(searchTable); // Denne var tidligere searchTable
 	            populateTable();
-							// setTimeout på 1,5 sekunder. Dette er en sikkerhet for at doKart er ferdig lastet ned fra difi.no før vi prøver å hente data fra objektet. 
+							// setTimeout på 0,2sekunder. Dette er en sikkerhet for at lokasjonsListe er ferdig lastet ned fra difi.no før vi prøver å hente data fra objektet.
 							setTimeout(function() {
 								generateAndReturnMarkers();
 								for(i = 0; i < markers.length; i++) {
@@ -64,7 +70,7 @@ loadTable();
 									}
 								}
 								generateInfoWindow(markers);
-							}, 1500);
+							}, 200);
 						}
 	  };
 	  xmlhttp.open("GET", url, true);
@@ -124,71 +130,71 @@ loadTable();
 			wDayCell.setAttribute("id", "cell4");
 
 	    //ID for hvert objekt
-	    firstCell.innerHTML = doKart[i].id + ".";
+	    firstCell.innerHTML = lokasjonsListe[i].id + ".";
 
 	    //Lokasjon
-	    locCell.innerHTML = doKart[i].place;
-	    adrCell.innerHTML = doKart[i].adresse;
+	    locCell.innerHTML = lokasjonsListe[i].place;
+	    adrCell.innerHTML = lokasjonsListe[i].adresse;
 
 	    //Åpningstider
-	    wDayCell.innerHTML = doKart[i].tid_hverdag;
+	    wDayCell.innerHTML = lokasjonsListe[i].tid_hverdag;
 
-	    if (doKart[i].tid_lordag == "NULL"){
+	    if (lokasjonsListe[i].tid_lordag == "NULL"){
 	      satCell.innerHTML = "Closed";
 	    } else {
-	      satCell.innerHTML = doKart[i].tid_lordag;
+	      satCell.innerHTML = lokasjonsListe[i].tid_lordag;
 	    }
 
-	    if (doKart[i].tid_sondag == "NULL"){
+	    if (lokasjonsListe[i].tid_sondag == "NULL"){
 	      sunCell.innerHTML = "Closed";
 	    } else {
-	      sunCell.innerHTML = doKart[i].tid_sondag;
+	      sunCell.innerHTML = lokasjonsListe[i].tid_sondag;
 	    }
 
 	    //Kjønn
 	    var genderString = "";
-	    if (doKart[i].herre == "1") {
+	    if (lokasjonsListe[i].herre == "1") {
 	      genderString += "M";
 	    }
-	    if (doKart[i].dame == "1"){
+	    if (lokasjonsListe[i].dame == "1"){
 	      genderString += "F";
 	    }
-	    if (doKart[i].herre != "1" || doKart[i].dame != "1") {
+	    if (lokasjonsListe[i].herre != "1" || lokasjonsListe[i].dame != "1") {
 	      genderString += "NA";
 	    }
 
 	    genderCell.innerHTML = genderString;
 
 	    //Handicaptilgang
-	    if (doKart[i].rullestol == "1") {
+	    if (lokasjonsListe[i].rullestol == "1") {
 	      wChairCell.innerHTML = "Yes";
 	    } else {
 	      wChairCell.innerHTML = "No";
 	    }
 
 	    //Stellerom for baby
-	    if (doKart[i].stellerom == "1") {
+	    if (lokasjonsListe[i].stellerom == "1") {
 	      babyCell.innerHTML = "Yes";
 	    } else {
 	      babyCell.innerHTML = "No";
 	    }
 
 	    //Pris
-	    if (doKart[i].pris == 0){
+	    if (lokasjonsListe[i].pris == 0){
 	      priceCell.innerHTML = "FREE";
 	    }
 
-	    else if (doKart[i].pris == "NULL"){
+	    else if (lokasjonsListe[i].pris == "NULL"){
 	      priceCell.innerHTML = "Unknown";
 	    } else {
-	      priceCell.innerHTML = doKart[i].pris + "Kr";
+	      priceCell.innerHTML = lokasjonsListe[i].pris + "Kr";
 	    }
 
 	  }
 	}
 
 
-	function generateSearch(){ //Lag et nytt søkeobjekt fra HTML-data
+	function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	  var freeInput = document.getElementById('searchInput');
 	  var advSearchInput = document.getElementById('advSearchInput');
 	  var advInputDate = document.getElementById('advDate');
@@ -206,6 +212,7 @@ loadTable();
 				Om bruker har valgt tid og dato må vi gjøre dette om til en String-verdi i relevant felt
 				Om bruker har valgt "Open now" må vi gjøre dette om til String-verdi i relevant felt
 		*/
+		if (searchType === "toilet"){
 			var qParamOpenEveryday = "";
 			var qParamOpenSaturday = "";
 			var qParamOpenSunday = "";
@@ -254,23 +261,23 @@ loadTable();
 					}
 			}
 
+			//HANDICAPTILGANG
+		  var qParamAccess = (advInputAccess.checked === true)?"1":"0";
 
-		//HANDICAPTILGANG
-	  var qParamAccess = (advInputAccess.checked === true)?"1":"0";
+			//MAKSPRIS FOR TOALETT
+		  var qParamMaxPrice = advInputMaxPrice.value;
 
-		//MAKSPRIS FOR TOALETT
-	  var qParamMaxPrice = advInputMaxPrice.value;
+			//GRATIS TOALETT
+			if (advInputFree.checked === true){
+				qParamMaxPrice = "Free";
+			}
 
-		//GRATIS TOALETT
-		if (advInputFree.checked === true){
-			qParamMaxPrice = "Free";
-		}
+			//Behandle booleanske verdier for enkle ja/nei spørsmål
+		  var qParamMale = (advInputMale.checked === true)?"1":"0";
+		  var qParamFemale = (advInputFemale.checked === true)?"1":"0";
+		  var qParamBaby = (advInputBaby.checked === true)?"1":"0";
 
-		//Behandle booleanske verdier for enkle ja/nei spørsmål
-	  var qParamMale = (advInputMale.checked === true)?"1":"0";
-	  var qParamFemale = (advInputFemale.checked === true)?"1":"0";
-	  var qParamBaby = (advInputBaby.checked === true)?"1":"0";
-
+	  }
 		/*
 			BEHANDLER FRITEKTSSØK TIL SLUTTEN I TILFELLE OVERSKREVNE VERDIER
 		*/
@@ -283,7 +290,7 @@ loadTable();
 		var freeInputOpen = false;
 		var freeSearchDefined = false;
 
-		if(qParamFreeSearch){
+		if(qParamFreeSearch && (searchType === "toilet")){
 			var inputString = qParamFreeSearch;
 			var stringArray = inputString.split(" "); //Del ved space for å se etter andre parametre
 			console.log(stringArray);
@@ -392,14 +399,14 @@ loadTable();
 		Dette er søkemotoren vår.
 		Tar en full liste og et søkeobjekt, bygger en ny liste med matchende objekter.
 	*/
-	function executeSearch(fullCollection) {
-	  var newQuery = generateSearch();	//Søkeobjektet
-	  var toiletCollection = fullCollection; //Den fulle lista
+	function executeSearch(fullCollection, searchType) {
+	  var newQuery = generateSearch(searchType);	//Søkeobjektet
+	  var locationCollection = fullCollection; //Den fulle lista
 		var results = []; //Den nye resultatslista
 		var params = Object.keys(newQuery); //Liste over parameter i søkeobjektet
 		var searchOccurred = false; //Booleansk verdi for å se om et søk er gjort eller ikke, i tilfelle listen lastes uten et søk.
 
-		for (i=0; i< toiletCollection.length; i++){
+		for (i=0; i< locationCollection.length; i++){
 			var definedParameters = 0; //Teller for definerte parametre
 			var matchingParameters = 0; //Teller for matchende parametre
 			console.log("Checking toilet #" + (i+1));
@@ -407,7 +414,7 @@ loadTable();
 				if(newQuery[params[x]] != (undefined || false)){ //Om parameteret er definert, skal det telles
 					definedParameters++;
 					searchOccurred = true;
-					console.log("Collection parameter: " + toiletCollection[i][params[x]] + " is being compared to search parameter: " + newQuery[params[x]]);
+					console.log("Collection parameter: " + locationCollection[i][params[x]] + " is being compared to search parameter: " + newQuery[params[x]]);
 
 					/*
 					FRITEKSTSSØK MED REGEX
@@ -429,7 +436,7 @@ loadTable();
 						}
 
 						var matchString = new RegExp(builtRegString, "i");
-						if(matchString.test(toiletCollection[i]["plassering"]) || matchString.test(toiletCollection[i]["place"]) || matchString.test(toiletCollection[i]["adresse"])){
+						if(matchString.test(locationCollection[i]["plassering"]) || matchString.test(locationCollection[i]["place"]) || matchString.test(locationCollection[i]["adresse"])){
 							matchingParameters++;
 						}
 					}
@@ -437,12 +444,12 @@ loadTable();
 					 	Behandle tid og dato
 					*/
 
-					if((newQuery[params[x]] === (newQuery["tid_hverdag"]||newQuery["tid_lordag"]||newQuery["tid_sondag"])) && (toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]||toiletCollection[i]["tid_hverdag"]) === "ALL"){
+					if((newQuery[params[x]] === (newQuery["tid_hverdag"]||newQuery["tid_lordag"]||newQuery["tid_sondag"])) && (locationCollection[i]["tid_hverdag"]||locationCollection[i]["tid_hverdag"]||locationCollection[i]["tid_hverdag"]) === "ALL"){
 						matchingParameters++;
 					}
 
-					else if(((newQuery[params[x]] === newQuery["tid_hverdag"]) && toiletCollection[i]["tid_hverdag"]) && (toiletCollection[i]["tid_hverdag"] != "ALL")){ //If we're investigating opening times on a weekday
-						var weekdayTimeSplit = toiletCollection[i]["tid_hverdag"].split(" - ");
+					else if(((newQuery[params[x]] === newQuery["tid_hverdag"]) && locationCollection[i]["tid_hverdag"]) && (locationCollection[i]["tid_hverdag"] != "ALL")){ //If we're investigating opening times on a weekday
+						var weekdayTimeSplit = locationCollection[i]["tid_hverdag"].split(" - ");
 						var openingTime = weekdayTimeSplit[0].split(".");
 						var closingTime = weekdayTimeSplit[1].split(".");
 						var requestedTime = newQuery["tid_hverdag"].split(".");
@@ -460,8 +467,8 @@ loadTable();
 						}
 					}
 
-					else if(((newQuery[params[x]] === newQuery["tid_lordag"]) && toiletCollection[i]["tid_lordag"]) && (toiletCollection[i]["tid_lordag"] != "ALL")){ //If we're investigating opening times on a saturday
-						var saturdayTimeSplit = toiletCollection[i]["tid_lordag"].split(" - ");
+					else if(((newQuery[params[x]] === newQuery["tid_lordag"]) && locationCollection[i]["tid_lordag"]) && (locationCollection[i]["tid_lordag"] != "ALL")){ //If we're investigating opening times on a saturday
+						var saturdayTimeSplit = locationCollection[i]["tid_lordag"].split(" - ");
 						var openingTime = saturdayTimeSplit[0].split(".");
 
 						if (saturdayTimeSplit[1]){
@@ -483,8 +490,8 @@ loadTable();
 							}
 					}
 
-					else if(((newQuery[params[x]] === newQuery["tid_sondag"]) && toiletCollection[i]["tid_sondag"]) && (toiletCollection[i]["tid_sondag"] != "ALL")){ //If we're investigating opening times on a sunday
-						var sundayTimeSplit = toiletCollection[i]["tid_sondag"].split(" - ");
+					else if(((newQuery[params[x]] === newQuery["tid_sondag"]) && locationCollection[i]["tid_sondag"]) && (locationCollection[i]["tid_sondag"] != "ALL")){ //If we're investigating opening times on a sunday
+						var sundayTimeSplit = locationCollection[i]["tid_sondag"].split(" - ");
 						var openingTime = sundayTimeSplit[0].split(".");
 
 						if (sundayTimeSplit[1]){
@@ -507,25 +514,25 @@ loadTable();
 					}
 
 					//Sett til sann verdi også dersom satt pris er mindre enn ønsket pris.
-					if(((newQuery[params[x]] === newQuery["pris"]) > toiletCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
+					if(((newQuery[params[x]] === newQuery["pris"]) > locationCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
 						matchingParameters++;
-					} else if (((newQuery[params[x]] === newQuery["pris"]) === 0) && (toiletCollection[i]["pris"] == "0")){
+					} else if (((newQuery[params[x]] === newQuery["pris"]) === 0) && (locationCollection[i]["pris"] == "0")){
 						matchingParameters++;
-					} else if (((newQuery[params[x]] === newQuery["pris"]) === "Free") && (toiletCollection[i]["pris"] === "0")){
+					} else if (((newQuery[params[x]] === newQuery["pris"]) === "Free") && (locationCollection[i]["pris"] === "0")){
 						matchingParameters++;
 					}
 
 					/*
 						SAMMENLIGN ALLE VERDIER SOM IKKE ALLEREDE ER DEFINERT
 					*/
-					if((toiletCollection[i][params[x]] === newQuery[params[x]]) && (toiletCollection[i][params[x]] != "NULL")){ //Om parameter samsvarer med søk, tell
+					if((locationCollection[i][params[x]] === newQuery[params[x]]) && (locationCollection[i][params[x]] != "NULL")){ //Om parameter samsvarer med søk, tell
 						matchingParameters++;
 					}
 				}
 			}
 			console.log("Defined: " + definedParameters + "| Matching: " + matchingParameters);
 			if ((definedParameters === matchingParameters) && definedParameters != 0){ //Om tellerne har like mange verdier
-				results.push(toiletCollection[i]); //Legg til objektet i den nye lista
+				results.push(locationCollection[i]); //Legg til objektet i den nye lista
 			}
 		}
 
@@ -537,7 +544,7 @@ loadTable();
 		}
 		else { // Ellers kan den fulle listen returneres.
 			console.log("Returning full list");
-			return toiletCollection;
+			return locationCollection;
 		}
 	}
 
@@ -559,19 +566,19 @@ loadTable();
 	 * This way each marker can be set to a map with the setMap function.
 	*/
 	function generateAndReturnMarkers() {
-		for (i = 0; i < doKart.length; i++) {
+		for (i = 0; i < lokasjonsListe.length; i++) {
 				var marker = new google.maps.Marker({
-				position: new google.maps.LatLng(doKart[i].latitude, doKart[i].longitude),
-				label: doKart[i].id,
-				placement: doKart[i].plassering,
-				address: doKart[i].adresse,
-				ladies: (doKart[i].dame === "1")?"Yes":"No",
-				gentlemen: (doKart[i].herre === "1")?"Yes":"No",
-				price: doKart[i].pris,
-				wheelchair: (doKart[i].rullestol === "1")?"Yes":"No",
-				weekday: doKart[i].tid_hverdag,
-				saturday: doKart[i].tid_lordag,
-				sunday: doKart[i].tid_sondag,
+				position: new google.maps.LatLng(lokasjonsListe[i].latitude, lokasjonsListe[i].longitude),
+				label: lokasjonsListe[i].id,
+				placement: lokasjonsListe[i].plassering,
+				address: lokasjonsListe[i].adresse,
+				ladies: (lokasjonsListe[i].dame === "1")?"Yes":"No",
+				gentlemen: (lokasjonsListe[i].herre === "1")?"Yes":"No",
+				price: lokasjonsListe[i].pris,
+				wheelchair: (lokasjonsListe[i].rullestol === "1")?"Yes":"No",
+				weekday: lokasjonsListe[i].tid_hverdag,
+				saturday: lokasjonsListe[i].tid_lordag,
+				sunday: lokasjonsListe[i].tid_sondag,
 			});
 			markers.push(marker);
 	}
@@ -584,7 +591,7 @@ loadTable();
  * value to fill the iWindow with value
 */
 function generateInfoWindow(marker) {
-	for(i = 0; i < doKart.length; i++) {
+	for(i = 0; i < lokasjonsListe.length; i++) {
 		var infoW = new google.maps.InfoWindow();
 		if(markers[i] !== null) {
 			marker[i].addListener('click', function() {
