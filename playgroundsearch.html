@@ -11,7 +11,7 @@ trying to establish them selv in Norway -->
     <script src="js/locationManager.js"></script>
     <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
   </head>
-  <body>
+  <body onload="loadTable(playgroundURL)">
     <!--Header NG-->
     <header class="site">
       <div class="banner">
@@ -30,7 +30,8 @@ trying to establish them selv in Norway -->
           <ul>
             <li><a href="index.html">Frontpage</a></li>
             <li><a href="map.html">Map</a></li>
-            <li><a class="active" href="toiletsearch.html">Toilets</a></li>
+            <li><a href="toiletsearch.html">Toilets</a></li>
+            <li><a class="active" href="playgroundsearch.html">Playgrounds</a></li>
             <li><a href="survival.html">Survival Guide</a></li>
           </ul>
       </nav>
@@ -47,64 +48,6 @@ trying to establish them selv in Norway -->
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
         </script>
       </section>
-      <details closed id="advDetails">
-        <summary><h3>Advanced Search:</h3></summary>
-        <div class="advancedSearchBar">
-          <div class="form">
-              <div class="freeformSearchBar">
-                <h3>Search:</h3>
-                <input type="text" name="searchQuery" id="advSearchInput">
-              </div>
-              <div class="searchForm">
-                <div class="dateContainer">
-                  <h4>Date details:</h4>
-                  <input type="date" name="requiredDate" id="advDate">
-                  <div class"clock">
-                    <input type="number" name="hour" min="00" max="23" id="advHour" placeholder="Hour"> :
-                    <input type="number" name="minute" min="00" max="59" id="advMin" placeholder="Minute">
-                  </div>
-                  <label>Open now?</label>
-                  <input type="checkbox" id="advOpen">
-                </div>
-                <div class="priceContainer">
-                  <h4>Price details</h4>
-                  <input placeholder="Max price" type="text" name="searchQuery" id="advMaxPrice">
-                  <label>Is free</label>
-                  <input type="checkbox" id="advFree">
-                </div>
-                <div class="accessContainer">
-                  <h4>Accessibility details</h4>
-                  <label>Male</label>
-                  <input type="checkbox" id="advMale">
-                  <label>Female</label>
-                  <input type="checkbox" id="advFemale">
-                  <label>Wheelchair Accessible</label>
-                  <input type="checkbox" id="advAccess">
-                  <label>Changing station</label>
-                  <input type="checkbox" id="advBaby">
-                </div>
-              </div>
-              <button onclick="loadTable(playgroundURL)">Search</button>
-            </div>
-          </div>
-      </details>
-      <!-- <div class="results">
-        <h3>Search results:</h3>
-        <table id="searchTable">
-          <tr>
-            <th>Index</th>
-            <th>Location name</th>
-            <th>Address</th>
-            <th>Weekdays</th>
-            <th>Saturdays</th>
-            <th>Sundays</th>
-            <th>Genders</th>
-            <th>Accessibility</th>
-            <th>Changing station</th>
-            <th>Price:</th>
-          </tr>
-        </table>
-      </div> -->
       <details open id="alltoilets-details">
         <summary><h3>Complete Toilet Table:</h3></summary>
         <div class="allResults">
