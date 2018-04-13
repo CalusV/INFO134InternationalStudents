@@ -637,11 +637,11 @@ td {
     display: none;
   }
 
-  #th-1, #th-2 {
+  #th-1, #th-2, #th-11 {
     display: table-cell;
   }
 
-  #cell1, #cell2 {
+  #cell1, #cell2, #cell11{
     display: table-cell;
   }
 }
@@ -658,11 +658,11 @@ td {
     display: none;
   }
 
-  #th-1, #th-2, #th-3, #th-4 {
+  #th-1, #th-2, #th-3, #th-4, #th-11 {
     display: table-cell;
   }
 
-  #cell1, #cell2, #cell3, #cell4 {
+  #cell1, #cell2, #cell3, #cell4, #cell11 {
     display: table-cell;
   }
 }

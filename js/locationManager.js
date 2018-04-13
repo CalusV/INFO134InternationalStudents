@@ -117,6 +117,7 @@ loadTable(toiletURL);
 	    var wChairCell = newRow.insertCell(7);
 	    var babyCell = newRow.insertCell(8);
 	    var priceCell = newRow.insertCell(9);
+			var favLocal = newRow.insertCell(10);
 
 			/**
 			 * These lines concernes Media Queries
@@ -128,6 +129,7 @@ loadTable(toiletURL);
 			locCell.setAttribute("id", "cell2");
 			adrCell.setAttribute("id", "cell3");
 			wDayCell.setAttribute("id", "cell4");
+			favLocal.setAttribute("id", "cell11")
 
 	    //ID for hvert objekt
 	    firstCell.innerHTML = lokasjonsListe[i].id + ".";
@@ -189,6 +191,16 @@ loadTable(toiletURL);
 	    } else {
 	      priceCell.innerHTML = lokasjonsListe[i].pris + "Kr";
 	    }
+
+			//Mark favorite
+
+				var favButton = document.createElement("Button");
+				var favMark = document.createTextNode("Mark Favorite!");
+				favButton.appendChild(favMark);
+				favLocal.appendChild(favButton);
+				favButton.addEventListener ("click", function() {
+  				alert("did something");
+				});
 
 	  }
 	}
