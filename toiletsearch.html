@@ -11,7 +11,7 @@ trying to establish them selv in Norway -->
     <script src="js/locationManager.js"></script>
     <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
   </head>
-  <body>
+  <body onload="loadTable(toiletURL)">
     <!--Header NG-->
     <header class="site">
       <div class="banner">
@@ -31,6 +31,7 @@ trying to establish them selv in Norway -->
             <li><a href="index.html">Frontpage</a></li>
             <li><a href="map.html">Map</a></li>
             <li><a class="active" href="toiletsearch.html">Toilets</a></li>
+            <li><a href="playgroundsearch.html">Playgrounds</a></li>
             <li><a href="survival.html">Survival Guide</a></li>
           </ul>
       </nav>
@@ -88,23 +89,6 @@ trying to establish them selv in Norway -->
             </div>
           </div>
       </details>
-      <!-- <div class="results">
-        <h3>Search results:</h3>
-        <table id="searchTable">
-          <tr>
-            <th>Index</th>
-            <th>Location name</th>
-            <th>Address</th>
-            <th>Weekdays</th>
-            <th>Saturdays</th>
-            <th>Sundays</th>
-            <th>Genders</th>
-            <th>Accessibility</th>
-            <th>Changing station</th>
-            <th>Price:</th>
-          </tr>
-        </table>
-      </div> -->
       <details open id="alltoilets-details">
         <summary><h3>Complete Toilet Table:</h3></summary>
         <div class="allResults">
