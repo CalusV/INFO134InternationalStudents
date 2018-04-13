@@ -57,7 +57,7 @@ loadTable();
 	            populateTable();
 							// setTimeout på 1,5 sekunder. Dette er en sikkerhet for at doKart er ferdig lastet ned fra difi.no før vi prøver å hente data fra objektet.
 							setTimeout(function() {
-								generateAndReturnMarkers();
+								generateAndPushMarkers();
 								for(i = 0; i < markers.length; i++) {
 									if(markers[i] !==  null) {
 										markers[i].setMap(map);
@@ -558,7 +558,7 @@ loadTable();
 	 * to the markers array (markers array is a gloabl variable).
 	 * This way each marker can be set to a map with the setMap function.
 	*/
-	function generateAndReturnMarkers() {
+	function generateAndPushMarkers(tableID) {
 		for (i = 0; i < doKart.length; i++) {
 				var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(doKart[i].latitude, doKart[i].longitude),
@@ -605,7 +605,7 @@ function generateInfoWindow(marker, tableID) {
 						"<b>Sunday:</b> " + this.sunday
 					}
 					if(tableID === "playground") {
-						"<h3>This Playground</h3>" + 
+						"<h3>This Playground</h3>" +
 						"<b>Name</b>" + this.name
 					});
 				infoW.open(map, this);
