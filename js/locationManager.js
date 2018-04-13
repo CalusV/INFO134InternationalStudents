@@ -197,7 +197,9 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 				favButton.appendChild(favMark);
 				favLocal.appendChild(favButton);
 				favButton.addEventListener ("click", function() {
-  				alert("did something");
+  				//alert("did something");
+					window.open("favLocal.html");
+
 				});
 
 	  }
