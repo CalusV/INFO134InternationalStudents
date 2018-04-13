@@ -59,16 +59,14 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 
 	      clearTable(searchTable); // Denne var tidligere searchTable
 	      populateTable(searchType);
-				// setTimeout på 0,2sekunder. Dette er en sikkerhet for at locationList er ferdig lastet ned fra difi.no før vi prøver å hente data fra objektet.
-	//			setTimeout(function() {
-					generateAndReturnMarkers();
+					generateAndPushMarkers(searchType);
 					for(i = 0; i < markers.length; i++) {
 						if(markers[i] !==  null) {
+							console.log("setting map on markers");
 							markers[i].setMap(map);
 						}
 					}
 					generateInfoWindow(markers, searchType);
-		//		}, 200);
 			}
 	  };
 	  xmlhttp.open("GET", url, true);
@@ -581,21 +579,30 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	 * to the markers array (markers array is a gloabl variable).
 	 * This way each marker can be set to a map with the setMap function.
 	*/
-	function generateAndReturnMarkers() {
+	function generateAndPushMarkers(searchType) {
 		for (i = 0; i < locationList.length; i++) {
+			if(searchType === "toilet") {
 				var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
-				label: locationList[i].id,
-				placement: locationList[i].plassering,
-				address: locationList[i].adresse,
-				ladies: (locationList[i].dame === "1")?"Yes":"No",
-				gentlemen: (locationList[i].herre === "1")?"Yes":"No",
-				price: locationList[i].pris,
-				wheelchair: (locationList[i].rullestol === "1")?"Yes":"No",
-				weekday: locationList[i].tid_hverdag,
-				saturday: locationList[i].tid_lordag,
-				sunday: locationList[i].tid_sondag,
+					label: locationList[i].id,
+					placement: locationList[i].plassering,
+					address: locationList[i].adresse,
+					ladies: (locationList[i].dame === "1")?"Yes":"No",
+					gentlemen: (locationList[i].herre === "1")?"Yes":"No",
+					price: locationList[i].pris,
+					wheelchair: (locationList[i].rullestol === "1")?"Yes":"No",
+					weekday: locationList[i].tid_hverdag,
+					saturday: locationList[i].tid_lordag,
+					sunday: locationList[i].tid_sondag,
 			});
+			}
+			if(searchType === "playground") {
+				var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
+					label: locationList[i].id,
+					name: locationList[i].navn,
+				});
+			}
 			markers.push(marker);
 	}
 }
@@ -608,24 +615,40 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 */
 function generateInfoWindow(marker, searchType) {
 	for(i = 0; i < locationList.length; i++) {
-		var infoW = new google.maps.InfoWindow();
-		if(markers[i] !== null) {
-			marker[i].addListener('click', function() {
-				// Oppdatert infoWindow hos marker (Ø.J)
-				infoW.setContent("<h3>This Toilet</h3>" +
-												 "<b>Placement:</b> " + this.placement + "<br>" +
-												 "<b>Address:</b> " + this.address + "<br>" +
-												 "<b>Ladies:</b> " + this.ladies + "<br>" +
-												 "<b>Gentlemen:</b> " + this.gentlemen + "<br>" +
-												 "<b>Price:</b> " + this.price + " ,-" + "<br>" +
-												 "<b>Wheelchair:</b> " + this.wheelchair + "<br>" +
-												 " " + "<br>" +
-												 "<h3>Availability</h3> " +
-												 "<b>Weekday:</b> " + this.weekday + "<br>" +
-												 "<b>Saturday:</b> " + this.saturday + "<br>" +
-												 "<b>Sunday:</b> " + this.sunday);
-				infoW.open(map, this);
+		console.log("This is searchType: " + searchType);
+		if(searchType === "toilet") {
+			var infoW = new google.maps.InfoWindow();
+			if(markers[i] !== null) {
+				marker[i].addListener('click', function() {
+					// Oppdatert infoWindow hos marker (Ø.J)
+					infoW.setContent(
+							"<h3>This Toilet</h3>" +
+							"<b>Placement:</b> " + this.placement + "<br>" +
+							"<b>Address:</b> " + this.address + "<br>" +
+							"<b>Ladies:</b> " + this.ladies + "<br>" +
+							"<b>Gentlemen:</b> " + this.gentlemen + "<br>" +
+							"<b>Price:</b> " + this.price + " ,-" + "<br>" +
+							"<b>Wheelchair:</b> " + this.wheelchair + "<br>" +
+							" " + "<br>" +
+							"<h3>Availability</h3> " +
+							"<b>Weekday:</b> " + this.weekday + "<br>" +
+							"<b>Saturday:</b> " + this.saturday + "<br>" +
+							"<b>Sunday:</b> " + this.sunday);
+					infoW.open(map, this);
 				});
+			}
+		}
+		if(searchType === "playground") {
+			var infoW = new google.maps.InfoWindow();
+			if(markers[i] !== null) {
+				marker[i].addListener('click', function() {
+					// Oppdatert infoWindow hos marker (Ø.J)
+					infoW.setContent(
+							"<h3>This Playground</h3>" +
+							"<b>Placement:</b> " + this.name);
+					infoW.open(map, this);
+				});
+			}
 		}
 	}
 }
