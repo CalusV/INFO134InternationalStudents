@@ -48,13 +48,10 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	      var searchTable = document.getElementById("searchTable");
 				var isToiletRegex = /dokart/;
 				var isToiletSearch = isToiletRegex.test(url);
-				console.log(url);
-				console.log(isToiletRegex.test(url));
 				var searchType = (isToiletSearch === true)?"toilet":"playground";
 
 				console.log("Updating table from search.");
 	      locationList = executeSearch(myObj.entries, searchType);
-				console.log(locationList);
 	      locationEntries = locationList.length;
 
 	      clearTable(searchTable); // Denne var tidligere searchTable
@@ -103,6 +100,14 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 
 	function populateTable(search) {
 	  //Bygg en ny tabell
+
+		if (search === "toilet"){
+				searchTable.setAttribute("class", "toiletSearchTable");
+		} else if (search === "playground"){
+				searchTable.setAttribute("class", "playgroundSearchTable");
+		}
+
+
 	  for (i = 0; i < locationEntries; i++) {
 	    var newRow = searchTable.insertRow(i+1);
 	    var firstCell = newRow.insertCell(0);
@@ -116,6 +121,7 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	    var babyCell = newRow.insertCell(8);
 	    var priceCell = newRow.insertCell(9);
 
+
 			/**
 			 * These lines concernes Media Queries
 			 * Add id attribute for cell 1 and 2. This is used for
@@ -127,11 +133,17 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 			adrCell.setAttribute("id", "cell3");
 			wDayCell.setAttribute("id", "cell4");
 
+
 	    //ID for hvert objekt
 	    firstCell.innerHTML = locationList[i].id + ".";
 
 	    //Lokasjon
-	    locCell.innerHTML = locationList[i].place;
+			if (search ==="toilet"){
+				locCell.innerHTML = locationList[i].place;
+			} else if (search === "playground"){
+				locCell.innerHTML = locationList[i].navn;
+			}
+
 	    adrCell.innerHTML = locationList[i].adresse;
 
 	    //Åpningstider
@@ -208,7 +220,6 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 			var advInputBaby = document.getElementById('advBaby');
 		}
 
-
 		/*
 				Om bruker har valgt tid og dato må vi gjøre dette om til en String-verdi i relevant felt
 				Om bruker har valgt "Open now" må vi gjøre dette om til String-verdi i relevant felt
@@ -266,7 +277,11 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 		  var qParamAccess = (advInputAccess.checked === true)?"1":"0";
 
 			//MAKSPRIS FOR TOALETT
-		  var qParamMaxPrice = advInputMaxPrice.value;
+		  if (advInputMaxPrice.value === 0){
+				var qParamMaxPrice = "Free";
+			} else {
+				var qParamMaxPrice = advInputMaxPrice.value;
+			}
 
 			//GRATIS TOALETT
 			if (advInputFree.checked === true){
@@ -440,7 +455,7 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 						}
 
 						var matchString = new RegExp(builtRegString, "i");
-						if(matchString.test(locationCollection[i]["plassering"]) || matchString.test(locationCollection[i]["place"]) || matchString.test(locationCollection[i]["adresse"])){
+						if(matchString.test(locationCollection[i]["plassering"]) || matchString.test(locationCollection[i]["place"]) || matchString.test(locationCollection[i]["adresse"])|| matchString.test(locationCollection[i]["navn"])){
 							matchingParameters++;
 						}
 					}
@@ -517,24 +532,28 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 						}
 					}
 
-					//Sett til sann verdi også dersom satt pris er mindre enn ønsket pris.
+					/*
+						Behandle priser
+					*/
+					console.log()
+
 					if(((newQuery[params[x]] === newQuery["pris"]) > locationCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
 						matchingParameters++;
-					} else if (((newQuery[params[x]] === newQuery["pris"]) === 0) && (locationCollection[i]["pris"] == "0")){
-						matchingParameters++;
-					} else if (((newQuery[params[x]] === newQuery["pris"]) === "Free") && (locationCollection[i]["pris"] === "0")){
-						matchingParameters++;
-					}
-
-					/*
-						SAMMENLIGN ALLE VERDIER SOM IKKE ALLEREDE ER DEFINERT
-					*/
-					if((locationCollection[i][params[x]] === newQuery[params[x]]) && (locationCollection[i][params[x]] != "NULL")){ //Om parameter samsvarer med søk, tell
+					} else if (((newQuery[params[x]] === newQuery["pris"]) && (newQuery["pris"] === "Free") && (locationCollection[i]["pris"] === 0))){
 						matchingParameters++;
 					}
 				}
+
+				/*
+					SAMMENLIGN ALLE VERDIER SOM IKKE ALLEREDE ER DEFINERT
+				*/
+				if((locationCollection[i][params[x]] === newQuery[params[x]]) && (locationCollection[i][params[x]] != "NULL")){ //Om parameter samsvarer med søk, tell
+					matchingParameters++;
+				}
 			}
+
 			console.log("Defined: " + definedParameters + "| Matching: " + matchingParameters);
+
 			if ((definedParameters === matchingParameters) && definedParameters != 0){ //Om tellerne har like mange verdier
 				results.push(locationCollection[i]); //Legg til objektet i den nye lista
 			}

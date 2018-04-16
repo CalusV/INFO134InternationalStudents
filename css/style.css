@@ -625,6 +625,37 @@ td {
   outline: 0;
 }
 
+.playgroundSearchTable th {
+    display: none;
+}
+
+.playgroundSearchTable td {
+    display: none;
+}
+
+.playgroundSearchTable #th-1, #th-2 {
+    display: table-cell;
+}
+
+.playgroundSearchTable #cell1, #cell2 {
+    display: table-cell;
+}
+/*
+  td {
+    display: none;
+  }
+
+  #th-1, #th-2 {
+    display: table-cell;
+  }
+
+  #cell1, #cell2 {
+    display: table-cell;
+  }
+}
+
+*/
+
 /**
  * Table with less data on smaller screens (Ø.J)
 **/
