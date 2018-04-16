@@ -625,6 +625,22 @@ td {
   outline: 0;
 }
 
+.kindergardenSearchTable th {
+  display: none;
+}
+
+.kindergardenSearchTable td {
+  display: none;
+}
+
+.kindergardenSearchTable #th-1, #th-2, #th-03, #th-12, #th-13, #th-14 {
+  display: table-cell;
+}
+
+.kindergardenSearchTable #cell01, #cell02, #cell03, #cell012, #cell013, #cell014 {
+  display: table-cell;
+}
+
 .playgroundSearchTable th {
     display: none;
 }
