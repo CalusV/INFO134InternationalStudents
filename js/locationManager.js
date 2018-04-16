@@ -4,9 +4,7 @@ var locationEntries;
 var query;
 var map = "";
 var markers = [];
-
-var toiletURL = "https://hotell.difi.no/api/json/bergen/dokart?";
-var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
+var tableName = "";
 
 /*
 		KODEDEL FRA Roy
@@ -34,8 +32,18 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	/*
 	  JSON parse
 	*/
-	function loadTable(url) {
+	function loadTable(tableName) {
 		console.log("Loading table");
+		var url = "";
+		if(tableName === "toilet") {
+			url = "https://hotell.difi.no/api/json/bergen/dokart?";
+		}
+		else if(tableName === "playground") {
+			url = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
+		}
+		else if(tableName === "kindergarden") {
+			url = "https://data-nbr.udir.no/enheter/kommune/1201";
+		}
 	  var xmlhttp = new XMLHttpRequest();
 	  xmlhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -46,24 +54,30 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 
 	      var myObj = JSON.parse(this.responseText);
 	      var searchTable = document.getElementById("searchTable");
-				var isToiletRegex = /dokart/;
-				var isToiletSearch = isToiletRegex.test(url);
-				var searchType = (isToiletSearch === true)?"toilet":"playground";
 
 				console.log("Updating table from search.");
-	      locationList = executeSearch(myObj.entries, searchType);
+				if(tableName === "kindergarden") {
+					// This adds an ID attribute to each element in the kindergarden list
+					for(i = 0; i < myObj.length; i++) {
+						myObj[i].id = i + 1;
+					}
+					locationList = executeSearch(myObj, tableName);
+				}
+				else {
+					locationList = executeSearch(myObj.entries, tableName);
+				}
 	      locationEntries = locationList.length;
 
 	      clearTable(searchTable); // Denne var tidligere searchTable
-	      populateTable(searchType);
-					generateAndPushMarkers(searchType);
+	      populateTable(tableName);
+					generateAndPushMarkers(tableName);
 					for(i = 0; i < markers.length; i++) {
 						if(markers[i] !==  null) {
 							console.log("setting map on markers");
 							markers[i].setMap(map);
 						}
 					}
-					generateInfoWindow(markers, searchType);
+					generateInfoWindow(markers, tableName);
 			}
 	  };
 	  xmlhttp.open("GET", url, true);
@@ -104,6 +118,10 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 		} else if (search === "playground"){
 				searchTable.setAttribute("class", "playgroundSearchTable");
 		}
+		else if (search === "kindergarden") {
+			searchTable.setAttribute("class", "kindergardenSearchTable");
+			document.getElementById("th-3").id = "th-03";
+		}
 
 
 	  for (i = 0; i < locationEntries; i++) {
@@ -119,6 +137,11 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	    var babyCell = newRow.insertCell(8);
 	    var priceCell = newRow.insertCell(9);
 			var favLocal = newRow.insertCell(10);
+			if(search === "kindergarden") {
+				var emailCell = newRow.insertCell(11);
+				var fullName = newRow.insertCell(12);
+				var phoneCell = newRow.insertCell(13);
+			}
 
 
 			/**
@@ -127,11 +150,23 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 			 * media queries in css when on smaller screens we only want
 			 * to show the two to four first cells in every row.
 			**/
-			firstCell.setAttribute("id", "cell1");
-			locCell.setAttribute("id", "cell2");
-			adrCell.setAttribute("id", "cell3");
-			wDayCell.setAttribute("id", "cell4");
-			favLocal.setAttribute("id", "cell11")
+			if(search === "toilet" || search === "playground") {
+				firstCell.setAttribute("id", "cell1");
+				locCell.setAttribute("id", "cell2");
+				adrCell.setAttribute("id", "cell3");
+				wDayCell.setAttribute("id", "cell4");
+				favLocal.setAttribute("id", "cell11")
+			}
+			else if(search === "kindergarden") {
+				firstCell.setAttribute("id", "cell01");
+				locCell.setAttribute("id", "cell02");
+				adrCell.setAttribute("id", "cell03");
+				wDayCell.setAttribute("id", "cell04");
+				favLocal.setAttribute("id", "cell011")
+				emailCell.setAttribute("id", "cell012");
+				fullName.setAttribute("id", "cell013");
+				phoneCell.setAttribute("id", "cell014");
+			}
 
 
 	    //ID for hvert objekt
@@ -143,8 +178,25 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 			} else if (search === "playground"){
 				locCell.innerHTML = locationList[i].navn;
 			}
+			else if (search === "kindergarden"){
+				// Splits the attribute 'besøksadresse' in to array of two Strings
+				var locationName = locationList[i].BesoksAdresse.split(",");
+				locCell.innerHTML = locationName[0];
+			}
 
-	    adrCell.innerHTML = locationList[i].adresse;
+			if(search === "kindergarden") {
+				var locationName = locationList[i].BesoksAdresse.split(",");
+				adrCell.innerHTML = locationName[1];
+			}
+			else {
+				adrCell.innerHTML = locationList[i].adresse;
+			}
+
+			if(search === "kindergarden") {
+				emailCell.innerHTML = locationList[i].Epost;
+				fullName.innerHTML = locationList[i].FulltNavn;
+				phoneCell.innerHTML = locationList[i].Telefon;
+			}
 
 	    //Åpningstider
 	    wDayCell.innerHTML = locationList[i].tid_hverdag;
@@ -214,9 +266,9 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	}
 
 
-	function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
+	function generateSearch(tableName){ //Lag et nytt søkeobjekt fra HTML-data
 	  var freeInput = document.getElementById('searchInput');
-		if (searchType === "toilet"){
+		if (tableName === "toilet"){
 			var advSearchInput = document.getElementById('advSearchInput');
 			var advInputDate = document.getElementById('advDate');
 			var advInputHour = document.getElementById('advHour');
@@ -234,7 +286,7 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 				Om bruker har valgt tid og dato må vi gjøre dette om til en String-verdi i relevant felt
 				Om bruker har valgt "Open now" må vi gjøre dette om til String-verdi i relevant felt
 		*/
-		if (searchType === "toilet"){
+		if (tableName === "toilet"){
 			var qParamOpenEveryday = "";
 			var qParamOpenSaturday = "";
 			var qParamOpenSunday = "";
@@ -310,7 +362,7 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 
 		var qParamFreeSearch = freeInput.value;
 
-		if (searchType == "toilet"){
+		if (tableName == "toilet"){
 			if (advSearchInput.value){
 				qParamFreeSearch = advSearchInput.value;
 			}
@@ -319,7 +371,7 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 		var freeInputOpen = false;
 		var freeSearchDefined = false;
 
-		if(qParamFreeSearch && (searchType === "toilet")){
+		if(qParamFreeSearch && (tableName === "toilet")){
 			var inputString = qParamFreeSearch;
 			var stringArray = inputString.split(" "); //Del ved space for å se etter andre parametre
 			console.log(stringArray);
@@ -428,8 +480,8 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 		Dette er søkemotoren vår.
 		Tar en full liste og et søkeobjekt, bygger en ny liste med matchende objekter.
 	*/
-	function executeSearch(fullCollection, searchType) {
-	  var newQuery = generateSearch(searchType);	//Søkeobjektet
+	function executeSearch(fullCollection, tableName) {
+	  var newQuery = generateSearch(tableName);	//Søkeobjektet
 	  var locationCollection = fullCollection; //Den fulle lista
 		var results = []; //Den nye resultatslista
 		var params = Object.keys(newQuery); //Liste over parameter i søkeobjektet
@@ -598,9 +650,9 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 	 * to the markers array (markers array is a gloabl variable).
 	 * This way each marker can be set to a map with the setMap function.
 	*/
-	function generateAndPushMarkers(searchType) {
+	function generateAndPushMarkers(tableName) {
 		for (i = 0; i < locationList.length; i++) {
-			if(searchType === "toilet") {
+			if(tableName === "toilet") {
 				var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
 					label: locationList[i].id,
@@ -615,11 +667,21 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 					sunday: locationList[i].tid_sondag,
 			});
 			}
-			if(searchType === "playground") {
+			if(tableName === "playground") {
 				var marker = new google.maps.Marker({
 					position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
 					label: locationList[i].id,
 					name: locationList[i].navn,
+				});
+			}
+			if(tableName === "kindergarden") {
+				var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(locationList[i].Breddegrad, locationList[i].Lengdegrad),
+					label: locationList[i].id.toString(),
+					name: locationList[i].FulltNavn,
+					locName: locationList[i].BesoksAdresse,
+					phone: locationList[i].Telefon,
+					mail: locationList[i].Epost,
 				});
 			}
 			markers.push(marker);
@@ -632,10 +694,10 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
  * The setContent method used 'this' (a marker instance) and its attribute
  * value to fill the iWindow with value
 */
-function generateInfoWindow(marker, searchType) {
+function generateInfoWindow(marker, tableName) {
 	for(i = 0; i < locationList.length; i++) {
-		console.log("This is searchType: " + searchType);
-		if(searchType === "toilet") {
+		console.log("This is tableName: " + tableName);
+		if(tableName === "toilet") {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
 				marker[i].addListener('click', function() {
@@ -657,7 +719,7 @@ function generateInfoWindow(marker, searchType) {
 				});
 			}
 		}
-		if(searchType === "playground") {
+		if(tableName === "playground") {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
 				marker[i].addListener('click', function() {
@@ -665,6 +727,21 @@ function generateInfoWindow(marker, searchType) {
 					infoW.setContent(
 							"<h3>This Playground</h3>" +
 							"<b>Placement:</b> " + this.name);
+					infoW.open(map, this);
+				});
+			}
+		}
+		if(tableName === "kindergarden") {
+			var infoW = new google.maps.InfoWindow();
+			if(markers[i] !== null) {
+				marker[i].addListener('click', function() {
+					// Oppdatert infoWindow hos marker (Ø.J)
+					infoW.setContent(
+							"<h3>This Kindergarden</h3>" +
+							"<b>Kindergarden:</b> " + this.name + "<br>" +
+							"<b>Adresse:</b> " + this.locName + "<br>" +
+							"<b>Telephone:</b> " + this.phone + "<br>" +
+							"<b>Email:</b> " + this.mail);
 					infoW.open(map, this);
 				});
 			}
