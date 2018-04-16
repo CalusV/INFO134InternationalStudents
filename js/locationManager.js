@@ -539,7 +539,7 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 
 					if(((newQuery[params[x]] === newQuery["pris"]) > locationCollection[i]["pris"]) && (newQuery["pris"] != "Free")){
 						matchingParameters++;
-					} else if (((newQuery[params[x]] === newQuery["pris"]) && (newQuery["pris"] === "Free") && (locationCollection[i]["pris"] === 0))){
+					} else if (((newQuery[params[x]] === newQuery["pris"]) && (newQuery["pris"] == "Free") && (locationCollection[i]["pris"] == 0))){
 						matchingParameters++;
 					}
 				}
