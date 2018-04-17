@@ -32,7 +32,7 @@ var tableName = "";
 	/*
 	  JSON parse
 	*/
-	function loadTable(tableName) {
+function loadTable(tableName) {
 		console.log("Loading table");
 		var url = "";
 		if(tableName === "toilet") {
@@ -87,7 +87,7 @@ var tableName = "";
 	    SØKEFUNKSJONALITET
 	*/
 	//Konstruktør for søkeobjekt
-	function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
+function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
 
 		this.herre = male;
 		this.stellerom = baby;
@@ -100,8 +100,8 @@ var tableName = "";
 		this.search = freeSearch;
 	}
 
-	function clearTable(table) { //Tøm tabellen fra søk til søk
-	  var tableHeaderRowCount = 1;
+function clearTable(table) { //Tøm tabellen fra søk til søk
+	  var tableHeaderRowCount = 0;
 	  var clearingTable = table;
 
 	    var rowCount = clearingTable.rows.length;
@@ -110,163 +110,207 @@ var tableName = "";
 	    }
 	}
 
-	function populateTable(search) {
-	  //Bygg en ny tabell
-
-		if (search === "toilet"){
-				searchTable.setAttribute("class", "toiletSearchTable");
-		} else if (search === "playground"){
-				searchTable.setAttribute("class", "playgroundSearchTable");
-		}
-		else if (search === "kindergarden") {
-			searchTable.setAttribute("class", "kindergardenSearchTable");
-			document.getElementById("th-3").id = "th-03";
-		}
-
-
-	  for (i = 0; i < locationEntries; i++) {
-	    var newRow = searchTable.insertRow(i+1);
-	    var firstCell = newRow.insertCell(0);
-	    var locCell = newRow.insertCell(1);
-	    var adrCell = newRow.insertCell(2);
-	    var wDayCell = newRow.insertCell(3);
-	    var satCell = newRow.insertCell(4);
-	    var sunCell = newRow.insertCell(5);
-	    var genderCell = newRow.insertCell(6);
-	    var wChairCell = newRow.insertCell(7);
-	    var babyCell = newRow.insertCell(8);
-	    var priceCell = newRow.insertCell(9);
-			var favLocal = newRow.insertCell(10);
-			if(search === "kindergarden") {
-				var emailCell = newRow.insertCell(11);
-				var fullName = newRow.insertCell(12);
-				var phoneCell = newRow.insertCell(13);
+function generateTableHeaders(searchTable, tableName) {
+		if(tableName === "toilet") {
+			var toiletAttributeNames = ["Index", "Location", "Adresse", "Weekdays", "Saturdays", "Sundays", "Genders", "Wheelchair", "Changing Stations", "Price", "Mark Favorites"];
+			var headerRow = searchTable.insertRow(0);
+			for(i = 0; i < 11; i++) {
+				var cell = headerRow.insertCell(i);
+				cell.innerHTML = toiletAttributeNames[i];
+				cell.setAttribute("id", "th-" + (i+1));
 			}
+		}
+		else if(tableName === "playground") {
+			var playgroundAttributeNames = ["Index", "Location", "Mark Favorites"];
+			var headerRow = searchTable.insertRow(0);
+			for(i = 0; i < 3; i++) {
+				var cell = headerRow.insertCell(i);
+				cell.innerHTML = playgroundAttributeNames[i];
+				cell.setAttribute("id", "th-" + (i+1));
+			}
+		}
+		else if(tableName === "kindergarden") {
+			var kindergardenAttributeNames = ["Index", "Location", "Adresse", "Email", "Kindergarden name", "Telephone"];
+			var headerRow = searchTable.insertRow(0);
+			for(i = 0; i < 6; i++) {
+				var cell = headerRow.insertCell(i);
+				cell.innerHTML = kindergardenAttributeNames[i];
+				cell.setAttribute("id", "th-" + (i+1));
+			}
+		}
+	}
 
+/**
+ * By clicking on a cell index the map will zoom and center at the marker position
+**/
+function filterByIndex(obj, tableName){
+		window.scrollTo(0, 100);
+		map.setZoom(14);
+		setTimeout(function() {
+			var index = obj.innerHTML;
+			index = index.replace(".", "");
+			for(i = 0; i < locationList.length; i++) {
+				if(locationList[i].id.toString() === index) {
+					console.log("Found match: " + (locationList[i].id.toString() === index));
+					if(tableName === "kindergarden") {
+						map.setCenter(new google.maps.LatLng(locationList[i].Breddegrad, locationList[i].Lengdegrad));
+					}
+					else {
+						map.setCenter(new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude));
+					}
+					map.setZoom(17);
+				}
+		}}, 1000)
+	}
 
-			/**
-			 * These lines concernes Media Queries
-			 * Add id attribute for cell 1 and 2. This is used for
-			 * media queries in css when on smaller screens we only want
-			 * to show the two to four first cells in every row.
-			**/
-			if(search === "toilet" || search === "playground") {
+function generateTableCells(searchTable, tableName) {
+		if(tableName === "toilet") {
+			for (i = 0; i < locationEntries; i++) {
+				var newRow = searchTable.insertRow(i+1);
+				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'toilet')");
+				var locCell = newRow.insertCell(1);
 				locCell.setAttribute("id", "cell2");
+				var adrCell = newRow.insertCell(2);
 				adrCell.setAttribute("id", "cell3");
+				var wDayCell = newRow.insertCell(3);
 				wDayCell.setAttribute("id", "cell4");
-				favLocal.setAttribute("id", "cell11")
-			}
-			else if(search === "kindergarden") {
-				firstCell.setAttribute("id", "cell01");
-				locCell.setAttribute("id", "cell02");
-				adrCell.setAttribute("id", "cell03");
-				wDayCell.setAttribute("id", "cell04");
-				favLocal.setAttribute("id", "cell011")
-				emailCell.setAttribute("id", "cell012");
-				fullName.setAttribute("id", "cell013");
-				phoneCell.setAttribute("id", "cell014");
-			}
+				var satCell = newRow.insertCell(4);
+				satCell.setAttribute("id", "cell5");
+				var sunCell = newRow.insertCell(5);
+				sunCell.setAttribute("id", "cell6");
+				var genderCell = newRow.insertCell(6);
+				genderCell.setAttribute("id", "cell7");
+				var wChairCell = newRow.insertCell(7);
+				wChairCell.setAttribute("id", "cell8");
+				var babyCell = newRow.insertCell(8);
+				babyCell.setAttribute("id", "cell9");
+				var priceCell = newRow.insertCell(9);
+				priceCell.setAttribute("id", "cell10");
+				var favLocal = newRow.insertCell(10);
+				favLocal.setAttribute("id", "cell11");
 
-
-	    //ID for hvert objekt
-	    firstCell.innerHTML = locationList[i].id + ".";
-
-	    //Lokasjon
-			if (search ==="toilet"){
+				// Cell value
+				firstCell.innerHTML = locationList[i].id + ".";
 				locCell.innerHTML = locationList[i].place;
-			} else if (search === "playground"){
+				adrCell.innerHTML = locationList[i].adresse;
+				wDayCell.innerHTML = locationList[i].tid_hverdag;
+
+				//Åpningstider
+		    if (locationList[i].tid_lordag == "NULL"){
+		      satCell.innerHTML = "Closed";
+		    } else {
+		      satCell.innerHTML = locationList[i].tid_lordag;
+		    }
+
+		    if (locationList[i].tid_sondag == "NULL"){
+		      sunCell.innerHTML = "Closed";
+		    } else {
+		      sunCell.innerHTML = locationList[i].tid_sondag;
+		    }
+
+		    //Kjønn
+		    var genderString = "";
+		    if (locationList[i].herre == "1") {
+		      genderString += "M";
+		    }
+		    if (locationList[i].dame == "1"){
+		      genderString += "F";
+		    }
+		    if (locationList[i].herre != "1" || locationList[i].dame != "1") {
+		      genderString += "NA";
+		    }
+
+		    genderCell.innerHTML = genderString;
+
+		    //Handicaptilgang
+		    if (locationList[i].rullestol == "1") {
+		      wChairCell.innerHTML = "Yes";
+		    } else {
+		      wChairCell.innerHTML = "No";
+		    }
+
+		    //Stellerom for baby
+		    if (locationList[i].stellerom == "1") {
+		      babyCell.innerHTML = "Yes";
+		    } else {
+		      babyCell.innerHTML = "No";
+		    }
+
+		    //Pris
+		    if (locationList[i].pris == 0){
+		      priceCell.innerHTML = "FREE";
+		    }
+
+		    else if (locationList[i].pris == "NULL"){
+		      priceCell.innerHTML = "Unknown";
+		    } else {
+		      priceCell.innerHTML = locationList[i].pris + "Kr";
+		    }
+
+				//Mark favorite
+					var favButton = document.createElement("Button");
+					var favMark = document.createTextNode("Mark Favorite!");
+					favButton.appendChild(favMark);
+					favLocal.appendChild(favButton);
+					favButton.addEventListener ("click", function() {
+	  				alert("did something");
+					});
+			}
+		}
+		else if (tableName === "playground") {
+			for (i = 0; i < locationEntries; i++) {
+				var newRow = searchTable.insertRow(i+1);
+				var firstCell = newRow.insertCell(0);
+				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'playground')");
+				var locCell = newRow.insertCell(1);
+				locCell.setAttribute("id", "cell2");
+				var favLocal = newRow.insertCell(2);
+				favLocal.setAttribute("id", "cell3");
+
+				// Cell value
+				firstCell.innerHTML = locationList[i].id + ".";
 				locCell.innerHTML = locationList[i].navn;
 			}
-			else if (search === "kindergarden"){
-				// Splits the attribute 'besøksadresse' in to array of two Strings
+		}
+		else if (tableName === "kindergarden") {
+			for (i = 0; i < (locationEntries); i++) {
+				var newRow = searchTable.insertRow(i+1);
+				var firstCell = newRow.insertCell(0);
+				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'kindergarden')");
+				var locCell = newRow.insertCell(1);
+				locCell.setAttribute("id", "cell2");
+				var adrCell = newRow.insertCell(2);
+				adrCell.setAttribute("id", "cell3");
+				var emailCell = newRow.insertCell(3);
+				emailCell.setAttribute("id", "cell4");
+				var fullName = newRow.insertCell(4);
+				fullName.setAttribute("id", "cell5");
+				var phoneCell = newRow.insertCell(5);
+				phoneCell.setAttribute("id", "cell6");
+
+				// Cell value
 				var locationName = locationList[i].BesoksAdresse.split(",");
+				firstCell.innerHTML = locationList[i].id + ".";
 				locCell.innerHTML = locationName[0];
-			}
-
-			if(search === "kindergarden") {
-				var locationName = locationList[i].BesoksAdresse.split(",");
 				adrCell.innerHTML = locationName[1];
-			}
-			else {
-				adrCell.innerHTML = locationList[i].adresse;
-			}
-
-			if(search === "kindergarden") {
 				emailCell.innerHTML = locationList[i].Epost;
 				fullName.innerHTML = locationList[i].FulltNavn;
 				phoneCell.innerHTML = locationList[i].Telefon;
 			}
-
-	    //Åpningstider
-	    wDayCell.innerHTML = locationList[i].tid_hverdag;
-
-	    if (locationList[i].tid_lordag == "NULL"){
-	      satCell.innerHTML = "Closed";
-	    } else {
-	      satCell.innerHTML = locationList[i].tid_lordag;
-	    }
-
-	    if (locationList[i].tid_sondag == "NULL"){
-	      sunCell.innerHTML = "Closed";
-	    } else {
-	      sunCell.innerHTML = locationList[i].tid_sondag;
-	    }
-
-	    //Kjønn
-	    var genderString = "";
-	    if (locationList[i].herre == "1") {
-	      genderString += "M";
-	    }
-	    if (locationList[i].dame == "1"){
-	      genderString += "F";
-	    }
-	    if (locationList[i].herre != "1" || locationList[i].dame != "1") {
-	      genderString += "NA";
-	    }
-
-	    genderCell.innerHTML = genderString;
-
-	    //Handicaptilgang
-	    if (locationList[i].rullestol == "1") {
-	      wChairCell.innerHTML = "Yes";
-	    } else {
-	      wChairCell.innerHTML = "No";
-	    }
-
-	    //Stellerom for baby
-	    if (locationList[i].stellerom == "1") {
-	      babyCell.innerHTML = "Yes";
-	    } else {
-	      babyCell.innerHTML = "No";
-	    }
-
-	    //Pris
-	    if (locationList[i].pris == 0){
-	      priceCell.innerHTML = "FREE";
-	    }
-
-	    else if (locationList[i].pris == "NULL"){
-	      priceCell.innerHTML = "Unknown";
-	    } else {
-	      priceCell.innerHTML = locationList[i].pris + "Kr";
-	    }
-
-			//Mark favorite
-
-				var favButton = document.createElement("Button");
-				var favMark = document.createTextNode("Mark Favorite!");
-				favButton.appendChild(favMark);
-				favLocal.appendChild(favButton);
-				favButton.addEventListener ("click", function() {
-  				alert("did something");
-				});
-
-	  }
+		}
 	}
 
+function populateTable(search) {
+	//Bygg en ny tabell
+	generateTableHeaders(searchTable, search);
+	generateTableCells(searchTable, search);
+}
 
-	function generateSearch(tableName){ //Lag et nytt søkeobjekt fra HTML-data
+function generateSearch(tableName){ //Lag et nytt søkeobjekt fra HTML-data
 	  var freeInput = document.getElementById('searchInput');
 		if (tableName === "toilet"){
 			var advSearchInput = document.getElementById('advSearchInput');
@@ -665,6 +709,7 @@ var tableName = "";
 					weekday: locationList[i].tid_hverdag,
 					saturday: locationList[i].tid_lordag,
 					sunday: locationList[i].tid_sondag,
+					animation: google.maps.Animation.DROP,
 			});
 			}
 			if(tableName === "playground") {
@@ -695,7 +740,7 @@ var tableName = "";
  * value to fill the iWindow with value
 */
 function generateInfoWindow(marker, tableName) {
-	for(i = 0; i < locationList.length; i++) {
+	for(i = 0; i < locationEntries; i++) {
 		console.log("This is tableName: " + tableName);
 		if(tableName === "toilet") {
 			var infoW = new google.maps.InfoWindow();
