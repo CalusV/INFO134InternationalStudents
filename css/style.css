@@ -532,7 +532,6 @@ select {
 }
 
 #advDetails {
-  background-color: #dadad9;
   padding: 10px;
   margin: 10px;
   outline: 0;
@@ -551,7 +550,7 @@ input:focus {
   background-color: #022340;
   padding: 10px;
   margin: 10px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
 }
 
 .form {
@@ -607,7 +606,7 @@ table {
   border-collapse: collapse;
   background-color: #dadad9;
   width: 100%;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
 }
 
 th {
@@ -629,7 +628,6 @@ td {
 }
 
 #alltoilets-details {
-  background-color: #dadad9;
   padding: 10px;
   margin: 10px;
   outline: 0;

@@ -123,7 +123,9 @@ function generateTableHeaders(searchTable, tableName) {
 				var cell = headerRow.insertCell(i);
 				cell.innerHTML = toiletAttributeNames[i];
 				cell.setAttribute("id", "th-" + (i+1));
-				cell.setAttribute("onclick","startSort(this)");
+				if(i !== (3) && i !== (4) && i !== (5) && i !== (10)) {
+					cell.setAttribute("onclick","startSort(this)");
+				}
 			}
 		}
 		else if(tableName === "playground") {
@@ -133,7 +135,9 @@ function generateTableHeaders(searchTable, tableName) {
 				var cell = headerRow.insertCell(i);
 				cell.innerHTML = playgroundAttributeNames[i];
 				cell.setAttribute("id", "th-" + (i+1));
-				cell.setAttribute("onclick","startSort(this)");
+				if(i !== (2)) {
+					cell.setAttribute("onclick","startSort(this)");
+				}
 			}
 		}
 		else if(tableName === "kindergarden") {
@@ -143,7 +147,9 @@ function generateTableHeaders(searchTable, tableName) {
 				var cell = headerRow.insertCell(i);
 				cell.innerHTML = kindergardenAttributeNames[i];
 				cell.setAttribute("id", "th-" + (i+1));
-				cell.setAttribute("onclick","startSort(this)");
+				if(i !== (4) && i !== (5)) {
+					cell.setAttribute("onclick","startSort(this)");
+				}
 			}
 		}
 	}
