@@ -665,7 +665,7 @@ function generateSearch(tableName){ //Lag et nytt søkeobjekt fra HTML-data
 						}
 
 						var matchString = new RegExp(builtRegString, "i");
-						if(matchString.test(locationCollection[i]["plassering"]) || matchString.test(locationCollection[i]["place"]) || matchString.test(locationCollection[i]["adresse"])|| matchString.test(locationCollection[i]["navn"])){
+						if(matchString.test(locationCollection[i]["BesoksAdresse"]) || matchString.test(locationCollection[i]["plassering"]) || matchString.test(locationCollection[i]["place"]) || matchString.test(locationCollection[i]["adresse"])|| matchString.test(locationCollection[i]["navn"])){
 							matchingParameters++;
 						}
 					}
