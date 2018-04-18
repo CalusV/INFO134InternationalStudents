@@ -100,8 +100,13 @@ function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access
 		this.search = freeSearch;
 	}
 
-function clearTable(table) { //Tøm tabellen fra søk til søk
-	  var tableHeaderRowCount = 0;
+function clearTable(table, condition) { //Tøm tabellen fra søk til søk
+		if(condition === undefined || condition === null) {
+			var tableHeaderRowCount = 0;
+		}
+		else {
+			tableHeaderRowCount = 1;
+		}
 	  var clearingTable = table;
 
 	    var rowCount = clearingTable.rows.length;
@@ -118,6 +123,7 @@ function generateTableHeaders(searchTable, tableName) {
 				var cell = headerRow.insertCell(i);
 				cell.innerHTML = toiletAttributeNames[i];
 				cell.setAttribute("id", "th-" + (i+1));
+				cell.setAttribute("onclick","startSort(this)");
 			}
 		}
 		else if(tableName === "playground") {
@@ -127,6 +133,7 @@ function generateTableHeaders(searchTable, tableName) {
 				var cell = headerRow.insertCell(i);
 				cell.innerHTML = playgroundAttributeNames[i];
 				cell.setAttribute("id", "th-" + (i+1));
+				cell.setAttribute("onclick","startSort(this)");
 			}
 		}
 		else if(tableName === "kindergarden") {
@@ -136,6 +143,7 @@ function generateTableHeaders(searchTable, tableName) {
 				var cell = headerRow.insertCell(i);
 				cell.innerHTML = kindergardenAttributeNames[i];
 				cell.setAttribute("id", "th-" + (i+1));
+				cell.setAttribute("onclick","startSort(this)");
 			}
 		}
 	}
@@ -162,6 +170,102 @@ function filterByIndex(obj, tableName){
 				}
 		}}, 1000)
 	}
+
+function generateNewSortedTable(sortedList) {
+	var table = document.getElementById('searchTable');
+	var rows = getTableRows();
+	clearTable(table, true);
+	for(i = 0; i < rows.length; i++) {
+		table.appendChild(sortedList[i]);
+	}
+}
+
+function getTableRows() {
+	var rows = document.getElementsByTagName('tr');
+	var length = document.getElementsByTagName('tr').length;
+	var array = [];
+	for(i = 1; i < length; i++) {
+		array.push(rows[i]);
+	}
+	return array;
+}
+
+/**
+ * This chain of functions which starts a column sort uses quick sort
+ * in sortTableAlfabetical function.
+ * First we call generateNewSortedTable, then pass in the function that
+ * actually sorts the table column selected by the user. This function takes in
+ * a function getTableRows which returns all table rows packed in an array
+ * and a indicator of which headerElement (column) to be sorted.
+ * Not all columns is set to be able to be sortet because of the time it can take
+**/
+function startSort(headerElement) {
+	generateNewSortedTable(sortTableAlfabetical(getTableRows(), headerElement));
+}
+
+function sortTableAlfabetical(rows, headerElement) {
+		if(rows.length <= 1) {
+			console.log("Rows:");
+			return rows;
+		}
+		else {
+			if(headerElement.innerHTML === "Index") {
+				var rowChildNode = 0;
+			}
+			else if(headerElement.innerHTML === "Location") {
+				var rowChildNode = 1;
+			}
+			else if(headerElement.innerHTML === "Adresse") {
+				var rowChildNode = 2;
+			}
+			else if(headerElement.innerHTML === "Email") {
+				var rowChildNode = 3;
+			}
+			else if(headerElement.innerHTML === "Genders") {
+				var rowChildNode = 6;
+			}
+			else if(headerElement.innerHTML === "Wheelchair") {
+				var rowChildNode = 7;
+			}
+			else if(headerElement.innerHTML === "Changing Stations") {
+				var rowChildNode = 8;
+			}
+			else if(headerElement.innerHTML === "Price") {
+				var rowChildNode = 9;
+			}
+			var left = [];
+			var right = [];
+			var newRowList = [];
+			var pivot = rows.pop();
+			var tableLength = rows.length;
+			for(i = 0; i < tableLength; i++) {
+				// console.log("Cell: " + rows[i].childNodes[rowChildNode].innerHTML);
+				// console.log("Pivot: " + pivot.childNodes[rowChildNode].innerHTML);
+				// console.log(rows[i].childNodes[rowChildNode].innerHTML.charAt(0), "greater than", pivot.childNodes[rowChildNode].innerHTML.charAt(0), " | ", rows[i].childNodes[rowChildNode].innerHTML.charAt(0) <= pivot.childNodes[rowChildNode].innerHTML.charAt(0));
+				if(rowChildNode === 0) {
+					var indexNr1 = parseInt(rows[i].childNodes[rowChildNode].innerHTML);
+					var indexNr2 = parseInt(pivot.childNodes[rowChildNode].innerHTML);
+					if(indexNr1 <= indexNr2) {
+						left.push(rows[i]);
+					}
+					else {
+						right.push(rows[i]);
+					}
+				}
+				else {
+					if(rows[i].childNodes[rowChildNode].innerHTML <= pivot.childNodes[rowChildNode].innerHTML) {
+						left.push(rows[i]);
+						// console.log("Pushed to left: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+					}
+					else {
+						right.push(rows[i]);
+						// console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+					}
+				}
+			}
+			return newRowList.concat(sortTableAlfabetical(left, headerElement), pivot, sortTableAlfabetical(right, headerElement));
+		}
+}
 
 function generateTableCells(searchTable, tableName) {
 		if(tableName === "toilet") {
