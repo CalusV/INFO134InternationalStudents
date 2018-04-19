@@ -265,7 +265,7 @@ function sortTableAlfabetical(rows, headerElement) {
 					}
 					else {
 						right.push(rows[i]);
-						// console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+						console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
 					}
 				}
 			}
