@@ -11,7 +11,7 @@ trying to establish them selv in Norway -->
     <script src="js/locationManager.js"></script>
     <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
   </head>
-  <body onload="loadTable('playground')">
+  <body onload="loadTable('https://hotell.difi.no/api/json/bergen/lekeplasser?')">
     <!--Header NG-->
     <header class="site">
       <div class="banner">
@@ -32,7 +32,6 @@ trying to establish them selv in Norway -->
             <li><a href="map.html">Map</a></li>
             <li><a href="toiletsearch.html">Toilets</a></li>
             <li><a class="active" href="playgroundsearch.html">Playgrounds</a></li>
-            <li><a href="kindergardens.html">Kindergardens</a></li>
             <li><a href="survival.html">Survival Guide</a></li>
           </ul>
       </nav>
@@ -42,7 +41,7 @@ trying to establish them selv in Norway -->
         <div class="freeformSearchBar">
           <h3>Search:</h3>
           <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
-          <button onclick="loadTable('playground')">Search</button>
+          <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/lekeplasser?')">Search</button>
         </div>
         <div id="map"></div>
         <script async defer
@@ -53,6 +52,19 @@ trying to establish them selv in Norway -->
         <summary><h3>Playground Table:</h3></summary>
         <div class="allResults">
           <table id="searchTable">
+            <tr>
+              <th id="th-1">Index</th>
+              <th id="th-2">Location name</th>
+              <th id="th-3">Address</th>
+              <th id="th-4">Weekdays</th>
+              <th id="th-5">Saturdays</th>
+              <th id="th-6">Sundays</th>
+              <th id="th-7">Genders</th>
+              <th id="th-8">Accessibility</th>
+              <th id="th-9">Changing station</th>
+              <th id="th-10">Price:</th>
+              <th id="th-11">Mark Favorite</th>
+            </tr>
           </table>
         </div>
       </details>
