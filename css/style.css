@@ -532,6 +532,7 @@ select {
 }
 
 #advDetails {
+  background-color: #dadad9;
   padding: 10px;
   margin: 10px;
   outline: 0;
@@ -550,7 +551,7 @@ input:focus {
   background-color: #022340;
   padding: 10px;
   margin: 10px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 .form {
@@ -592,21 +593,11 @@ input:focus {
   flex-direction: row;
 }
 
-#cell1:hover {
-  background-color: #022340;
-  color: #dadad9;
-}
-
-#th-1:hover, #th-2:hover, #th-3:hover, #th-4:hover, #th-5:hover, #th-6:hover, #th-7:hover, #th-8:hover, #th-9:hover, #th-10:hover, #th-11:hover {
-  background-color: #022340;
-  color: #dadad9;
-}
-
 table {
   border-collapse: collapse;
   background-color: #dadad9;
   width: 100%;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 th {
@@ -628,10 +619,42 @@ td {
 }
 
 #alltoilets-details {
+  background-color: #dadad9;
   padding: 10px;
   margin: 10px;
   outline: 0;
 }
+
+.playgroundSearchTable th {
+    display: none;
+}
+
+.playgroundSearchTable td {
+    display: none;
+}
+
+.playgroundSearchTable #th-1, #th-2 {
+    display: table-cell;
+}
+
+.playgroundSearchTable #cell1, #cell2 {
+    display: table-cell;
+}
+/*
+  td {
+    display: none;
+  }
+
+  #th-1, #th-2 {
+    display: table-cell;
+  }
+
+  #cell1, #cell2 {
+    display: table-cell;
+  }
+}
+
+*/
 
 /**
  * Table with less data on smaller screens (Ø.J)
