@@ -1,8 +1,6 @@
-// All global variables
-var tableName, map, markers;
-tableName = "";
+/// All global variables
+var map;
 map = "";
-markers = [];
 
 /*
 	getJSON(url) = Løftefunksjon for å laste side og verifisere JSON.
@@ -24,7 +22,7 @@ function getJSON(url){
 				if (xhr.status === 200){
 					if(JSON.parse(xhr.response)){
 					 	var list = JSON.parse(xhr.response);
-						resolve(list.entries);
+						resolve(list);
 						console.log("JSON validated, promise succeeded.");
 					} else {
 						reject("JSON not validated.");
@@ -59,17 +57,35 @@ function loadTable(url, loadType){
 	// PROMISE //
 	var listPromise = getJSON(url);
 	listPromise.then(function(value){
+		var markers = [];
 		if(locationList !== undefined) { //Delete previous markers
-			deleteMarkers();
+			deleteMarkers(markers);
 		}
-
 
 		if(loadType === "search"){
 			console.log("Updating table from search.");
-			locationList = executeSearch(value, tableName);
+			if(tableName === "kindergarden") {
+				// This adds an ID attribute to each element in the kindergarden list
+				for(i = 0; i < value.length; i++) {
+					myObj[i].id = i + 1;
+				}
+				locationList = executeSearch(value, tableName);
+			}
+			else {
+				locationList = executeSearch(value.entries, tableName);
+			}
 			console.log(locationList);
 		} else if(loadType === "load"){
-			locationList = value;
+			if(tableName === "kindergarden") {
+				// This adds an ID attribute to each element in the kindergarden list
+				for(i = 0; i < value.length; i++) {
+					value[i].id = i + 1;
+				}
+				locationList = value;
+			}
+			else {
+				locationList = value.entries;
+			}
 		}
 
 		locationEntries = locationList.length;
@@ -81,152 +97,351 @@ function loadTable(url, loadType){
 		function refreshTable (searchTable, searchType){
 			clearTable(searchTable); // Denne var tidligere searchTable
 			populateTable(locationList, searchType);
-				generateAndPushMarkers(searchType);
+				generateAndPushMarkers(locationList, tableName, markers);
 				for(i = 0; i < markers.length; i++) {
 					if(markers[i] !==  null) {
 						markers[i].setMap(map);
 					}
 				}
-				generateInfoWindow(markers, searchType);
+				generateInfoWindow(markers, searchType, locationEntries);
 	}});
 }
-
-/*
-  SØKEFUNKSJONALITET
-*/
-//Konstruktør for søkeobjekt
+	/*
+	    SØKEFUNKSJONALITET
+	*/
+	//Konstruktør for søkeobjekt
 function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
-	this.herre = male;
-	this.stellerom = baby;
-	this.tid_sondag = openSunday;
-	this.tid_lordag = openSaturday;
-	this.tid_hverdag = openEveryday;
-	this.rullestol = access;
-	this.pris = maxPrice;
-	this.dame = female;
-	this.search = freeSearch;
-}
 
-function clearTable(table) { //Tøm tabellen fra søk til søk
-  var tableHeaderRowCount = 1;
-  var clearingTable = table;
-    var rowCount = clearingTable.rows.length;
-    for (var i=tableHeaderRowCount; i < rowCount; i++){
-      searchTable.deleteRow(tableHeaderRowCount);
-    }
-}
+		this.herre = male;
+		this.stellerom = baby;
+		this.tid_sondag = openSunday;
+		this.tid_lordag = openSaturday;
+		this.tid_hverdag = openEveryday;
+		this.rullestol = access;
+		this.pris = maxPrice;
+		this.dame = female;
+		this.search = freeSearch;
+	}
 
-function populateTable(list, search) {//Bygg en ny tabell
-	if (search === "toilet"){
-		searchTable.setAttribute("class", "toiletSearchTable");
-	} else if (search === "playground"){
-			searchTable.setAttribute("class", "playgroundSearchTable");
+function clearTable(table, condition) { //Tøm tabellen fra søk til søk
+		if(condition === undefined || condition === null) {
+			var tableHeaderRowCount = 0;
 		}
+		else {
+			tableHeaderRowCount = 1;
+		}
+	  var clearingTable = table;
 
-		locationList = list;
-		locationEntries = list.length;
+	    var rowCount = clearingTable.rows.length;
+	    for (var i=tableHeaderRowCount; i < rowCount; i++){
+	      searchTable.deleteRow(tableHeaderRowCount);
+	    }
+	}
 
-  for (i = 0; i < locationEntries; i++) {
-    var newRow = searchTable.insertRow(i+1);
-    var firstCell = newRow.insertCell(0);
-    var locCell = newRow.insertCell(1);
-    var adrCell = newRow.insertCell(2);
-    var wDayCell = newRow.insertCell(3);
-    var satCell = newRow.insertCell(4);
-    var sunCell = newRow.insertCell(5);
-    var genderCell = newRow.insertCell(6);
-    var wChairCell = newRow.insertCell(7);
-    var babyCell = newRow.insertCell(8);
-    var priceCell = newRow.insertCell(9);
-		var favLocal = newRow.insertCell(10);
-
-		/**
-		 * These lines concernes Media Queries
-		 * Add id attribute for cell 1 and 2. This is used for
-		 * media queries in css when on smaller screens we only want
-		 * to show the two to four first cells in every row.
-		**/
-		firstCell.setAttribute("id", "cell1");
-		locCell.setAttribute("id", "cell2");
-		adrCell.setAttribute("id", "cell3");
-		wDayCell.setAttribute("id", "cell4");
-		favLocal.setAttribute("id", "cell11")
-
-	   //ID for hvert objekt
-	   firstCell.innerHTML = locationList[i].id + ".";
-	   //Lokasjon
-		if (search ==="toilet"){
-			locCell.innerHTML = locationList[i].place;
-		} else if (search === "playground"){
-				locCell.innerHTML = locationList[i].navn;
+function generateTableHeaders(searchTable, tableName) {
+		if(tableName === "toilet") {
+			var toiletAttributeNames = ["Index", "Location", "Adresse", "Weekdays", "Saturdays", "Sundays", "Genders", "Wheelchair", "Changing Stations", "Price", "Mark Favorites"];
+			var headerRow = searchTable.insertRow(0);
+			for(i = 0; i < 11; i++) {
+				var cell = headerRow.insertCell(i);
+				cell.innerHTML = toiletAttributeNames[i];
+				cell.setAttribute("id", "th-" + (i+1));
+				if(i !== (3) && i !== (4) && i !== (5) && i !== (10)) {
+					cell.setAttribute("onclick","startSort(this)");
+				}
 			}
-
-		adrCell.innerHTML = locationList[i].adresse;
-    //Åpningstider
-    wDayCell.innerHTML = locationList[i].tid_hverdag;
-
-    if (locationList[i].tid_lordag == "NULL"){
-    	satCell.innerHTML = "Closed";
-    } else {
-      	satCell.innerHTML = locationList[i].tid_lordag;
-	    }
-
-    if (locationList[i].tid_sondag == "NULL"){
-      sunCell.innerHTML = "Closed";
-    } else {
-      	sunCell.innerHTML = locationList[i].tid_sondag;
-	   	}
-
-		//Kjønn
-	  var genderString = "";
-	  if (locationList[i].herre == "1") {
-			genderString += "M";
 		}
-		if (locationList[i].dame == "1"){
-			genderString += "F";
-	  }
-	  if (locationList[i].herre != "1" || locationList[i].dame != "1") {
-    	genderString += "NA";
-	  }
+		else if(tableName === "playground") {
+			var playgroundAttributeNames = ["Index", "Location", "Mark Favorites"];
+			var headerRow = searchTable.insertRow(0);
+			for(i = 0; i < 3; i++) {
+				var cell = headerRow.insertCell(i);
+				cell.innerHTML = playgroundAttributeNames[i];
+				cell.setAttribute("id", "th-" + (i+1));
+				if(i !== (2)) {
+					cell.setAttribute("onclick","startSort(this)");
+				}
+			}
+		}
+		else if(tableName === "kindergarden") {
+			var kindergardenAttributeNames = ["Index", "Location", "Adresse", "Email", "Kindergarden name", "Telephone"];
+			var headerRow = searchTable.insertRow(0);
+			for(i = 0; i < 6; i++) {
+				var cell = headerRow.insertCell(i);
+				cell.innerHTML = kindergardenAttributeNames[i];
+				cell.setAttribute("id", "th-" + (i+1));
+				if(i !== (4) && i !== (5)) {
+					cell.setAttribute("onclick","startSort(this)");
+				}
+			}
+		}
+	}
 
-		genderCell.innerHTML = genderString;
+/**
+ * By clicking on a cell index the map will zoom and center at the marker position
+**/
+function filterByIndex(obj, tableName){
+		window.scrollTo(0, 100);
+		map.setZoom(14);
+		setTimeout(function() {
+			var index = obj.innerHTML;
+			index = index.replace(".", "");
+			for(i = 0; i < locationList.length; i++) {
+				if(locationList[i].id.toString() === index) {
+					console.log("Found match: " + (locationList[i].id.toString() === index));
+					if(tableName === "kindergarden") {
+						map.setCenter(new google.maps.LatLng(locationList[i].Breddegrad, locationList[i].Lengdegrad));
+					}
+					else {
+						map.setCenter(new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude));
+					}
+					map.setZoom(17);
+				}
+		}}, 1000)
+	}
 
- 		//Handicaptilgang
-	  if (locationList[i].rullestol == "1") {
-	  	wChairCell.innerHTML = "Yes";
-	  } else {
-	  		wChairCell.innerHTML = "No";
-	    }
-
-		//Stellerom for baby
-	  if (locationList[i].stellerom == "1") {
-	  	babyCell.innerHTML = "Yes";
-	  } else {
-	      babyCell.innerHTML = "No";
-	    }
-
-	  //Pris
-	  if (locationList[i].pris == 0){
-	    priceCell.innerHTML = "FREE";
-	  }
-
-   else if (locationList[i].pris == "NULL"){
-     priceCell.innerHTML = "Unknown";
-   } else {
-		 	priceCell.innerHTML = locationList[i].pris + "Kr";
-	   }
-
-		//Mark favorite
-		var favButton = document.createElement("Button");
-		var favMark = document.createTextNode("Mark Favorite!");
-		favButton.appendChild(favMark);
-		favLocal.appendChild(favButton);
-		favButton.addEventListener ("click", function() {
-  		alert("did something");
-		});
+function generateNewSortedTable(sortedList) {
+	var table = document.getElementById('searchTable');
+	var rows = getTableRows();
+	clearTable(table, true);
+	for(i = 0; i < rows.length; i++) {
+		table.appendChild(sortedList[i]);
 	}
 }
 
+function getTableRows() {
+	var rows = document.getElementsByTagName('tr');
+	var length = document.getElementsByTagName('tr').length;
+	var array = [];
+	for(i = 1; i < length; i++) {
+		array.push(rows[i]);
+	}
+	return array;
+}
+
+/**
+ * This chain of functions which starts a column sort uses quick sort
+ * in sortTableAlfabetical function.
+ * First we call generateNewSortedTable, then pass in the function that
+ * actually sorts the table column selected by the user. This function takes in
+ * a function getTableRows which returns all table rows packed in an array
+ * and a indicator of which headerElement (column) to be sorted.
+ * Not all columns is set to be able to be sortet because of the time it can take
+**/
+function startSort(headerElement) {
+	generateNewSortedTable(sortTableAlfabetical(getTableRows(), headerElement));
+}
+
+function sortTableAlfabetical(rows, headerElement) {
+		if(rows.length <= 1) {
+			console.log("Rows:");
+			return rows;
+		}
+		else {
+			if(headerElement.innerHTML === "Index") {
+				var rowChildNode = 0;
+			}
+			else if(headerElement.innerHTML === "Location") {
+				var rowChildNode = 1;
+			}
+			else if(headerElement.innerHTML === "Adresse") {
+				var rowChildNode = 2;
+			}
+			else if(headerElement.innerHTML === "Email") {
+				var rowChildNode = 3;
+			}
+			else if(headerElement.innerHTML === "Genders") {
+				var rowChildNode = 6;
+			}
+			else if(headerElement.innerHTML === "Wheelchair") {
+				var rowChildNode = 7;
+			}
+			else if(headerElement.innerHTML === "Changing Stations") {
+				var rowChildNode = 8;
+			}
+			else if(headerElement.innerHTML === "Price") {
+				var rowChildNode = 9;
+			}
+			var left = [];
+			var right = [];
+			var newRowList = [];
+			var pivot = rows.pop();
+			var tableLength = rows.length;
+			for(i = 0; i < tableLength; i++) {
+				// console.log("Cell: " + rows[i].childNodes[rowChildNode].innerHTML);
+				// console.log("Pivot: " + pivot.childNodes[rowChildNode].innerHTML);
+				// console.log(rows[i].childNodes[rowChildNode].innerHTML.charAt(0), "greater than", pivot.childNodes[rowChildNode].innerHTML.charAt(0), " | ", rows[i].childNodes[rowChildNode].innerHTML.charAt(0) <= pivot.childNodes[rowChildNode].innerHTML.charAt(0));
+				if(rowChildNode === 0) {
+					var indexNr1 = parseInt(rows[i].childNodes[rowChildNode].innerHTML);
+					var indexNr2 = parseInt(pivot.childNodes[rowChildNode].innerHTML);
+					if(indexNr1 <= indexNr2) {
+						left.push(rows[i]);
+					}
+					else {
+						right.push(rows[i]);
+					}
+				}
+				else {
+					if(rows[i].childNodes[rowChildNode].innerHTML <= pivot.childNodes[rowChildNode].innerHTML) {
+						left.push(rows[i]);
+						// console.log("Pushed to left: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+					}
+					else {
+						right.push(rows[i]);
+						console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+					}
+				}
+			}
+			return newRowList.concat(sortTableAlfabetical(left, headerElement), pivot, sortTableAlfabetical(right, headerElement));
+		}
+}
+
+function generateTableCells(searchTable, tableName) {
+		if(tableName === "toilet") {
+			for (i = 0; i < locationEntries; i++) {
+				var newRow = searchTable.insertRow(i+1);
+				var firstCell = newRow.insertCell(0);
+				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'toilet')");
+				var locCell = newRow.insertCell(1);
+				locCell.setAttribute("id", "cell2");
+				var adrCell = newRow.insertCell(2);
+				adrCell.setAttribute("id", "cell3");
+				var wDayCell = newRow.insertCell(3);
+				wDayCell.setAttribute("id", "cell4");
+				var satCell = newRow.insertCell(4);
+				satCell.setAttribute("id", "cell5");
+				var sunCell = newRow.insertCell(5);
+				sunCell.setAttribute("id", "cell6");
+				var genderCell = newRow.insertCell(6);
+				genderCell.setAttribute("id", "cell7");
+				var wChairCell = newRow.insertCell(7);
+				wChairCell.setAttribute("id", "cell8");
+				var babyCell = newRow.insertCell(8);
+				babyCell.setAttribute("id", "cell9");
+				var priceCell = newRow.insertCell(9);
+				priceCell.setAttribute("id", "cell10");
+				var favLocal = newRow.insertCell(10);
+				favLocal.setAttribute("id", "cell11");
+
+				// Cell value
+				firstCell.innerHTML = locationList[i].id + ".";
+				locCell.innerHTML = locationList[i].place;
+				adrCell.innerHTML = locationList[i].adresse;
+				wDayCell.innerHTML = locationList[i].tid_hverdag;
+
+				//Åpningstider
+		    if (locationList[i].tid_lordag == "NULL"){
+		      satCell.innerHTML = "Closed";
+		    } else {
+		      satCell.innerHTML = locationList[i].tid_lordag;
+		    }
+
+		    if (locationList[i].tid_sondag == "NULL"){
+		      sunCell.innerHTML = "Closed";
+		    } else {
+		      sunCell.innerHTML = locationList[i].tid_sondag;
+		    }
+
+		    //Kjønn
+		    var genderString = "";
+		    if (locationList[i].herre == "1") {
+		      genderString += "M";
+		    }
+		    if (locationList[i].dame == "1"){
+		      genderString += "F";
+		    }
+		    if (locationList[i].herre != "1" || locationList[i].dame != "1") {
+		      genderString += "NA";
+		    }
+
+		    genderCell.innerHTML = genderString;
+
+		    //Handicaptilgang
+		    if (locationList[i].rullestol == "1") {
+		      wChairCell.innerHTML = "Yes";
+		    } else {
+		      wChairCell.innerHTML = "No";
+		    }
+
+		    //Stellerom for baby
+		    if (locationList[i].stellerom == "1") {
+		      babyCell.innerHTML = "Yes";
+		    } else {
+		      babyCell.innerHTML = "No";
+		    }
+
+		    //Pris
+		    if (locationList[i].pris == 0){
+		      priceCell.innerHTML = "FREE";
+		    }
+
+		    else if (locationList[i].pris == "NULL"){
+		      priceCell.innerHTML = "Unknown";
+		    } else {
+		      priceCell.innerHTML = locationList[i].pris + "Kr";
+		    }
+
+				//Mark favorite
+					var favButton = document.createElement("Button");
+					var favMark = document.createTextNode("Mark Favorite!");
+					favButton.appendChild(favMark);
+					favLocal.appendChild(favButton);
+					favButton.addEventListener ("click", function() {
+	  				alert("did something");
+					});
+			}
+		}
+		else if (tableName === "playground") {
+			for (i = 0; i < locationEntries; i++) {
+				var newRow = searchTable.insertRow(i+1);
+				var firstCell = newRow.insertCell(0);
+				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'playground')");
+				var locCell = newRow.insertCell(1);
+				locCell.setAttribute("id", "cell2");
+				var favLocal = newRow.insertCell(2);
+				favLocal.setAttribute("id", "cell3");
+
+				// Cell value
+				firstCell.innerHTML = locationList[i].id + ".";
+				locCell.innerHTML = locationList[i].navn;
+			}
+		}
+		else if (tableName === "kindergarden") {
+			for (i = 0; i < (locationEntries); i++) {
+				var newRow = searchTable.insertRow(i+1);
+				var firstCell = newRow.insertCell(0);
+				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'kindergarden')");
+				var locCell = newRow.insertCell(1);
+				locCell.setAttribute("id", "cell2");
+				var adrCell = newRow.insertCell(2);
+				adrCell.setAttribute("id", "cell3");
+				var emailCell = newRow.insertCell(3);
+				emailCell.setAttribute("id", "cell4");
+				var fullName = newRow.insertCell(4);
+				fullName.setAttribute("id", "cell5");
+				var phoneCell = newRow.insertCell(5);
+				phoneCell.setAttribute("id", "cell6");
+
+				// Cell value
+				var locationName = locationList[i].BesoksAdresse.split(",");
+				firstCell.innerHTML = locationList[i].id + ".";
+				locCell.innerHTML = locationName[0];
+				adrCell.innerHTML = locationName[1];
+				emailCell.innerHTML = locationList[i].Epost;
+				fullName.innerHTML = locationList[i].FulltNavn;
+				phoneCell.innerHTML = locationList[i].Telefon;
+			}
+		}
+	}
+
+function populateTable(search) {
+	//Bygg en ny tabell
+	generateTableHeaders(searchTable, search);
+	generateTableCells(searchTable, search);
+}
 
 function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	var freeInput = document.getElementById('searchInput');
@@ -623,50 +838,63 @@ function executeSearch(fullCollection, searchType) {
 	listSwitcher = false; //Change the switcher back to false after completed search.
 }
 
-	/**
-	 * Funksjon for å laste inn kart.
-	**/
-	function initMap() {
-		var bergen = {lat: 60.391, lng: 5.324};
-		map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 14,
-			center: bergen
-		});
-	}
 
-	/*
-	 * Function for generation a list of markers
-	 * When all markers are made with the appropriate data, it is pushed in
-	 * to the markers array (markers array is a gloabl variable).
-	 * This way each marker can be set to a map with the setMap function.
+/**
+ * Funksjon for å laste inn kart.
+**/
+function initMap() {
+	var bergen = {lat: 60.391, lng: 5.324};
+	map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 14,
+		center: bergen
+	});
+}
+
+/*
+ * Function for generation a list of markers
+ * When all markers are made with the appropriate data, it is pushed in
+ * to the markers array (markers array is a gloabl variable).
+ * This way each marker can be set to a map with the setMap function.
 	*/
-	function generateAndPushMarkers(searchType) {
-		for (i = 0; i < locationList.length; i++) {
-			if(searchType === "toilet") {
-				var marker = new google.maps.Marker({
+function generateAndPushMarkers(locationList, tableName, markers) {
+	for (i = 0; i < locationList.length; i++) {
+		if(tableName === "toilet") {
+			var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
-					label: locationList[i].id,
-					placement: locationList[i].plassering,
-					address: locationList[i].adresse,
-					ladies: (locationList[i].dame === "1")?"Yes":"No",
-					gentlemen: (locationList[i].herre === "1")?"Yes":"No",
-					price: locationList[i].pris,
-					wheelchair: (locationList[i].rullestol === "1")?"Yes":"No",
-					weekday: locationList[i].tid_hverdag,
-					saturday: locationList[i].tid_lordag,
-					sunday: locationList[i].tid_sondag,
+				label: locationList[i].id,
+				placement: locationList[i].plassering,
+				address: locationList[i].adresse,
+				ladies: (locationList[i].dame === "1")?"Yes":"No",
+				gentlemen: (locationList[i].herre === "1")?"Yes":"No",
+				price: locationList[i].pris,
+				wheelchair: (locationList[i].rullestol === "1")?"Yes":"No",
+				weekday: locationList[i].tid_hverdag,
+				saturday: locationList[i].tid_lordag,
+				sunday: locationList[i].tid_sondag,
+				animation: google.maps.Animation.DROP,
 			});
-			}
-			if(searchType === "playground") {
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
-					label: locationList[i].id,
-					name: locationList[i].navn,
-				});
-			}
-			markers.push(marker);
+		}
+		if(tableName === "playground") {
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude),
+				label: locationList[i].id,
+				name: locationList[i].navn,
+			});
+		}
+		if(tableName === "kindergarden") {
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(locationList[i].Breddegrad, locationList[i].Lengdegrad),
+				label: locationList[i].id.toString(),
+				name: locationList[i].FulltNavn,
+				locName: locationList[i].BesoksAdresse,
+				phone: locationList[i].Telefon,
+				mail: locationList[i].Epost,
+			});
+		}
+		markers.push(marker);
 	}
 }
+
 
 /*
  * Function for generating information windows for each marker
@@ -674,12 +902,13 @@ function executeSearch(fullCollection, searchType) {
  * The setContent method used 'this' (a marker instance) and its attribute
  * value to fill the iWindow with value
 */
-function generateInfoWindow(marker, searchType) {
-	for(i = 0; i < locationList.length; i++) {
-		if(searchType === "toilet") {
+function generateInfoWindow(markers, tableName, locationEntries) {
+	for(i = 0; i < locationEntries; i++) {
+		console.log("This is tableName: " + tableName);
+		if(tableName === "toilet") {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
-				marker[i].addListener('click', function() {
+				markers[i].addListener('click', function() {
 					// Oppdatert infoWindow hos marker (Ø.J)
 					infoW.setContent(
 							"<h3>This Toilet</h3>" +
@@ -698,10 +927,10 @@ function generateInfoWindow(marker, searchType) {
 				});
 			}
 		}
-		if(searchType === "playground") {
+		if(tableName === "playground") {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
-				marker[i].addListener('click', function() {
+				markers[i].addListener('click', function() {
 					// Oppdatert infoWindow hos marker (Ø.J)
 					infoW.setContent(
 							"<h3>This Playground</h3>" +
@@ -710,15 +939,29 @@ function generateInfoWindow(marker, searchType) {
 				});
 			}
 		}
+		if(tableName === "kindergarden") {
+			var infoW = new google.maps.InfoWindow();
+			if(markers[i] !== null) {
+				markers[i].addListener('click', function() {
+					// Oppdatert infoWindow hos marker (Ø.J)
+					infoW.setContent(
+							"<h3>This Kindergarden</h3>" +
+							"<b>Kindergarden:</b> " + this.name + "<br>" +
+							"<b>Adresse:</b> " + this.locName + "<br>" +
+							"<b>Telephone:</b> " + this.phone + "<br>" +
+							"<b>Email:</b> " + this.mail);
+					infoW.open(map, this);
+				});
+			}
+		}
 	}
 }
-
 /*
  * Function for deleting all markers on the map
  * This is mainly used for refreshing the map with new markers when
  * someone makes a search. (Ø.j)
 */
-function deleteMarkers() {
+function deleteMarkers(markers) {
 	for(i = 0; i < markers.length; i++) {
 		if(markers[i] !== null) {
 			markers[i].setMap(null);
