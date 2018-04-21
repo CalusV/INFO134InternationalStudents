@@ -739,8 +739,8 @@ function executeSearch(fullCollection, searchType) {
 			results = results.map(result => result["pris"] = parseInt(result["pris"]));
 			results = results.filter(result => result["pris"] <= searchPrice);
 		} else {
-			results = locationList.map(result => result["pris"] = parseInt(result["pris"]));
-			results = locationList.filter(result => result["pris"] <= searchPrice);
+			results = locationCollection.map(result => result["pris"] = parseInt(result["pris"]));
+			results = locationCollection.filter(result => result["pris"] <= searchPrice);
 			listSwitcher = true;
 		}
 	}
@@ -750,7 +750,7 @@ function executeSearch(fullCollection, searchType) {
 		if(listSwitcher){
 			results = results.filter(result => result["stellerom"] === newQuery["stellerom"]);
 		} else {
-			results = locationList.filter(location => location["stellerom"] === newQuery["stellerom"]);
+			results = locationCollection.filter(location => location["stellerom"] === newQuery["stellerom"]);
 			listSwitcher = true;
 		}
 	}
@@ -760,7 +760,7 @@ function executeSearch(fullCollection, searchType) {
 		if(listSwitcher){
 			results = results.filter(result => result["rullestol"] === newQuery["rullestol"]);
 		} else {
-			results = locationList.filter(location => location["rullestol"] === newQuery["rullestol"]);
+			results = locationCollection.filter(location => location["rullestol"] === newQuery["rullestol"]);
 			listSwitcher = true;
 		}
 	}
@@ -770,7 +770,7 @@ function executeSearch(fullCollection, searchType) {
 		if(listSwitcher){
 			results = results.filter(result => result["herre"] === newQuery["herre"]);
 		} else {
-			results = locationList.filter(location => location["herre"] === newQuery["herre"]);
+			results = locationCollection.filter(location => location["herre"] === newQuery["herre"]);
 			listSwitcher = true;
 		}
 	}
@@ -780,7 +780,7 @@ function executeSearch(fullCollection, searchType) {
 		if(listSwitcher){
 			results = results.filter(result => result["dame"] === newQuery["dame"]);
 		} else {
-			results = locationList.filter(location => location["dame"] === newQuery["dame"]);
+			results = locationCollection.filter(location => location["dame"] === newQuery["dame"]);
 			listSwitcher = true;
 		}
 	}
