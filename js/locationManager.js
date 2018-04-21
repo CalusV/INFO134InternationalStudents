@@ -39,7 +39,7 @@ function getJSON(url){
 	});
 }
 
-function loadTable(url){
+function loadTable(url, loadType){
 	var searchTable = document.getElementById("searchTable");
 	var isToiletRegex = /dokart/;
 	var isPlaygroundRegex = /lekeplass/;
@@ -62,10 +62,16 @@ function loadTable(url){
 		if(locationList !== undefined) { //Delete previous markers
 			deleteMarkers();
 		}
-		console.log("Updating table from search.");
-		//		locationList = executeSearch(entryList, searchType);
-		console.log(value);
-		locationList = executeSearch(value, tableName);
+
+
+		if(loadType === "search"){
+			console.log("Updating table from search.");
+			locationList = executeSearch(value, tableName);
+			console.log(locationList);
+		} else if(loadType === "load"){
+			locationList = value;
+		}
+
 		locationEntries = locationList.length;
 		console.log("Number of entries in list is: " + locationEntries);
 		//Refreshing the table by clearing old content and building new map.

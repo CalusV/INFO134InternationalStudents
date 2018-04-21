@@ -11,7 +11,7 @@ trying to establish them selv in Norway -->
     <script src="js/locationManager.js"></script>
     <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
   </head>
-  <body onload="loadTable('https://hotell.difi.no/api/json/bergen/dokart?')">
+  <body onload="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'load')">
     <!--Header NG-->
     <header class="site">
       <div class="banner">
@@ -32,6 +32,7 @@ trying to establish them selv in Norway -->
             <li><a href="map.html">Map</a></li>
             <li><a class="active" href="toiletsearch.html">Toilets</a></li>
             <li><a href="playgroundsearch.html">Playgrounds</a></li>
+            <li><a href="kindergardens.html">Kindergardens</a></li>
             <li><a href="survival.html">Survival Guide</a></li>
           </ul>
       </nav>
@@ -41,7 +42,7 @@ trying to establish them selv in Norway -->
         <div class="freeformSearchBar">
           <h3>Search:</h3>
           <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
-          <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?')">Search</button>
+          <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'search')">Search</button>
         </div>
         <div id="map"></div>
         <script async defer
@@ -85,7 +86,7 @@ trying to establish them selv in Norway -->
                   <input type="checkbox" id="advBaby">
                 </div>
               </div>
-              <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?')">Search</button>
+              <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'search')">Search</button>
             </div>
           </div>
       </details>
