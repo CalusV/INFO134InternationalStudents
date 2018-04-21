@@ -1,5 +1,6 @@
 /// All global variables
-var map;
+var map, markers;
+markers = [];
 map = "";
 
 /*
@@ -57,17 +58,18 @@ function loadTable(url, loadType){
 	// PROMISE //
 	var listPromise = getJSON(url);
 	listPromise.then(function(value){
-		var markers = [];
-		if(locationList !== undefined) { //Delete previous markers
-			deleteMarkers(markers);
-		}
+
 
 		if(loadType === "search"){
+			if(locationList !== undefined) { //Delete previous markers
+				deleteMarkers();
+			}
+
 			console.log("Updating table from search.");
 			if(tableName === "kindergarden") {
 				// This adds an ID attribute to each element in the kindergarden list
 				for(i = 0; i < value.length; i++) {
-					myObj[i].id = i + 1;
+					value[i].id = i + 1;
 				}
 				locationList = executeSearch(value, tableName);
 			}
@@ -96,14 +98,14 @@ function loadTable(url, loadType){
 		// Refreshes the table based on search inforation. Sub function for loadTable()
 		function refreshTable (searchTable, searchType){
 			clearTable(searchTable); // Denne var tidligere searchTable
-			populateTable(locationList, searchType);
-				generateAndPushMarkers(locationList, tableName, markers);
+			populateTable(searchTable, locationList, searchType);
+				generateAndPushMarkers(locationList, tableName);
 				for(i = 0; i < markers.length; i++) {
 					if(markers[i] !==  null) {
 						markers[i].setMap(map);
 					}
 				}
-				generateInfoWindow(markers, searchType, locationEntries);
+				generateInfoWindow(searchType, locationEntries);
 	}});
 }
 	/*
@@ -296,7 +298,8 @@ function sortTableAlfabetical(rows, headerElement) {
 		}
 }
 
-function generateTableCells(searchTable, tableName) {
+function generateTableCells(searchTable, locationList, tableName) {
+	var locationEntries = locationList.length;
 		if(tableName === "toilet") {
 			for (i = 0; i < locationEntries; i++) {
 				var newRow = searchTable.insertRow(i+1);
@@ -437,10 +440,10 @@ function generateTableCells(searchTable, tableName) {
 		}
 	}
 
-function populateTable(search) {
+function populateTable(searchTable, locationList, tableName) {
 	//Bygg en ny tabell
-	generateTableHeaders(searchTable, search);
-	generateTableCells(searchTable, search);
+	generateTableHeaders(searchTable, tableName);
+	generateTableCells(searchTable, locationList, tableName);
 }
 
 function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
@@ -856,7 +859,7 @@ function initMap() {
  * to the markers array (markers array is a gloabl variable).
  * This way each marker can be set to a map with the setMap function.
 	*/
-function generateAndPushMarkers(locationList, tableName, markers) {
+function generateAndPushMarkers(locationList, tableName) {
 	for (i = 0; i < locationList.length; i++) {
 		if(tableName === "toilet") {
 			var marker = new google.maps.Marker({
@@ -902,7 +905,7 @@ function generateAndPushMarkers(locationList, tableName, markers) {
  * The setContent method used 'this' (a marker instance) and its attribute
  * value to fill the iWindow with value
 */
-function generateInfoWindow(markers, tableName, locationEntries) {
+function generateInfoWindow(tableName, locationEntries) {
 	for(i = 0; i < locationEntries; i++) {
 		console.log("This is tableName: " + tableName);
 		if(tableName === "toilet") {
@@ -961,7 +964,7 @@ function generateInfoWindow(markers, tableName, locationEntries) {
  * This is mainly used for refreshing the map with new markers when
  * someone makes a search. (Ø.j)
 */
-function deleteMarkers(markers) {
+function deleteMarkers() {
 	for(i = 0; i < markers.length; i++) {
 		if(markers[i] !== null) {
 			markers[i].setMap(null);
