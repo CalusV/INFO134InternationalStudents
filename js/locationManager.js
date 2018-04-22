@@ -80,9 +80,7 @@ function loadTable(url, loadType){
 		} else if(loadType === "load"){
 			if(tableName === "kindergarden") {
 				// This adds an ID attribute to each element in the kindergarden list
-				for(i = 0; i < value.length; i++) {
-					value[i].id = i + 1;
-				}
+				createIdAttributeForListElements(value);
 				locationList = value;
 			}
 			else {
@@ -179,28 +177,47 @@ function generateTableHeaders(searchTable, tableName) {
 		}
 	}
 
+function createIdAttributeForListElements(value) {
+	for(i = 0; i < value.length; i++) {
+		value[i].id = i + 1;
+	}
+}
+
 /**
  * By clicking on a cell index the map will zoom and center at the marker position
 **/
-function filterByIndex(obj, tableName){
+function filterByIndex(obj, tableName, url){
 		window.scrollTo(0, 100);
 		map.setZoom(14);
 		setTimeout(function() {
-			var index = obj.innerHTML;
-			index = index.replace(".", "");
-			for(i = 0; i < locationList.length; i++) {
-				if(locationList[i].id.toString() === index) {
-					console.log("Found match: " + (locationList[i].id.toString() === index));
-					if(tableName === "kindergarden") {
-						map.setCenter(new google.maps.LatLng(locationList[i].Breddegrad, locationList[i].Lengdegrad));
-					}
-					else {
-						map.setCenter(new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude));
-					}
-					map.setZoom(17);
+			var promise = getJSON(url);
+			promise.then(function(value) {
+				var locationList = value;
+				if(tableName !== "kindergarden") {
+					locationList = locationList.entries;
 				}
-		}}, 1000)
-	}
+				else {
+					createIdAttributeForListElements(locationList);
+				}
+				var index = obj.innerHTML;
+				index = index.replace(".", "");
+				// console.log("List: ", locationList);
+				// console.log("Index: ", index);
+				for(i = 0; i < locationList.length; i++) {
+					if(locationList[i].id.toString() === index) {
+						// console.log("Found match: " + (locationList[i].id.toString() === index));
+						if(tableName === "kindergarden") {
+							map.setCenter(new google.maps.LatLng(locationList[i].Breddegrad, locationList[i].Lengdegrad));
+						}
+						else {
+							map.setCenter(new google.maps.LatLng(locationList[i].latitude, locationList[i].longitude));
+						}
+						map.setZoom(17);
+					}
+			}
+		})
+	}, 1000)
+}
 
 function generateNewSortedTable(sortedList) {
 	var table = document.getElementById('searchTable');
@@ -305,7 +322,7 @@ function generateTableCells(searchTable, locationList, tableName) {
 				var newRow = searchTable.insertRow(i+1);
 				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
-				firstCell.setAttribute("onclick", "filterByIndex(this, 'toilet')");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'toilet', 'https://hotell.difi.no/api/json/bergen/dokart?')");
 				var locCell = newRow.insertCell(1);
 				locCell.setAttribute("id", "cell2");
 				var adrCell = newRow.insertCell(2);
@@ -400,7 +417,7 @@ function generateTableCells(searchTable, locationList, tableName) {
 				var newRow = searchTable.insertRow(i+1);
 				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
-				firstCell.setAttribute("onclick", "filterByIndex(this, 'playground')");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'playground', 'https://hotell.difi.no/api/json/bergen/lekeplasser?')");
 				var locCell = newRow.insertCell(1);
 				locCell.setAttribute("id", "cell2");
 				var favLocal = newRow.insertCell(2);
@@ -416,7 +433,7 @@ function generateTableCells(searchTable, locationList, tableName) {
 				var newRow = searchTable.insertRow(i+1);
 				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
-				firstCell.setAttribute("onclick", "filterByIndex(this, 'kindergarden')");
+				firstCell.setAttribute("onclick", "filterByIndex(this, 'kindergarden', 'https://data-nbr.udir.no/enheter/kommune/1201')");
 				var locCell = newRow.insertCell(1);
 				locCell.setAttribute("id", "cell2");
 				var adrCell = newRow.insertCell(2);
