@@ -103,6 +103,8 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 
 	function populateTable(search) {
 	  //Bygg en ny tabell
+		//gi favlocal en unik id pr elemen og
+		//locCell så kan de matches
 	  for (i = 0; i < locationEntries; i++) {
 	    var newRow = searchTable.insertRow(i+1);
 	    var firstCell = newRow.insertCell(0);
@@ -198,13 +200,22 @@ var playgroundURL = "https://hotell.difi.no/api/json/bergen/lekeplasser?";
 				favLocal.appendChild(favButton);
 				favButton.addEventListener ("click", function() {
   				//alert("did something");
-					window.open("favLocal.html");
+					// må sendes via url for å få det på den nye siden.
+					window.open("favLocal.html?" + locationList[i]);
 
+					console.log(location);
+					//var indeks;
 				});
-
+					//favButton.setAttribute ("onClick", "grabLocation(locationList[i])");
 	  }
 	}
 
+	// function grabLocation (location){
+	// 	var selectedLocation = location;
+	// 	window.open("favLocal.html");
+	// 	console.log(selectedLocation);
+	// }
+	//document.getElementById("favPlace").innerHTML="My Favorite Place:";
 
 	function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	  var freeInput = document.getElementById('searchInput');
