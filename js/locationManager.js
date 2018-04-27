@@ -177,6 +177,9 @@ function generateTableHeaders(searchTable, tableName) {
 		}
 	}
 
+/**
+ * Function for creating an id for every element i a list
+**/
 function createIdAttributeForListElements(value) {
 	for(i = 0; i < value.length; i++) {
 		value[i].id = i + 1;
@@ -189,6 +192,7 @@ function createIdAttributeForListElements(value) {
 function filterByIndex(obj, tableName, url){
 		window.scrollTo(0, 100);
 		map.setZoom(14);
+		// setTimeout is used for the visual experience. It will only zoom after it have scrolled up
 		setTimeout(function() {
 			var promise = getJSON(url);
 			promise.then(function(value) {
@@ -216,7 +220,7 @@ function filterByIndex(obj, tableName, url){
 					}
 			}
 		})
-	}, 1000)
+	}, 300);
 }
 
 function generateNewSortedTable(sortedList) {
@@ -245,15 +249,15 @@ function getTableRows() {
  * actually sorts the table column selected by the user. This function takes in
  * a function getTableRows which returns all table rows packed in an array
  * and a indicator of which headerElement (column) to be sorted.
- * Not all columns is set to be able to be sortet because of the time it can take
 **/
 function startSort(headerElement) {
-	generateNewSortedTable(sortTableAlfabetical(getTableRows(), headerElement));
+	var tableRows = getTableRows();
+	var sortedRows = sortTableAlfabetical(tableRows, headerElement);
+	generateNewSortedTable(sortedRows);
 }
 
 function sortTableAlfabetical(rows, headerElement) {
 		if(rows.length <= 1) {
-			console.log("Rows:");
 			return rows;
 		}
 		else {
@@ -307,7 +311,7 @@ function sortTableAlfabetical(rows, headerElement) {
 					}
 					else {
 						right.push(rows[i]);
-						console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+						// console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
 					}
 				}
 			}
