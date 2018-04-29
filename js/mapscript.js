@@ -25,7 +25,6 @@ var markerPosition = uib;
 /**
  * Function for adjusting the lat and lng to users request
  * Param: String input
- * Author: (Øyvind Johannessen)
 **/
 function markerByInput(input) {
   if(input == "uib") {
@@ -77,7 +76,6 @@ function markerByInput(input) {
  * Javascript for a visible Google map
  * As Default the map centers at Norway/Bergen/University of Bergen (60.387819, 5.321563)
  * ID: map
- * Author: (Øyvind Johannessen)
 **/
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -94,7 +92,6 @@ function initMap() {
  * Function getRequestedTable shows and hides html code depending on what
  * dropdown menu item is selected
  * Param: String value
- * Author (Øyvind Johannessen)
 **/
 // variable currentSelection is used to hide previous selection, when a new selection is made.
 var currentSelection;

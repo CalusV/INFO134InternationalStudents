@@ -470,18 +470,22 @@ function generateTableCells(searchTable, locationList, tableName) {
 			}
 		}
 	}
-
+/*Får navnet av favorittlekeplass fra samme rad som knappen og sender til Urlen til den nye htmlsiden.
+Sender også hvilken tabell det er fra
+*/
 function buttonFunction(x, tableName){
 	var table = document.getElementById('searchTable');
 	c = table.rows[x.parentElement.rowIndex].cells[1].innerHTML;
 	window.open("favLocal.html?"+c+'?'+tableName);
 
 }
+//funksjonen marker favorittlekeplass og finner og markerer nærmeste toalett.
 function favPlace() {
 	var x = document.location.href;
   var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ');
 	var table=x.split('?')[2];
-  document.getElementById('placeFav').innerHTML ='Your favorite playground is: '+ params;
+  document.getElementById('placeFav').innerHTML ='Your favorite playground is '+ params;
+	//hvis favoritt er toalett(slett om vi ikke skal brue favorittdo)
 	if(table==="toilet"){
 		var url='https://hotell.difi.no/api/json/bergen/dokart?';
 		var promise=getJSON(url);
@@ -498,12 +502,16 @@ function favPlace() {
 				}
 			}
 		})
+	// for å finne favoritt lekeplass
 	}	else if(table==="playground"){
 		var url='https://hotell.difi.no/api/json/bergen/lekeplasser?';
 		var promise=getJSON(url);
 		promise.then(function(value){
 			var locationList = value;
 			locationList = locationList.entries;
+			/*Finnes lekeplassen med samme navn i listen og henter koordinater
+			Disse brukes for å lage markers og finne nærmeste toalett
+			*/
 			for(i = 0; i < locationList.length; i++) {
 				if(locationList[i].navn.toString() === params) {
 					var lat1 = locationList[i].latitude;
@@ -513,7 +521,17 @@ function favPlace() {
 						position: new google.maps.LatLng(lat1, lng1),
 						map:map
 					});
+					var infoW = new google.maps.InfoWindow();
+					if(favoriteMarker !== null) {
+						favoriteMarker.addListener('click', function() {
+							// Oppdatert infoWindow hos marker (Ø.J)
+							infoW.setContent(
+								"<h3>Playground:</h3>"+ params);
+								infoW.open(map, this);
+							});
+						}
 
+						//funksjon for å finne nærmeste toalett
 						var tURL='https://hotell.difi.no/api/json/bergen/dokart?';
 						var tPromise=getJSON(tURL);
 						tPromise.then(function(value){
@@ -528,37 +546,80 @@ function favPlace() {
 								var lng2 = toalettListe[i].longitude;
 								console.log(lat2, lng2);
 								var distance = Math.hypot(lat1 - lat2, lng1 - lng2);
-										if (leastDistance >= distance) {
-											leastDistance = distance;
-											leastLat=lat2;
-											leastLng=lng2;
-											document.getElementById('placeNearest').innerHTML='Nearest toalet is '+ toalettListe[i].plassering;
-											console.log('least:',leastDistance);
-											console.log(leastLat,leastLng)
-										}
+								if (leastDistance >= distance) {
+									leastDistance = distance;
+									leastLat=lat2;
+									leastLng=lng2;
+									var place = toalettListe[i].plassering;
+									document.getElementById('placeNearest').innerHTML='Nearest toalet is '+ place;
+									console.log('least:',leastDistance);
+									console.log(leastLat,leastLng)
+								}
 							}
 
 							console.log('siste least', leastDistance);
+							//markers for nærmeste toalett
 							var leastDistanceMarker = new google.maps.Marker({
 								position: new google.maps.LatLng(leastLat, leastLng),
 								map:map
 							});
+							var infoW = new google.maps.InfoWindow();
+							if(leastDistanceMarker !== null) {
+								leastDistanceMarker.addListener('click', function() {
+									// Oppdatert infoWindow hos marker
+									infoW.setContent(
+										"<h3>This Toilet</h3>" + place);
+										infoW.open(map, this);
+									});
+								}
 
-							var leastLatLng = {lat:+leastLat  ,lng:+leastLng};
-							var favLatLng = {lat:+lat1, lng:+lng1};
-							var leastDistanceLine = [leastLatLng,favLatLng];
- 							var lineBetweenLeastDistance = new google.maps.Polyline({
-	 							path: leastDistanceLine,
-	 							strokeColor: '#FF0000',
-	 							strokeOpacity: 1.0,
-	 							strokeWeight: 3
- 							});
- 							lineBetweenLeastDistance.setMap(map);
-						})
+								//lager en linje mellom favorittlekeplass og nærmeste toalett
+								var leastLatLng = {lat:+leastLat  ,lng:+leastLng};
+								var favLatLng = {lat:+lat1, lng:+lng1};
+								var leastDistanceLine = [leastLatLng,favLatLng];
+								var lineBetweenLeastDistance = new google.maps.Polyline({
+									path: leastDistanceLine,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1.0,
+									strokeWeight: 3
+								});
+								lineBetweenLeastDistance.setMap(map);
+
+								//zommer inn så man ser begge markers midt i bilde
+								if(lat1<leastLat && lat1<leastLat){
+								var lat_min = lat1;
+								var lat_max = leastLat;
+								var lng_min = lng1;
+								var lng_max = leastLng;
+								console.log('fav');
+								console.log(lat1, lng1, leastLat, leastLng);
+							} else if(leastLat<lat1 && leastLng<lng1){
+								var lat_min = leastLat;
+								var lat_max = lat1;
+								var lng_min = leastLng;
+								var lng_max = lng1;
+								console.log('least');
+								console.log(lat1, lng1, leastLat, leastLng);
+							} else {
+								var senterMap = map.setCenter(new google.maps.LatLng(lat1, lng1));
+							}
+
+								map.setCenter(new google.maps.LatLng(
+									((lat_max + lat_min) / 2.0),
+									((lng_max + lng_min) / 2.0)
+								));
+								map.fitBounds(new google.maps.LatLngBounds(
+									//bottom left
+									new google.maps.LatLng(lat_min, lng_min),
+									//top right
+									new google.maps.LatLng(lat_max, lng_max)
+								));
+							})
+						}
 					}
-				}
-			})
-	}	else if(table==="kindergarden"){
+				})
+				//hvis vi skal bruke favorittlekeplass også, ellers slett. om den brukes utvid med kode fra over.
+			}	else if(table==="kindergarden"){
 		var url='https://data-nbr.udir.no/enheter/kommune/1201';
 		var promise=getJSON(url);
 		promise.then(function(value){
@@ -1069,7 +1130,7 @@ function generateInfoWindow(tableName, locationEntries) {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
 				markers[i].addListener('click', function() {
-					// Oppdatert infoWindow hos marker (Ø.J)
+					// Oppdatert infoWindow hos marker
 					infoW.setContent(
 							"<h3>This Playground</h3>" +
 							"<b>Placement:</b> " + this.name);
@@ -1081,7 +1142,7 @@ function generateInfoWindow(tableName, locationEntries) {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
 				markers[i].addListener('click', function() {
-					// Oppdatert infoWindow hos marker (Ø.J)
+					// Oppdatert infoWindow hos marker
 					infoW.setContent(
 							"<h3>This Kindergarden</h3>" +
 							"<b>Kindergarden:</b> " + this.name + "<br>" +
@@ -1097,7 +1158,7 @@ function generateInfoWindow(tableName, locationEntries) {
 /*
  * Function for deleting all markers on the map
  * This is mainly used for refreshing the map with new markers when
- * someone makes a search. (Ø.j)
+ * someone makes a search. 
 */
 function deleteMarkers() {
 	for(i = 0; i < markers.length; i++) {

@@ -8,7 +8,6 @@
 
 /**
 * MAIN PAGE Structure
-* RHJ -
 */
 
 main{
@@ -28,7 +27,7 @@ button {
   border-radius: 0;
   background: lightgrey;
 }
-/* Media screen for large screens - RHJ
+/* Media screen for large screens
   - More white space required for large screen.
 */
 @media (min-width : 1824px) {
@@ -36,7 +35,7 @@ button {
       margin: 0 25% 0 25%;
   }
 }
-/* Media screen for small screens - RHJ
+/* Media screen for small screens
   - Much white space is unnecessary on phone
 */
 @media (max-width : 800px) {
@@ -47,7 +46,6 @@ button {
 
 /**
 *header
-NG
 **/
 header{
   background-color: #0B3861;
@@ -110,7 +108,7 @@ header li{
   float: right;
   opacity: 0.8;
 }
-/* Media screen for small screens - RHJ
+/* Media screen for small screens
   - Make logo much bigger on phone screens
 */
 @media (max-width : 800px) {
@@ -126,7 +124,6 @@ header li{
   }
 }
 /**footer
-*NG
 **/
 footer{
   width:100%;
@@ -141,7 +138,6 @@ footer{
 }
 /**
 * FRONT PAGE
-* RHJ -
 */
 .frontpage {
   display:flex;
@@ -152,7 +148,7 @@ footer{
   max-width: 50%;
   align-self: center;
 }
-/* Media screen for large screens - RHJ
+/* Media screen for large screens
   - Shrink front image on small screens.
 */
 @media (min-width : 1824px) {
@@ -167,7 +163,7 @@ footer{
   }
 }
 
-/* Media screen for small screens - RHJ
+/* Media screen for small screens
   - Make information section fill screen width
 */
 
@@ -177,7 +173,7 @@ footer{
   padding:0;
 
 }
-/* Media screen for small screens - RHJ
+/* Media screen for small screens
   - Make Facebook logo smaller on phones.
 */
 @media (max-width : 480px) {
@@ -205,7 +201,7 @@ footer{
 }
 /**
 * MAP PAGE
-* RHJ -
+
 */
 .mapDescription {
   margin: 5px;
@@ -237,7 +233,7 @@ select {
   margin: 5px;
 }
 
-/* Media screen for large and medium screens - RHJ
+/* Media screen for large and medium screens
   - Don't display the dropdown menu if the screen is laptop size or bigger.
  */
 @media (min-width : 850px) {
@@ -257,7 +253,6 @@ select {
 
 /**
  * Styling for location.
- * Author: Øyvind Johannessen
  **/
 .location {
   animation: fadein 1s;
@@ -272,7 +267,6 @@ select {
 
 /**
  * Id's for controlling the dropdown meny's show and hide on map page.
- * Author: Øyvind Johannessen
 **/
 #drinking {
   display: none;
@@ -298,7 +292,6 @@ select {
  * This ID is for the first text below the first image of the survival page
  * It is mainly here to activate the show/hide myFunction
  * The other ID's are for showing and hiding depending on user request at subNav
- * Author: Øyvind Johannessen (html by Tormod Renberg Lerøy)
 **/
 @keyframes fadein {
     from { opacity: 0; }
@@ -372,7 +365,6 @@ select {
 
 /**
  * Styling for location image. This is where the image goes
- * Author: Øyvind Johannessen
  **/
 .location-image {
   animation: fadein 1s;
@@ -386,7 +378,6 @@ select {
 
 /**
  * Styling for all images that is used in table of content of the map.html
- * Author: Øyvind Johannessen
  **/
 .img {
   display: flex;
@@ -396,7 +387,6 @@ select {
 
 /**
  * Styling for location information. This is where the information goes
- * Author: Øyvind Johannessen
  **/
 .location-info {
   animation: fadein 1s;
@@ -410,7 +400,6 @@ select {
 
 /**
  * Location (Mark) button styling
- * Author: Øyvind Johannessen
  **/
 .location-button {
   animation: fadein 0.5s;
@@ -432,7 +421,7 @@ select {
   width: 20%;
 }
 
-/** NAV bars styled using curriculum techniques - RHJ **/
+/** NAV bars styled using curriculum techniques **/
 .nav {
   display: flex;
   justify-content: space-between;
@@ -480,7 +469,7 @@ select {
 
 }
 
-/* Media screen for small screens - RHJ
+/* Media screen for small screens
  - Don't display the submenu if the screen is below a certain size.
 */
 @media (max-width: 850px) {
@@ -507,7 +496,7 @@ select {
 }
 
 /**
- * Styling for the toilet map site (Ø.J)
+ * Styling for the toilet map site
 **/
 .freeformSearchBar {
   display: flex;
@@ -634,7 +623,7 @@ td {
 }
 
 /**
- * Table with less data on smaller screens (Ø.J)
+ * Table with less data on smaller screens
 **/
 @media (max-width: 520px) {
   th {
@@ -655,7 +644,7 @@ td {
 }
 
 /**
- * Table with less data on pads screens (Ø.J)
+ * Table with less data on pads screens 
 **/
 @media (min-width: 520px) and (max-width: 1024px) {
   th {
