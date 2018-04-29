@@ -93,7 +93,7 @@ function loadTable(url, loadType){
 		//Refreshing the table by clearing old content and building new map.
 		refreshTable(searchTable, searchType);
 
-		// Refreshes the table based on search inforation. Sub function for loadTable()
+		// Refreshes the table based on search information. Sub function for loadTable()
 		function refreshTable (searchTable, searchType){
 			clearTable(searchTable); // Denne var tidligere searchTable
 			populateTable(searchTable, locationList, searchType);
@@ -407,9 +407,7 @@ function generateTableCells(searchTable, locationList, tableName) {
 					var favMark = document.createTextNode("Mark Favorite!");
 					favButton.appendChild(favMark);
 					favLocal.appendChild(favButton);
-					favButton.addEventListener ("click", function() {
-	  				alert("did something");
-					});
+					favLocal.setAttribute ("onClick", "buttonFunction(this, 'toilet')");
 			}
 		}
 		else if (tableName === "playground") {
@@ -426,6 +424,13 @@ function generateTableCells(searchTable, locationList, tableName) {
 				// Cell value
 				firstCell.innerHTML = locationList[i].id + ".";
 				locCell.innerHTML = locationList[i].navn;
+
+				//Mark favorite
+					var favButton = document.createElement("Button");
+					var favMark = document.createTextNode("Mark Favorite!");
+					favButton.appendChild(favMark);
+					favLocal.appendChild(favButton);
+					favLocal.setAttribute ("onClick", "buttonFunction(this, 'playground')");
 			}
 		}
 		else if (tableName === "kindergarden") {
@@ -453,9 +458,72 @@ function generateTableCells(searchTable, locationList, tableName) {
 				emailCell.innerHTML = locationList[i].Epost;
 				fullName.innerHTML = locationList[i].FulltNavn;
 				phoneCell.innerHTML = locationList[i].Telefon;
+
+				//Mark favorite
+					var favButton = document.createElement("Button");
+					var favMark = document.createTextNode("Mark Favorite!");
+					favButton.appendChild(favMark);
+					favLocal.appendChild(favButton);
+					favLocal.setAttribute ("onClick", "buttonFunction(this, 'kindergarden')");
 			}
 		}
 	}
+
+function buttonFunction(x, tableName){
+	var table = document.getElementById('searchTable');
+	c = table.rows[x.parentElement.rowIndex].cells[1].innerHTML;
+	window.open("favLocal.html?"+c+'?'+tableName);
+
+}
+function favPlace() {
+	var x = document.location.href;
+  var params = x.split('?')[1].replace(/%20/g,' ');
+	var table=x.split('?')[2];
+  document.getElementById('placeFav').innerHTML = params;
+	if(table==="toilet"){
+		var url='https://hotell.difi.no/api/json/bergen/dokart?';
+		var promise=getJSON(url);
+		promise.then(function(value){
+			var locationList = value;
+			locationList = locationList.entries;
+			console.log('PROMISE');
+			for(i = 0; i < locationList.length; i++) {
+				if(locationList[i].plassering.toString() === params) {
+					console.log('plassering');
+					var lat = locationList[i].latitude;
+					var long = locationList[i].longitude;
+					console.log(lat);
+				}
+			}
+		})
+	}	else if(table==="playground"){
+		var url='https://hotell.difi.no/api/json/bergen/lekeplasser?';
+		var promise=getJSON(url);
+		promise.then(function(value){
+			var locationList = value;
+			locationList = locationList.entries;
+			for(i = 0; i < locationList.length; i++) {
+				if(locationList[i].navn.toString() === params) {
+					alert("yes lekeplass!");
+				}
+			}
+		})
+	}	else if(table==="kindergarden"){
+		var url='https://data-nbr.udir.no/enheter/kommune/1201';
+		var promise=getJSON(url);
+		promise.then(function(value){
+			var locationList = value;
+			//den under er kanskje feil??
+			createIdAttributeForListElements(locationList);
+			for(i = 0; i < locationList.length; i++) {
+				if(locationList[i].plasser.toString() === params) {
+					alert("yes! barnehage");
+				}
+			}
+		})
+	}
+}
+
 
 function populateTable(searchTable, locationList, tableName) {
 	//Bygg en ny tabell
