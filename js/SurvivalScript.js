@@ -1,6 +1,6 @@
 /**
  * Function for showing and hiding subNav elements
- * Author: Tormod Renberg Lerøy & Øyvind Johannessen
+ *
 **/
 var currentSelection = getElementById("description-text");
 function hideMe(value) {
@@ -24,7 +24,7 @@ function hideMe(value) {
 
 /**
  * Function for hiding the description intro text for survival page.
- * Author: Øyvind Johannessen
+ * 
 **/
 function showOrHideDescriptionText() {
   var dt = document.getElementById("description-text");

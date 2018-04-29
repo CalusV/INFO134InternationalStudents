@@ -1,8 +1,8 @@
-/**
+﻿/**
  * MAP
  * Stylesheet for map
  * ID: #map
- * Author: (Øyvind Johannessen)
+ * 
 **/
 @keyframes fadein {
   from {opacity: 0;}
@@ -17,7 +17,7 @@
    border: 1px solid;
  }
 
- /* Media screen for large screens - RHJ
+ /* Media screen for large screens
    - More white space required for large screen.
    - Larger map required for large screen.
  */
@@ -30,7 +30,7 @@
      border: 1px solid;
    }
  }
- /* Media screen for small screens - RHJ
+ /* Media screen for small screens
    - Much white space is unnecessary on phone
    - Shorter map required for small screen.
  */

@@ -38,6 +38,10 @@ function getJSON(url){
 	});
 }
 
+/*
+	loadTable()
+*/
+
 function loadTable(url, loadType){
 	var searchTable = document.getElementById("searchTable");
 	var isToiletRegex = /dokart/;
@@ -108,8 +112,9 @@ function loadTable(url, loadType){
 }
 	/*
 	    SØKEFUNKSJONALITET
+		
 	*/
-	//Konstruktør for søkeobjekt
+	//Konstruktør for søkeobjekt - SearchQuery()
 function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
 
 		this.herre = male;
@@ -123,6 +128,11 @@ function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access
 		this.search = freeSearch;
 	}
 
+/*
+	clearTable()
+
+*/
+	
 function clearTable(table, condition) { //Tøm tabellen fra søk til søk
 		if(condition === undefined || condition === null) {
 			var tableHeaderRowCount = 0;
@@ -138,6 +148,9 @@ function clearTable(table, condition) { //Tøm tabellen fra søk til søk
 	    }
 	}
 
+/*
+	generateTableHeaders()
+*/	
 function generateTableHeaders(searchTable, tableName) {
 		if(tableName === "toilet") {
 			var toiletAttributeNames = ["Index", "Location", "Adresse", "Weekdays", "Saturdays", "Sundays", "Genders", "Wheelchair", "Changing Stations", "Price", "Mark Favorites"];
@@ -177,9 +190,10 @@ function generateTableHeaders(searchTable, tableName) {
 		}
 	}
 
-/**
- * Function for creating an id for every element i a list
-**/
+/*
+	createIdAttributeForListElements()
+*/
+	
 function createIdAttributeForListElements(value) {
 	for(i = 0; i < value.length; i++) {
 		value[i].id = i + 1;
@@ -187,12 +201,12 @@ function createIdAttributeForListElements(value) {
 }
 
 /**
+* 	filterByIndex()
  * By clicking on a cell index the map will zoom and center at the marker position
 **/
 function filterByIndex(obj, tableName, url){
 		window.scrollTo(0, 100);
 		map.setZoom(14);
-		// setTimeout is used for the visual experience. It will only zoom after it have scrolled up
 		setTimeout(function() {
 			var promise = getJSON(url);
 			promise.then(function(value) {
@@ -220,9 +234,11 @@ function filterByIndex(obj, tableName, url){
 					}
 			}
 		})
-	}, 300);
+	}, 1000)
 }
-
+/*
+	generateNewSortedTable()
+*/
 function generateNewSortedTable(sortedList) {
 	var table = document.getElementById('searchTable');
 	var rows = getTableRows();
@@ -232,6 +248,9 @@ function generateNewSortedTable(sortedList) {
 	}
 }
 
+/*
+	getTableRows()
+*/
 function getTableRows() {
 	var rows = document.getElementsByTagName('tr');
 	var length = document.getElementsByTagName('tr').length;
@@ -249,15 +268,21 @@ function getTableRows() {
  * actually sorts the table column selected by the user. This function takes in
  * a function getTableRows which returns all table rows packed in an array
  * and a indicator of which headerElement (column) to be sorted.
+ * Not all columns is set to be able to be sortet because of the time it can take
 **/
+/*
+	startSort()
+*/
 function startSort(headerElement) {
-	var tableRows = getTableRows();
-	var sortedRows = sortTableAlfabetical(tableRows, headerElement);
-	generateNewSortedTable(sortedRows);
+	generateNewSortedTable(sortTableAlfabetical(getTableRows(), headerElement));
 }
 
+/*
+	sortTableAlfabetical()
+*/
 function sortTableAlfabetical(rows, headerElement) {
 		if(rows.length <= 1) {
+			console.log("Rows:");
 			return rows;
 		}
 		else {
@@ -311,7 +336,7 @@ function sortTableAlfabetical(rows, headerElement) {
 					}
 					else {
 						right.push(rows[i]);
-						// console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
+						console.log("Pushed to right: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
 					}
 				}
 			}
@@ -319,11 +344,19 @@ function sortTableAlfabetical(rows, headerElement) {
 		}
 }
 
+/*
+	generateTableCells()
+*/
+
 function generateTableCells(searchTable, locationList, tableName) {
 	var locationEntries = locationList.length;
 		if(tableName === "toilet") {
 			for (i = 0; i < locationEntries; i++) {
 				var newRow = searchTable.insertRow(i+1);
+
+				//Assign unique id to each row in table
+				newRow.setAttribute("id", "row" + i);
+				
 				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
 				firstCell.setAttribute("onclick", "filterByIndex(this, 'toilet', 'https://hotell.difi.no/api/json/bergen/dokart?')");
@@ -412,13 +445,19 @@ function generateTableCells(searchTable, locationList, tableName) {
 					favButton.appendChild(favMark);
 					favLocal.appendChild(favButton);
 					favButton.addEventListener ("click", function() {
-	  				alert("did something");
+						var c = this.parentNode.id;
+	  				//var c = document.getElementById(this.id).parentNode(id);
+					console.log(c);
 					});
 			}
 		}
 		else if (tableName === "playground") {
 			for (i = 0; i < locationEntries; i++) {
 				var newRow = searchTable.insertRow(i+1);
+				
+				//Assign unique id to each row in table
+				newRow.setAttribute("id", "row" + i);
+				
 				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
 				firstCell.setAttribute("onclick", "filterByIndex(this, 'playground', 'https://hotell.difi.no/api/json/bergen/lekeplasser?')");
@@ -435,6 +474,10 @@ function generateTableCells(searchTable, locationList, tableName) {
 		else if (tableName === "kindergarden") {
 			for (i = 0; i < (locationEntries); i++) {
 				var newRow = searchTable.insertRow(i+1);
+				
+				//Assign unique id to each row in table
+				newRow.setAttribute("id", "row" + i);
+				
 				var firstCell = newRow.insertCell(0);
 				firstCell.setAttribute("id", "cell1");
 				firstCell.setAttribute("onclick", "filterByIndex(this, 'kindergarden', 'https://data-nbr.udir.no/enheter/kommune/1201')");
@@ -460,12 +503,20 @@ function generateTableCells(searchTable, locationList, tableName) {
 			}
 		}
 	}
+	
+	/*
+	populateTable()
+*/
 
 function populateTable(searchTable, locationList, tableName) {
 	//Bygg en ny tabell
 	generateTableHeaders(searchTable, tableName);
 	generateTableCells(searchTable, locationList, tableName);
 }
+
+/*
+	generateSearch()
+*/
 
 function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	var freeInput = document.getElementById('searchInput');
@@ -841,6 +892,10 @@ function executeSearch(fullCollection, searchType) {
 			}
 		}
 	}
+	
+	/*
+	filterByParam()
+*/
 
 	function filterByParam(listEntry, paramList, regex){
 		var z = 0;
@@ -864,6 +919,7 @@ function executeSearch(fullCollection, searchType) {
 
 
 /**
+*	initMap()
  * Funksjon for å laste inn kart.
 **/
 function initMap() {
@@ -875,6 +931,8 @@ function initMap() {
 }
 
 /*
+ * generateAndPushMarkers()
+ *
  * Function for generation a list of markers
  * When all markers are made with the appropriate data, it is pushed in
  * to the markers array (markers array is a gloabl variable).
@@ -921,6 +979,8 @@ function generateAndPushMarkers(locationList, tableName) {
 
 
 /*
+ * generateInfoWindow()
+ *
  * Function for generating information windows for each marker
  * Param: array of markers
  * The setContent method used 'this' (a marker instance) and its attribute
@@ -981,9 +1041,11 @@ function generateInfoWindow(tableName, locationEntries) {
 	}
 }
 /*
+ * deleteMarkers()
+ *
  * Function for deleting all markers on the map
  * This is mainly used for refreshing the map with new markers when
- * someone makes a search. (Ø.j)
+ * someone makes a search.
 */
 function deleteMarkers() {
 	for(i = 0; i < markers.length; i++) {

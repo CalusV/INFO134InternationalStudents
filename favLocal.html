@@ -1,7 +1,7 @@
 <!Doctype HTML>
 <html lang="en">
   <head>
-    <title>My favorite playground</title>
+    <title>My favorite Place!</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width = device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
@@ -9,21 +9,84 @@
     <script src="js/locationManager.js"></script>
     <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
   </head>
-  <body>
-    <h1> My favorite Playground! </h1>
+  <body onload="favPlace()">
+    <h1> My favorite Place! </h1>
+    <p id="placeFav"></p>
+	<p id="map"></p>
+	<script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCs4DSTZ0yFpxhTdHSWLS7fSjTv94B7kSM&callback=initMap">
+          </script>
     <footer>
       <h3>(B)ergen (I)International (S)tudent</h3>
         <p>
           BIS er en side laget for faget INFO134 på UIB.<br>
-          Den er laget av de følgende gruppemedlemmene:
         </p>
-        <ul id="footer-list">
-            <li>Nora Gedde (nge005)</li>
-            <li>Tormod Renberg Lerøy(tre081)</li>
-            <li>Roy H. Jenssen (rje005)</li>
-            <li>Øyvind Johannessen (ojo014)</li>
-          </ul>
           <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
         </footer>
   </body>
 </html>
+
+
+
+<script>	
+var selectedElement1 = {lat: 60.399246, lng: 5.345766, navn: "Hei"};
+var selectedElement2 = {lat: 60.386707, lng: 5.323128, navn: "Du"};
+
+function populateMap (	){
+	var favMarker = new google.maps.Marker({
+		position: new google.maps.LatLng(selectedElement1.lat, selectedElement1.lng),
+		//label: locationList[i].id,
+		name: selectedElement1.navn
+	});
+	var nearestMarker = new google.maps.Marker({
+		position: new google.maps.LatLng(selectedElement2.lat, selectedElement2.lng),
+		//label: locationList[i].id,
+		name: selectedElement2.navn
+	});
+}
+
+/*
+*	>> function distanceBetween2Latlng
+*	Denne funksjonen regner ut distansen mellom to sett 
+*	av latitude og longitude-verdier.
+*/
+
+function distanceBetween2Latlng () {
+	var lat1 = selectedElement1.latitude;
+	var lng1 = selectedElement1.longitude;
+	
+	var lat2 = selectedElement2.latitude;
+	var lng2 = selectedElement2.longitude;
+	//Calculate distance
+	distance = Math.hypot(lat1 - lat2, lng1 - lng2);
+	//logger resultatet
+	console.log("The distance between lat1: " + lat1 + " lng1: " + lng1 + 
+				" and lat2: " + lat2 + " lng2: " + lng2 + " is " + distance);
+	}
+	
+/*	
+*	>> function distanceFromFav
+*	Denne funksjonen tar favoritt-elementet, 
+*	og finner det elementet i en annen liste som er nærmest på kartet.
+*/
+/* function distanceFromFav(){
+	var currentDistance = 0;
+	var leastDistance = 0;
+	for(i=0; i<lokasjonsListe.length; i++){
+		var lat1 = currentFav.latitude; //denne hentes utenfra og er konstant
+		var lng1 = currentFav.longitude; //denne hentes utenfra og er konstant
+		var lat2 = lokasjonsListe[i].latitude;
+		var lng2 = lokasjonsListe[i].longitude;
+		distanceBetween2Latlng() {		
+			currentDistance = distance;
+			leastDistance = currentDistance;
+			if (currentDistance <= distance) {
+				leastDistance = distance;
+			}
+		}
+	}
+	
+			
+	console.log("Avstanden til nærmeste er " + leastDistance);
+	}		
+			</script>
