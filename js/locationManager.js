@@ -481,7 +481,7 @@ function favPlace() {
 	var x = document.location.href;
   var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ');
 	var table=x.split('?')[2];
-  document.getElementById('placeFav').innerHTML = params;
+  document.getElementById('placeFav').innerHTML ='Your favorite playground is: '+ params;
 	if(table==="toilet"){
 		var url='https://hotell.difi.no/api/json/bergen/dokart?';
 		var promise=getJSON(url);
@@ -493,7 +493,7 @@ function favPlace() {
 				if(locationList[i].plassering.toString() === params) {
 					console.log('plassering');
 					var lat = locationList[i].latitude;
-					var long = locationList[i].longitude;
+					var lng = locationList[i].longitude;
 					console.log(lat);
 				}
 			}
@@ -509,6 +509,10 @@ function favPlace() {
 					var lat1 = locationList[i].latitude;
 					var lng1 = locationList[i].longitude;
 					console.log(lat1, lng1);
+					var favoriteMarker = new google.maps.Marker({
+						position: new google.maps.LatLng(lat1, lng1),
+						map:map
+					});
 
 						var tURL='https://hotell.difi.no/api/json/bergen/dokart?';
 						var tPromise=getJSON(tURL);
@@ -517,6 +521,8 @@ function favPlace() {
 							toalettListe = toalettListe.entries;
 							console.log(toalettListe);
 							var leastDistance = 10000;
+							var leastLat=0;
+							var leastLng=0;
 							for(i = 0; i<toalettListe.length; i++){
 								var lat2 = toalettListe[i].latitude;
 								var lng2 = toalettListe[i].longitude;
@@ -524,13 +530,30 @@ function favPlace() {
 								var distance = Math.hypot(lat1 - lat2, lng1 - lng2);
 										if (leastDistance >= distance) {
 											leastDistance = distance;
-											var leastDistanceMarker = new google.maps.Marker({
-												position: new google.maps.LatLng(lat2, lng2)
-											});
+											leastLat=lat2;
+											leastLng=lng2;
+											document.getElementById('placeNearest').innerHTML='Nearest toalet is '+ toalettListe[i].plassering;
 											console.log('least:',leastDistance);
+											console.log(leastLat,leastLng)
 										}
 							}
-							console.log('siste least:', leastDistance);
+
+							console.log('siste least', leastDistance);
+							var leastDistanceMarker = new google.maps.Marker({
+								position: new google.maps.LatLng(leastLat, leastLng),
+								map:map
+							});
+
+							var leastLatLng = {lat:+leastLat  ,lng:+leastLng};
+							var favLatLng = {lat:+lat1, lng:+lng1};
+							var leastDistanceLine = [leastLatLng,favLatLng];
+ 							var lineBetweenLeastDistance = new google.maps.Polyline({
+	 							path: leastDistanceLine,
+	 							strokeColor: '#FF0000',
+	 							strokeOpacity: 1.0,
+	 							strokeWeight: 3
+ 							});
+ 							lineBetweenLeastDistance.setMap(map);
 						})
 					}
 				}

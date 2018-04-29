@@ -10,15 +10,37 @@
     <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
   </head>
   <body onload="favPlace()">
+    <header class="site">
+      <div class="banner">
+        <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
+          <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
+        </a>
+        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+        <a href="index.html">
+            <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+        </a>
+        <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
+        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+      </div>
+       <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
+       <nav class="nav">
+          <ul>
+            <li><a href="index.html">Frontpage</a></li>
+            <li><a href="map.html">Map</a></li>
+            <li><a href="toiletsearch.html">Toilets</a></li>
+            <li><a href="playgroundsearch.html">Playgrounds</a></li>
+            <li><a href="kindergardens.html">Kindergardens</a></li>
+            <li><a href="survival.html">Survival Guide</a></li>
+          </ul>
+      </nav>
+    </header>
     <h1> My favorite Place! </h1>
     <div id="map"></div>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
     </script>
-    <p>My favorite playground:</p>
-    <p id="placeFav"></p>
-    <p>Nearest toalet:</p>
-    <p id="plaveNearest"></p>
+    <p id="placeFav" ></p>
+    <p id="placeNearest"></p>
     <footer>
       <h3>(B)ergen (I)International (S)tudent</h3>
         <p>
