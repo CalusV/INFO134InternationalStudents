@@ -449,6 +449,8 @@ function generateTableCells(searchTable, locationList, tableName) {
 				fullName.setAttribute("id", "cell5");
 				var phoneCell = newRow.insertCell(5);
 				phoneCell.setAttribute("id", "cell6");
+				var favLocal = newRow.insertCell(6);
+				favLocal.setAttribute("id", "cel7");
 
 				// Cell value
 				var locationName = locationList[i].BesoksAdresse.split(",");
@@ -477,7 +479,7 @@ function buttonFunction(x, tableName){
 }
 function favPlace() {
 	var x = document.location.href;
-  var params = x.split('?')[1].replace(/%20/g,' ');
+  var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ');
 	var table=x.split('?')[2];
   document.getElementById('placeFav').innerHTML = params;
 	if(table==="toilet"){
@@ -504,19 +506,44 @@ function favPlace() {
 			locationList = locationList.entries;
 			for(i = 0; i < locationList.length; i++) {
 				if(locationList[i].navn.toString() === params) {
-					alert("yes lekeplass!");
+					var lat1 = locationList[i].latitude;
+					var lng1 = locationList[i].longitude;
+					console.log(lat1, lng1);
+
+						var tURL='https://hotell.difi.no/api/json/bergen/dokart?';
+						var tPromise=getJSON(tURL);
+						tPromise.then(function(value){
+							var toalettListe = value;
+							toalettListe = toalettListe.entries;
+							console.log(toalettListe);
+							var leastDistance = 10000;
+							for(i = 0; i<toalettListe.length; i++){
+								var lat2 = toalettListe[i].latitude;
+								var lng2 = toalettListe[i].longitude;
+								console.log(lat2, lng2);
+								var distance = Math.hypot(lat1 - lat2, lng1 - lng2);
+										if (leastDistance >= distance) {
+											leastDistance = distance;
+											var leastDistanceMarker = new google.maps.Marker({
+												position: new google.maps.LatLng(lat2, lng2)
+											});
+											console.log('least:',leastDistance);
+										}
+							}
+							console.log('siste least:', leastDistance);
+						})
+					}
 				}
-			}
-		})
+			})
 	}	else if(table==="kindergarden"){
 		var url='https://data-nbr.udir.no/enheter/kommune/1201';
 		var promise=getJSON(url);
 		promise.then(function(value){
 			var locationList = value;
-			//den under er kanskje feil??
 			createIdAttributeForListElements(locationList);
+			console.log(locationList[1].Besoksadresse);
 			for(i = 0; i < locationList.length; i++) {
-				if(locationList[i].plasser.toString() === params) {
+				if(locationList[i].BesoksAdresse.toString() === params) {
 					alert("yes! barnehage");
 				}
 			}
