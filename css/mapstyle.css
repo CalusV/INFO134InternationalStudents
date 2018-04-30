@@ -1,44 +1,44 @@
 /**
- * MAP
- * Stylesheet for map
- * ID: #map
+* MAP
+* Stylesheet for map
+* ID: #map
 **/
 @keyframes fadein {
   from {opacity: 0;}
   to {opacity: 1;}
 }
- #map {
-   animation: fadein 2s;
-   display: flex;
-   width: 80%;
-   height: 25rem;
-   background-color: grey;
-   border: 1px solid;
- }
+#map {
+  animation: fadein 2s;
+  display: flex;
+  width: 80%;
+  height: 25rem;
+  background-color: grey;
+  border: 1px solid;
+}
 
- /* Media screen for large screens
-   - More white space required for large screen.
-   - Larger map required for large screen.
- */
- @media (min-width : 1824px) {
-   #map {
-     display: flex;
-     width: 60%;
-     height: 30rem;
-     background-color: grey;
-     border: 1px solid;
-   }
- }
- /* Media screen for small screens
-   - Much white space is unnecessary on phone
-   - Shorter map required for small screen.
- */
- @media (min-width : 320px) and (max-width : 480px) {
-   #map {
-     display: flex;
-     width: 90%;
-     height: 15rem;
-     background-color: grey;
-     border: 1px solid;
-   }
- }
+/* Media screen for large screens
+- More white space required for large screen.
+- Larger map required for large screen.
+*/
+@media (min-width : 1824px) {
+  #map {
+    display: flex;
+    width: 60%;
+    height: 30rem;
+    background-color: grey;
+    border: 1px solid;
+  }
+}
+/* Media screen for small screens
+- Much white space is unnecessary on phone
+- Shorter map required for small screen.
+*/
+@media (min-width : 320px) and (max-width : 480px) {
+  #map {
+    display: flex;
+    width: 90%;
+    height: 15rem;
+    background-color: grey;
+    border: 1px solid;
+  }
+}

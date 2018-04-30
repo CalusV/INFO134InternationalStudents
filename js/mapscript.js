@@ -23,8 +23,8 @@ var lqs = {lat: 60.389458, lng: 5.333208}; // Liquor Store
 var markerPosition = uib;
 
 /**
- * Function for adjusting the lat and lng to users request
- * Param: String input
+* Function for adjusting the lat and lng to users request
+* Param: String input
 **/
 function markerByInput(input) {
   if(input == "uib") {
@@ -73,9 +73,9 @@ function markerByInput(input) {
 }
 
 /**
- * Javascript for a visible Google map
- * As Default the map centers at Norway/Bergen/University of Bergen (60.387819, 5.321563)
- * ID: map
+* Javascript for a visible Google map
+* As Default the map centers at Norway/Bergen/University of Bergen (60.387819, 5.321563)
+* ID: map
 **/
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -89,9 +89,9 @@ function initMap() {
 }
 
 /**
- * Function getRequestedTable shows and hides html code depending on what
- * dropdown menu item is selected
- * Param: String value
+* Function getRequestedTable shows and hides html code depending on what
+* dropdown menu item is selected
+* Param: String value
 **/
 // variable currentSelection is used to hide previous selection, when a new selection is made.
 var currentSelection;
@@ -101,13 +101,13 @@ function getRequestedTable(value) {
   // Checks if currentSelection is defined. If it is defined, it will set display to "none"
   // and make room for a new selection to be visible
   if(typeof currentSelection !== 'undefined') {
-      currentSelection.style.display = "none";
+    currentSelection.style.display = "none";
   }
-      // Sets the newest table list display to none.
-      x.style.display = "none";
+  // Sets the newest table list display to none.
+  x.style.display = "none";
   // if x's style display is set to none, which it now always will be, then instead set it to block (show)
   if (x.style.display === "none") {
-      x.style.display = "block";
+    x.style.display = "block";
   }
   // Update currentSelection to the same value as x
   currentSelection = document.getElementById(value);

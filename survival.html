@@ -5,131 +5,131 @@ An Exchange Student Tells all
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>Bergen Survival Guide</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width = device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/SurvivalScript.js"></script>
-    <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
-  </head>
-  <body>
-    <header class="site">
-      <div class="banner">
-        <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
-          <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
-        </a>
-        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
-        <a href="index.html">
-            <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
-        </a>
-        <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
-        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+<head>
+  <title>Bergen Survival Guide</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width = device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/SurvivalScript.js"></script>
+  <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
+</head>
+<body>
+  <header class="site">
+    <div class="banner">
+      <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
+        <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
+      </a>
+      <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+      <a href="index.html">
+        <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+      </a>
+      <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
+      <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+    </div>
+    <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Frontpage</a></li>
+        <li><a href="map.html">Map</a></li>
+        <li><a href="toiletsearch.html">Toilets</a></li>
+        <li><a href="playgroundsearch.html">Playgrounds</a></li>
+        <li><a href="kindergardens.html">Kindergardens</a></li>
+        <li><a class="active" href="survival.html">Survival Guide</a></li>
+      </ul>
+    </nav>
+    <nav class="subNav">
+      <a onclick="hideMe('myHeart')" href="#" class="navItem">Dating</a>
+      <a onclick="hideMe('myFriends')" href="#" class="navItem">Friendships</a>
+      <a onclick="hideMe('myLife')" href="#" class="navItem">Student Life</a>
+      <a onclick="hideMe('myMoney')" href="#" class="navItem">Finances</a>
+      <a onclick="hideMe('myTransport')" href="#" class="navItem">Public Transportation</a>
+      <a onclick="hideMe('myFreeRide')" href="#" class="navItem">Hitchhiker's guide</a>
+    </nav>
+    <div class="dropdown survivalDropdown">
+      <select class="dropdown-menu" onchange="hideMe(value)">
+        <option class="defaultOption">What advice do you need?</option>
+        <option value="myHeart">Dating in Norway</option>
+        <option value="myFriends">Making friends (Is it possible?)</option>
+        <option value="myLife">Student life in Bergen</option>
+        <option value="myMoney">Surviving financially (Is it possible?)</option>
+        <option value="myTransport">Public transportation</option>
+        <option value="myFreeRide">Don't panic, bring a towel.</option>
+      </select>
+    </div>
+  </header>
+  <main>
+    <!-- Her endrer vi innholdet basert på hvilken side man er på. -->
+    <section class="top">
+      <h1>Survival Guide</h1>
+      <img src="img/siteImages/happysadangrydrunk.jpg" alt="Norwegian moods">
+      <p id="description-text">
+        Decoding Norwegians and their culture might seem a daunting task, but several other foreigners have already laid down
+        useful groundwork for you! Follow in their footsteps as you explore the various aspects of life in Bergen, and the advice
+        that they give. Select from various categories of life in Bergen for tips and tricks.
+      </p>
+    </section>
+    <section class="table-of-contents">
+      <div id="myHeart">
+        <h3>Dating in Norway</h3>
+        <p> The normal dating timeline VS Norwegian dating timeline. If she wakes up with you the next day you can invite her on a date.
+          if that works well move back to the end
+        </p>
+        <img src="img/siteImages/dating.jpg" alt="dating">
+        <p> Another important thing is that norwegian women might seem rude when a boy tries to be romantic by carrying her bag,open a door or pay for the date.
+          She is not trying to be rude, but are accustomed to and concerned abut equality. So do not worry, it does not meen that she does not like you.
+        </p>
+        <img src="img/siteImages/equality.jpg" alt="dating">
       </div>
-       <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
-       <nav class="nav">
-          <ul>
-            <li><a href="index.html">Frontpage</a></li>
-            <li><a href="map.html">Map</a></li>
-            <li><a href="toiletsearch.html">Toilets</a></li>
-            <li><a href="playgroundsearch.html">Playgrounds</a></li>
-            <li><a href="kindergardens.html">Kindergardens</a></li>
-            <li><a class="active" href="survival.html">Survival Guide</a></li>
-          </ul>
-      </nav>
-      <nav class="subNav">
-        <a onclick="hideMe('myHeart')" href="#" class="navItem">Dating</a>
-        <a onclick="hideMe('myFriends')" href="#" class="navItem">Friendships</a>
-        <a onclick="hideMe('myLife')" href="#" class="navItem">Student Life</a>
-        <a onclick="hideMe('myMoney')" href="#" class="navItem">Finances</a>
-        <a onclick="hideMe('myTransport')" href="#" class="navItem">Public Transportation</a>
-        <a onclick="hideMe('myFreeRide')" href="#" class="navItem">Hitchhiker's guide</a>
-      </nav>
-      <div class="dropdown survivalDropdown">
-        <select class="dropdown-menu" onchange="hideMe(value)">
-          <option class="defaultOption">What advice do you need?</option>
-          <option value="myHeart">Dating in Norway</option>
-          <option value="myFriends">Making friends (Is it possible?)</option>
-          <option value="myLife">Student life in Bergen</option>
-          <option value="myMoney">Surviving financially (Is it possible?)</option>
-          <option value="myTransport">Public transportation</option>
-          <option value="myFreeRide">Don't panic, bring a towel.</option>
-        </select>
+      <div id="myFriends">
+        <h3>Making friends (Is it possible?)</h3>
+        <p>In the 21st century there is only networking.</p>
       </div>
-      </header>
-    <main>
-      <!-- Her endrer vi innholdet basert på hvilken side man er på. -->
-      <section class="top">
-            <h1>Survival Guide</h1>
-            <img src="img/siteImages/happysadangrydrunk.jpg" alt="Norwegian moods">
-            <p id="description-text">
-              Decoding Norwegians and their culture might seem a daunting task, but several other foreigners have already laid down
-              useful groundwork for you! Follow in their footsteps as you explore the various aspects of life in Bergen, and the advice
-              that they give. Select from various categories of life in Bergen for tips and tricks.
-            </p>
-      </section>
-      <section class="table-of-contents">
-         <div id="myHeart">
-            <h3>Dating in Norway</h3>
-            <p> The normal dating timeline VS Norwegian dating timeline. If she wakes up with you the next day you can invite her on a date.
-                    if that works well move back to the end
-            </p>
-            <img src="img/siteImages/dating.jpg" alt="dating">
-            <p> Another important thing is that norwegian women might seem rude when a boy tries to be romantic by carrying her bag,open a door or pay for the date.
-                    She is not trying to be rude, but are accustomed to and concerned abut equality. So do not worry, it does not meen that she does not like you.
-            </p>
-            <img src="img/siteImages/equality.jpg" alt="dating">
-        </div>
-        <div id="myFriends">
-          <h3>Making friends (Is it possible?)</h3>
-          <p>In the 21st century there is only networking.</p>
-        </div>
-        <div id="myLife">
-          <h3>Student life in Bergen</h3>
-          <img src="img/siteImages/fadderuke.png" alt="Fadderuke">
-        </div>
-        <div id="myMoney">
-          <h3>Surviving financially (Is it possible?)</h3>
-          <p> If you have not noticed yet, Norway is really expensive. Almost everything is expensive, but espacially alcohol.
-                 This is the reason why pre-party(or vors as we call it) is so common here. It basically means that norwegians by alot of alcohol in the store(or vinmonopolet where you by all alcohol over 4,5%), and get drunk at home with friends before going out on town.</p>
-            <img src="img/siteImages/drunk.png" alt="Being half drunk is a waste of money">
+      <div id="myLife">
+        <h3>Student life in Bergen</h3>
+        <img src="img/siteImages/fadderuke.png" alt="Fadderuke">
+      </div>
+      <div id="myMoney">
+        <h3>Surviving financially (Is it possible?)</h3>
+        <p> If you have not noticed yet, Norway is really expensive. Almost everything is expensive, but espacially alcohol.
+          This is the reason why pre-party(or vors as we call it) is so common here. It basically means that norwegians by alot of alcohol in the store(or vinmonopolet where you by all alcohol over 4,5%), and get drunk at home with friends before going out on town.</p>
+          <img src="img/siteImages/drunk.png" alt="Being half drunk is a waste of money">
         </div>
         <div id="myTransport">
           <h3>Public transportation</h3>
           <img src="img/siteImages/bus.gif" alt="If possible, never sit beside somone at the bus">
-                <p>Norwegians is polite by letting people be alone. You might therefor get some strange looks if you sit beside someone in the bus if it is empty double seets.
-                  This is also the reason why they might not seem that intrested if you start to talk to them. They are just not used to interacting with strangers (unless they are drunk, but we will come back to that).
-                  So the Norwegian way is to sit alone with your own thoughts.
+          <p>Norwegians is polite by letting people be alone. You might therefor get some strange looks if you sit beside someone in the bus if it is empty double seets.
+            This is also the reason why they might not seem that intrested if you start to talk to them. They are just not used to interacting with strangers (unless they are drunk, but we will come back to that).
+            So the Norwegian way is to sit alone with your own thoughts.
 
-                  Here in Bergen the transportation company is Skyss.
-                  In their website you can find timetables and a transportation planner. You can find their website
-                  <a href="https://www.skyss.no/en/">here</a></p>
-                <p>Skyss also have a ticket app and a travel planner app.</p>
-                <div class="skyss">
-                  <a href="https://itunes.apple.com/no/app/skyss-billett/id589500678?l=no&mt=8">
-                    <img src="img/siteImages/skyss_bilett.png" alt="Skyss Ticket for Iphone">
-                  </a>
-                  <a href="https://itunes.apple.com/no/app/skyss-reise/id740517682?mt=8">
-                    <img src="img/siteImages/skyss_reise.png" alt="Skyss Travel for Iphone">
-                  </a>
-                </div>
-        </div>
-        <div id="myFreeRide">
-          <h3>Don't panic, bring a towel.</h3>
-        </div>
-      </section>
-    </main>
-    <footer>
-      <h3>(B)ergen (I)International (S)tudent</h3>
-      <p>
-        BIS er en side laget for faget INFO134 på UIB
-      </p>
+            Here in Bergen the transportation company is Skyss.
+            In their website you can find timetables and a transportation planner. You can find their website
+            <a href="https://www.skyss.no/en/">here</a></p>
+            <p>Skyss also have a ticket app and a travel planner app.</p>
+            <div class="skyss">
+              <a href="https://itunes.apple.com/no/app/skyss-billett/id589500678?l=no&mt=8">
+                <img src="img/siteImages/skyss_bilett.png" alt="Skyss Ticket for Iphone">
+              </a>
+              <a href="https://itunes.apple.com/no/app/skyss-reise/id740517682?mt=8">
+                <img src="img/siteImages/skyss_reise.png" alt="Skyss Travel for Iphone">
+              </a>
+            </div>
+          </div>
+          <div id="myFreeRide">
+            <h3>Don't panic, bring a towel.</h3>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <h3>(B)ergen (I)International (S)tudent</h3>
+        <p>
+          BIS er en side laget for faget INFO134 på UIB
+        </p>
         <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
-    </footer>
-    <!-- <script>
-function myFunction(){
-    document.getElementsByClassName("dating").removeAttribute("hidden");
-  }
-</script> -->
-  </body>
+      </footer>
+      <!-- <script>
+      function myFunction(){
+      document.getElementsByClassName("dating").removeAttribute("hidden");
+    }
+  </script> -->
+</body>
 </html>
