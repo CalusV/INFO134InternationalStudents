@@ -482,7 +482,7 @@ function buttonFunction(x, tableName){
 //funksjonen marker favorittlekeplass og finner og markerer nærmeste toalett.
 function favPlace() {
 	var x = document.location.href;
-  var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ');
+  var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ').replace(/%C3%98/g,'Ø');
 	var table=x.split('?')[2];
 
 	if (table === "playground"){
@@ -601,7 +601,7 @@ function favPlace() {
 			lineBetweenLeastDistance.setMap(map);
 
 			//zommer inn så man ser begge markers midt i bilde
-			if(favLat<leastLat && favLat<leastLat){
+			if(favLat<leastLat && favLong<leastLng){
 				var lat_min = favLat;
 				var lat_max = leastLat;
 				var lng_min = favLong;
