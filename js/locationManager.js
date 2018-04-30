@@ -449,8 +449,6 @@ function generateTableCells(searchTable, locationList, tableName) {
 				fullName.setAttribute("id", "cell5");
 				var phoneCell = newRow.insertCell(5);
 				phoneCell.setAttribute("id", "cell6");
-				var favLocal = newRow.insertCell(6);
-				favLocal.setAttribute("id", "cel7");
 
 				// Cell value
 				var locationName = locationList[i].BesoksAdresse.split(",");
@@ -461,12 +459,6 @@ function generateTableCells(searchTable, locationList, tableName) {
 				fullName.innerHTML = locationList[i].FulltNavn;
 				phoneCell.innerHTML = locationList[i].Telefon;
 
-				//Mark favorite
-					var favButton = document.createElement("Button");
-					var favMark = document.createTextNode("Mark Favorite!");
-					favButton.appendChild(favMark);
-					favLocal.appendChild(favButton);
-					favLocal.setAttribute ("onClick", "buttonFunction(this, 'kindergarden')");
 			}
 		}
 	}
@@ -484,7 +476,7 @@ function favPlace() {
 	var x = document.location.href;
   var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ');
 	var table=x.split('?')[2];
-  document.getElementById('placeFav').innerHTML ='Your favorite playground is '+ params;
+  document.getElementById('placeFav').innerHTML ='Your favorite playground is '+ params.charAt(0).toUpperCase() + params.slice(1).toLowerCase();
 	//hvis favoritt er toalett(slett om vi ikke skal brue favorittdo)
 	if(table==="toilet"){
 		var url='https://hotell.difi.no/api/json/bergen/dokart?';
@@ -551,7 +543,7 @@ function favPlace() {
 									leastLat=lat2;
 									leastLng=lng2;
 									var place = toalettListe[i].plassering;
-									document.getElementById('placeNearest').innerHTML='Nearest toalet is '+ place;
+									document.getElementById('placeNearest').innerHTML='Nearest toalet is '+ place.charAt(0).toUpperCase() + place.slice(1).toLowerCase();
 									console.log('least:',leastDistance);
 									console.log(leastLat,leastLng)
 								}
@@ -1158,7 +1150,7 @@ function generateInfoWindow(tableName, locationEntries) {
 /*
  * Function for deleting all markers on the map
  * This is mainly used for refreshing the map with new markers when
- * someone makes a search. 
+ * someone makes a search.
 */
 function deleteMarkers() {
 	for(i = 0; i < markers.length; i++) {
