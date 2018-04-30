@@ -2,67 +2,64 @@
 trying to establish them selv in Norway -->
 <!Doctype HTML>
 <html lang="en">
-  <head>
-    <title>Interactive Map of Bergen</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width = device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/mapstyle.css">
-    <script src="js/mapscript.js"></script>
-    <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
-  </head>
-  <!--header NG-->
-  <header class="site">
-    <div class="banner">
-      <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
-        <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
-      </a>
-      <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
-      <a href="index.html">
-          <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
-      </a>
-      <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
-      <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
-    </div>
-     <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
-     <nav class="nav">
-        <ul>
-          <li><a href="index.html">Frontpage</a></li>
-          <li><a class="active" href="map.html">Map</a></li>
-          <li><a href="toiletsearch.html">Toilets</a></li>
-          <li><a href="playgroundsearch.html">Playgrounds</a></li>
-          <li><a href="kindergardens.html">Kindergardens</a></li>
-          <li><a href="survival.html">Survival Guide</a></li>
-        </ul>
-    </nav>
-  </header>
-  <main>
-      <!-- Structural design by Roy H. Jenssen
-          Her endres innholdet avhengig av hvilken side man er på.-->
-    <section class="top">
-          <!-- header for this page -->
-          <h1>Map</h1>
-          <!-- the map (Øyvind Johannessen) -->
-          <div id="map"></div>
-          <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCs4DSTZ0yFpxhTdHSWLS7fSjTv94B7kSM&callback=initMap">
-          </script>
-    </section>
-    <div class="dropdown">
-      <select onchange="getRequestedTable(value);" class="dropdown-menu">
-        <option class="defaultOption">What do you need to find?</option>
-        <option value="drinking">Clubs and bars</option>
-        <option value="uib">University buildings</option>
-        <option value="culture">Entertainment and culture</option>
-        <option value="hikes">Nature hikes</option>
-        <option value="stores">Useful shops</option>
-      </select>
-    </div>
-    <section class="table-of-contents">
+<head>
+  <title>Interactive Map of Bergen</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width = device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mapstyle.css">
+  <script src="js/mapscript.js"></script>
+  <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
+</head>
+<header class="site">
+  <div class="banner">
+    <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
+      <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
+    </a>
+    <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+    <a href="index.html">
+      <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+    </a>
+    <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
+    <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+  </div>
+  <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
+  <nav class="nav">
+    <ul>
+      <li><a href="index.html">Frontpage</a></li>
+      <li><a class="active" href="map.html">Map</a></li>
+      <li><a href="toiletsearch.html">Toilets</a></li>
+      <li><a href="playgroundsearch.html">Playgrounds</a></li>
+      <li><a href="kindergardens.html">Kindergardens</a></li>
+      <li><a href="survival.html">Survival Guide</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <!--  Her endres innholdet avhengig av hvilken side man er på.-->
+  <section class="top">
+    <!-- header for this page -->
+    <h1>Map</h1>
+    <div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCs4DSTZ0yFpxhTdHSWLS7fSjTv94B7kSM&callback=initMap">
+    </script>
+  </section>
+  <div class="dropdown">
+    <select onchange="getRequestedTable(value);" class="dropdown-menu">
+      <option class="defaultOption">What do you need to find?</option>
+      <option value="drinking">Clubs and bars</option>
+      <option value="uib">University buildings</option>
+      <option value="culture">Entertainment and culture</option>
+      <option value="hikes">Nature hikes</option>
+      <option value="stores">Useful shops</option>
+    </select>
+  </div>
+  <section class="table-of-contents">
     <div id="drinking"> <!-- Clubs and bars -->
       <div class="location drinking"> <!-- The Academic Quarter -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/kvarteret.jpg" alt="The Academic District">
+          <img class="img" src="img/locationImages/kvarteret.jpg" alt="The Academic District">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -88,7 +85,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location drinking"> <!-- Garage Pub -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/garage-bergen.jpg" alt="Garage">
+          <img class="img" src="img/locationImages/garage-bergen.jpg" alt="Garage">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -107,7 +104,7 @@ trying to establish them selv in Norway -->
                 hours, the bar room was divided into two separate departments
                 with different opening hours for several years.
               </p>
-           </details>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -116,7 +113,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location drinking"> <!-- Inside Rock Cafe -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/inside-rock-cafe.jpg" alt="Inside Rock Cafe">
+          <img class="img" src="img/locationImages/inside-rock-cafe.jpg" alt="Inside Rock Cafe">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -126,20 +123,20 @@ trying to establish them selv in Norway -->
             <details>
               <summary>View Description</summary>
               <p>
-              Club Inside started in 2nd set in 2003 and soon established itself
-              as a "slightly different" night out in the heart of Bergen.
-              Inside Rock cafe opened its doors in the 1st of the fall of 2004
-              and was soon one of the mountain's most popular places for those
-              who were fond of rock.
-              Our music is and has been guitar based, something we will always
-              have as a red thread. Inside has been visited by many great
-              artists / bands and we have received a lot of praise for the
-              concept, as well as our food.
-              If you are visiting and want to impress friends, we recommend
-              that you try an "Inside" shot. This swirls with 1.2 million
-              scoville on the tongue. Guaranteed Norway's strongest!
-            </p>
-          </details>
+                Club Inside started in 2nd set in 2003 and soon established itself
+                as a "slightly different" night out in the heart of Bergen.
+                Inside Rock cafe opened its doors in the 1st of the fall of 2004
+                and was soon one of the mountain's most popular places for those
+                who were fond of rock.
+                Our music is and has been guitar based, something we will always
+                have as a red thread. Inside has been visited by many great
+                artists / bands and we have received a lot of praise for the
+                concept, as well as our food.
+                If you are visiting and want to impress friends, we recommend
+                that you try an "Inside" shot. This swirls with 1.2 million
+                scoville on the tongue. Guaranteed Norway's strongest!
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -148,7 +145,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location drinking"> <!-- Landmark -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/landmark.jpg" alt="Landmark">
+          <img class="img" src="img/locationImages/landmark.jpg" alt="Landmark">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -157,16 +154,16 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              Landmark is Bergen Kunsthall´s café, bar, concert venue,
-              nightclub, and project space hosting an intensive and eclectic
-              programme. From intimate concerts with legendary artists to
-              crowded parties with local DJs and musicians, and from lectures
-              and debates with leading artists, curators and theoreticians to
-              screenings and performances with emerging local talents and some
-              of the most vital and engaging artists of our times.
-            </p>
-          </details>
+              <p>
+                Landmark is Bergen Kunsthall´s café, bar, concert venue,
+                nightclub, and project space hosting an intensive and eclectic
+                programme. From intimate concerts with legendary artists to
+                crowded parties with local DJs and musicians, and from lectures
+                and debates with leading artists, curators and theoreticians to
+                screenings and performances with emerging local talents and some
+                of the most vital and engaging artists of our times.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -177,7 +174,7 @@ trying to establish them selv in Norway -->
     <div id="uib"> <!-- University of Bergen -->
       <div class="location uib">
         <div class="location-image">
-              <img class="img" src="img/locationImages/uib.jpg" alt="University of Bergen">
+          <img class="img" src="img/locationImages/uib.jpg" alt="University of Bergen">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -186,17 +183,17 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              With its 16,900 students and 3,700 employees, the University of
-              Bergen is a medium-sized European university. Central parts of the
-              campus are located in the city center. The University of Bergen is
-              both an educational institution and a research institution that
-              covers most disciplines, organized in seven faculties and around
-              54 institutes and academic centers. The University of Bergen is
-              also part of a global network of students, researchers and
-              knowledge institutions.
-            </p>
-          </details>
+              <p>
+                With its 16,900 students and 3,700 employees, the University of
+                Bergen is a medium-sized European university. Central parts of the
+                campus are located in the city center. The University of Bergen is
+                both an educational institution and a research institution that
+                covers most disciplines, organized in seven faculties and around
+                54 institutes and academic centers. The University of Bergen is
+                also part of a global network of students, researchers and
+                knowledge institutions.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -205,7 +202,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location uib"> <!-- Ulrike Pihls Hus -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/ulrikepihlshus.jpg" alt="Ulrike Pihls Hus">
+          <img class="img" src="img/locationImages/ulrikepihlshus.jpg" alt="Ulrike Pihls Hus">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -214,11 +211,11 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              In Ulrike Pihl's house you will find reading and computer halls
-              for all students at the Faculty of Social Sciences.
-            </p>
-          </details>
+              <p>
+                In Ulrike Pihl's house you will find reading and computer halls
+                for all students at the Faculty of Social Sciences.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -227,7 +224,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location uib"> <!-- Student Center -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/studentcenter.jpg" alt="Student Center">
+          <img class="img" src="img/locationImages/studentcenter.jpg" alt="Student Center">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -236,14 +233,14 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              The student center is located centrally at Nygårdshøyden.
-              In addition to excellent facilities for strength and stamina, you
-              will find our largest bicycle and group training halls.
-              At the student center you will also find our swimming pool which
-              is included in the membership of students and employees
-            </p>
-          </details>
+              <p>
+                The student center is located centrally at Nygårdshøyden.
+                In addition to excellent facilities for strength and stamina, you
+                will find our largest bicycle and group training halls.
+                At the student center you will also find our swimming pool which
+                is included in the membership of students and employees
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -252,7 +249,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location uib"> <!-- The Faculty of Social Sciences -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/svbygget.jpg" alt="The Faculty of Social Sciences">
+          <img class="img" src="img/locationImages/svbygget.jpg" alt="The Faculty of Social Sciences">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -261,16 +258,16 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              The Faculty of Social Sciences consists of seven institutes,
-              offering research-based education and conducting varied and
-              current research. We are concerned with the big and small issues
-              in the community debate, and work for research to be a part of
-              the foundation when making decisions that affect us all. Our
-              researchers and teachers contribute to this, and offer our
-              students insight into and knowledge of society's challenges.
-            </p>
-          </details>
+              <p>
+                The Faculty of Social Sciences consists of seven institutes,
+                offering research-based education and conducting varied and
+                current research. We are concerned with the big and small issues
+                in the community debate, and work for research to be a part of
+                the foundation when making decisions that affect us all. Our
+                researchers and teachers contribute to this, and offer our
+                students insight into and knowledge of society's challenges.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -279,7 +276,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location uib"> <!-- Faculty Of Law -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/facultyoflaw.jpg" alt="The Faculty of Social Sciences">
+          <img class="img" src="img/locationImages/facultyoflaw.jpg" alt="The Faculty of Social Sciences">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -288,16 +285,16 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              The Faculty of Law has approximately 2000 students and 100
-              employees, all of which are covered by a modernized school
-              building from 1891 and two new buildings, JUS 1 from 1995 and
-              JUS 2 from 2009.
-              There are teaching rooms, reading rooms, PC-rooms, library,
-              canteen, club rooms for students and offices for student organs
-              and employees.
-            </p>
-          </details>
+              <p>
+                The Faculty of Law has approximately 2000 students and 100
+                employees, all of which are covered by a modernized school
+                building from 1891 and two new buildings, JUS 1 from 1995 and
+                JUS 2 from 2009.
+                There are teaching rooms, reading rooms, PC-rooms, library,
+                canteen, club rooms for students and offices for student organs
+                and employees.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -308,7 +305,7 @@ trying to establish them selv in Norway -->
     <div id="culture"> <!-- Culture -->
       <div class="location culture"> <!-- Bryggen -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/bryggen.jpg" alt="Bryggen">
+          <img class="img" src="img/locationImages/bryggen.jpg" alt="Bryggen">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -317,19 +314,19 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              Bryggen in Bergen, also known as the German Bridge and
-              Hansabryggen, encompasses the old wooded and fire-resistant stone
-              jellers in the historic city center of Bergen. Bryggen was built
-              around 1070, and was from 1360 to 1754 the seat of the German
-              office in the city and the central hub of the Hanseatic trade
-              in Norway. The Hansa company was also the Nordic region's first
-              trading company. The bridge consists of approx. 13 goals with 61
-              protected buildings, [1] and located on UNESCO's list of world
-              heritage sites. Bryggen is the third most visited tourist
-              attraction in Norway.
-            </p>
-          </details>
+              <p>
+                Bryggen in Bergen, also known as the German Bridge and
+                Hansabryggen, encompasses the old wooded and fire-resistant stone
+                jellers in the historic city center of Bergen. Bryggen was built
+                around 1070, and was from 1360 to 1754 the seat of the German
+                office in the city and the central hub of the Hanseatic trade
+                in Norway. The Hansa company was also the Nordic region's first
+                trading company. The bridge consists of approx. 13 goals with 61
+                protected buildings, [1] and located on UNESCO's list of world
+                heritage sites. Bryggen is the third most visited tourist
+                attraction in Norway.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -338,7 +335,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location culture"> <!-- VilVite -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/vilvite.jpg" alt="VilVite">
+          <img class="img" src="img/locationImages/vilvite.jpg" alt="VilVite">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -347,18 +344,18 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              Science centre where the whole family can discover more than 100
-              different exhibits. Science show and 3D film at weekends and
-              during school holidays.
-              In the permanent exhibition at VilVite, Bergen Science Centre,
-              you can explore abt. 75 different interactive installations and
-              experiments. You can bicycle a 360 degrees loop in the G-Force,
-              drill for oil, navigate a ship, forecast the weather as a TV
-              presenter, and much more. Our main themes are the weather, the
-              ocean and energy.
-            </p>
-          </details>
+              <p>
+                Science centre where the whole family can discover more than 100
+                different exhibits. Science show and 3D film at weekends and
+                during school holidays.
+                In the permanent exhibition at VilVite, Bergen Science Centre,
+                you can explore abt. 75 different interactive installations and
+                experiments. You can bicycle a 360 degrees loop in the G-Force,
+                drill for oil, navigate a ship, forecast the weather as a TV
+                presenter, and much more. Our main themes are the weather, the
+                ocean and energy.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -367,7 +364,7 @@ trying to establish them selv in Norway -->
       </div>
       <div class="location culture"> <!-- Old Bergen -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/oldbergen.jpg" alt="Old Bergen">
+          <img class="img" src="img/locationImages/oldbergen.jpg" alt="Old Bergen">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -376,14 +373,14 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              In the 19th century, Bergen was Europe's largest wooden town,
-              a distinctive urban environment with dense wooden houses, busy
-              streets, squares and alleys. At the Old Bergen open-air museum
-              you can relive some of the mood, with houses from the 1700s,
-              1800s and 1900s. How did it look? What did the people talk about?
-            </p>
-          </details>
+              <p>
+                In the 19th century, Bergen was Europe's largest wooden town,
+                a distinctive urban environment with dense wooden houses, busy
+                streets, squares and alleys. At the Old Bergen open-air museum
+                you can relive some of the mood, with houses from the 1700s,
+                1800s and 1900s. How did it look? What did the people talk about?
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -394,7 +391,7 @@ trying to establish them selv in Norway -->
     <div id="hikes"> <!-- Hikes -->
       <div class="location culture"> <!-- Fløyen -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/fløyen.jpg" alt="Fløyen">
+          <img class="img" src="img/locationImages/fløyen.jpg" alt="Fløyen">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -403,20 +400,20 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              Fløyfjellet or Fløyen is one of Bergen's most popular mountain
-              attractions, and one of Bergen's most popular tourist attractions.
-              The view of Bergen from the viewpoint at Fløyen station
-              Fløyfjellet is first and foremost the name of the mountain top,
-              which is 400 meters above sea level and is located directly above
-              Bergen city center. The name may be from the whistle bar, a
-              windshield or weather rack that was raised to give a signal of
-              the wind direction when ships were to leave Vågen. The view of the
-              mountain peninsula makes Fløyfjellet a popular destination for
-              both tourists and the local people. The Fløyfjellet is also a
-              hiking trail that runs in a loop from Fløien station.
-            </p>
-          </details>
+              <p>
+                Fløyfjellet or Fløyen is one of Bergen's most popular mountain
+                attractions, and one of Bergen's most popular tourist attractions.
+                The view of Bergen from the viewpoint at Fløyen station
+                Fløyfjellet is first and foremost the name of the mountain top,
+                which is 400 meters above sea level and is located directly above
+                Bergen city center. The name may be from the whistle bar, a
+                windshield or weather rack that was raised to give a signal of
+                the wind direction when ships were to leave Vågen. The view of the
+                mountain peninsula makes Fløyfjellet a popular destination for
+                both tourists and the local people. The Fløyfjellet is also a
+                hiking trail that runs in a loop from Fløien station.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -427,7 +424,7 @@ trying to establish them selv in Norway -->
     <div id="stores"> <!-- Stores -->
       <div class="location culture"> <!-- Liquor Store -->
         <div class="location-image">
-              <img class="img" src="img/locationImages/vinmonopol.jpg" alt="Liquor Store">
+          <img class="img" src="img/locationImages/vinmonopol.jpg" alt="Liquor Store">
         </div>
         <div class="location-info">
           <div class="location-name">
@@ -436,12 +433,12 @@ trying to establish them selv in Norway -->
           <div class="location-description">
             <details>
               <summary>View Description</summary>
-            <p>
-              At this liquor store you can buy every type of liquor. If you want
-              spirit og some other alchohol above 4.7% you will need to buy it at
-              a liquor store.
-            </p>
-          </details>
+              <p>
+                At this liquor store you can buy every type of liquor. If you want
+                spirit og some other alchohol above 4.7% you will need to buy it at
+                a liquor store.
+              </p>
+            </details>
           </div>
         </div>
         <div class="location-button">
@@ -450,22 +447,14 @@ trying to establish them selv in Norway -->
       </div>
 
     </div>
-    </section>
-  </main>
-  <footer>
-    <h3 id="footer_overskrift">Om BIS</h3>
-    <h3>(B)ergen (I)International (S)tudent</h3>
-    <p>
-      BIS er en side laget for faget INFO134 på UIB.<br>
-      Den er laget av de følgende gruppemedlemmene:
-    </p>
-      <ul id="footer-list">
-          <li>Nora Gedde (nge005)</li>
-          <li>Tormod Renberg Lerøy(tre081)</li>
-          <li>Roy H. Jenssen (rje005)</li>
-          <li>Øyvind Johannessen (ojo014)</li>
-      </ul>
-      <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
-  </footer>
-  </body>
+  </section>
+</main>
+<footer>
+  <h3>(B)ergen (I)International (S)tudent</h3>
+  <p>
+    BIS er en side laget for faget INFO134 på UIB
+  </p>
+  <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
+</footer>
+</body>
 </html>

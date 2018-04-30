@@ -2,74 +2,66 @@
 trying to establish them selv in Norway -->
 <!Doctype HTML>
 <html lang="en">
-  <head>
-    <title>Welcome</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width = device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/mapstyle.css">
-    <script src="js/locationManager.js"></script>
-    <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
-  </head>
-  <body onload="loadTable('https://data-nbr.udir.no/enheter/kommune/1201', 'load')">
-    <!--Header NG-->
-    <header class="site">
-      <div class="banner">
-        <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
-          <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
-        </a>
-        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
-        <a href="index.html">
-            <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
-        </a>
-        <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
-        <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+<head>
+  <title>Welcome</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width = device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mapstyle.css">
+  <script src="js/locationManager.js"></script>
+  <link rel="icon" type="image/ico" href="img/logo/bis_xOP_icon.ico">
+</head>
+<body onload="loadTable('https://data-nbr.udir.no/enheter/kommune/1201', 'load')">
+  <header class="site">
+    <div class="banner">
+      <a href="https://www.facebook.com/groups/187907191801247/?source=create_flow" target="_blank" id="facebookBox">
+        <img src="img/logo/Facebook-logo.png" alt="Facebook" id="facebook">
+      </a>
+      <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+      <a href="index.html">
+        <img src="img/logo/logo.png" alt="Bergen International Student" id="logo">
+      </a>
+      <img src="img/logo/fjellet.png"  class="fjell" alt="ettfjell">
+      <img src="img/logo/fjellene.png"  class="fjell" alt="treFjell">
+    </div>
+    <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Frontpage</a></li>
+        <li><a href="map.html">Map</a></li>
+        <li><a href="toiletsearch.html">Toilets</a></li>
+        <li><a href="playgroundsearch.html">Playgrounds</a></li>
+        <li><a class="active" href="kindergardens.html">Kindergardens</a></li>
+        <li><a href="survival.html">Survival Guide</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="top">
+      <div class="freeformSearchBar">
+        <h3>Search:</h3>
+        <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
+        <button onclick="loadTable('https://data-nbr.udir.no/enheter/kommune/1201', 'search')">Search</button>
       </div>
-       <!--Den linken som er aktiv her har en klasse som gjør at den lyser opp i headeren-->
-       <nav class="nav">
-          <ul>
-            <li><a href="index.html">Frontpage</a></li>
-            <li><a href="map.html">Map</a></li>
-            <li><a href="toiletsearch.html">Toilets</a></li>
-            <li><a href="playgroundsearch.html">Playgrounds</a></li>
-            <li><a class="active" href="kindergardens.html">Kindergardens</a></li>
-            <li><a href="survival.html">Survival Guide</a></li>
-          </ul>
-      </nav>
-    </header>
-    <main>
-      <section class="top">
-        <div class="freeformSearchBar">
-          <h3>Search:</h3>
-          <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
-          <button onclick="loadTable('https://data-nbr.udir.no/enheter/kommune/1201', 'search')">Search</button>
-        </div>
-        <div id="map"></div>
-        <script async defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
-        </script>
-      </section>
-      <details open id="alltoilets-details">
-        <summary><h3>Playground Table:</h3></summary>
-        <div class="allResults">
-          <table id="searchTable">
-          </table>
-        </div>
-      </details>
-    </main>
-    <footer>
-      <h3>(B)ergen (I)International (S)tudent</h3>
-      <p>
-        BIS er en side laget for faget INFO134 på UIB.<br>
-        Den er laget av de følgende gruppemedlemmene:
-      </p>
-        <ul id="footer-list">
-            <li>Nora Gedde (nge005)</li>
-            <li>Tormod Renberg Lerøy(tre081)</li>
-            <li>Roy H. Jenssen (rje005)</li>
-            <li>Øyvind Johannessen (ojo014)</li>
-        </ul>
-        <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
-    </footer>
-  </body>
+      <div id="map"></div>
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
+      </script>
+    </section>
+    <details open id="alltoilets-details">
+      <summary><h3>Playground Table:</h3></summary>
+      <div class="allResults">
+        <table id="searchTable">
+        </table>
+      </div>
+    </details>
+  </main>
+  <footer>
+    <h3>(B)ergen (I)International (S)tudent</h3>
+    <p>
+      BIS er en side laget for faget INFO134 på UIB
+    </p>
+    <p>Bilder og tekst til Survival guide fra Julien S. Bourrelle</p>
+  </footer>
+</body>
 </html>
