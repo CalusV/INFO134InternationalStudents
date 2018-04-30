@@ -525,37 +525,6 @@ function favPlace() {
 		var favLong = favourite[0].longitude;
 		console.log("Lat to match is: " + favLat + " | Long to match is: " + favLong);
 
-		if(table === "playground") {
-			var favoriteMarker = new google.maps.Marker({
-				position: new google.maps.LatLng(favLat, favLong),
-				map:map
-			});
-
-			var infoW = new google.maps.InfoWindow();
-			if(favoriteMarker !== null) {
-				favoriteMarker.addListener('click', function() {
-					// Oppdatert infoWindow hos marker (Ø.J)
-					infoW.setContent("<h3>Playground:</h3>"+ params);
-					infoW.open(map, this);
-				});
-			}
-		}
-		else if(table === "toilet") {
-			var favoriteMarker = new google.maps.Marker({
-				position: new google.maps.LatLng(favLat, favLong),
-				map:map
-			});
-
-			var infoW = new google.maps.InfoWindow();
-			if(favoriteMarker !== null) {
-				favoriteMarker.addListener('click', function() {
-					// Oppdatert infoWindow hos marker (Ø.J)
-					infoW.setContent("<h3>Toilet:</h3>"+ params);
-					infoW.open(map, this);
-				});
-			}
-		}
-
 		var nearestListPromise=getJSON(nearestURL);
 		nearestListPromise.then(function(value){
 			var andreListe = value.entries;
@@ -563,6 +532,8 @@ function favPlace() {
 			var leastDistance = 10000;
 			var leastLat=0;
 			var leastLng=0;
+
+			listForMarker = [];
 
 			for(i = 0; i< andreListe.length; i++){
 				var otherLat = andreListe[i].latitude;
@@ -590,35 +561,35 @@ function favPlace() {
 				}
 			}
 
-			console.log('siste least', leastDistance);
-			//markers for nærmeste toalett
-			if(table === "playground") {
-				var leastDistanceMarker = new google.maps.Marker({
-					position: new google.maps.LatLng(leastLat, leastLng),
-					map:map
-				});
-				var infoW = new google.maps.InfoWindow();
-				if(leastDistanceMarker !== null) {
-					leastDistanceMarker.addListener('click', function() {
-					// Oppdatert infoWindow hos marker
-					infoW.setContent("<h3>Toilet</h3>" + place);
-					infoW.open(map, this);
-					});
+			for(i = 0; i < andreListe.length; i++) {
+				if(andreListe[i].latitude === leastLat && andreListe[i].longitude === leastLng) {
+					console.log("Found Match: ", andreListe[i], "with", leastLat + " / " + leastLng);
+					listForMarker.push(andreListe[i]);
 				}
 			}
-			else if(table === "toilet") {
-				var leastDistanceMarker = new google.maps.Marker({
-					position: new google.maps.LatLng(leastLat, leastLng),
-					map:map
-				});
-				var infoW = new google.maps.InfoWindow();
-				if(leastDistanceMarker !== null) {
-					leastDistanceMarker.addListener('click', function() {
-					// Oppdatert infoWindow hos marker
-					infoW.setContent("<h3>Playground</h3>" + place);
-					infoW.open(map, this);
-					});
-				}
+
+			console.log('siste least', leastDistance);
+			console.log("listForMarker er: ", listForMarker);
+			console.log("FavoriteList er: ", favourite);
+			//markers for nærmeste toalett
+			if(table === "toilet") {
+				generateAndPushMarkers(favourite, "toilet");
+				generateInfoWindow("toilet", favourite.length);
+				markers[0].setMap(map);
+				markers = [];
+				generateAndPushMarkers(listForMarker, "playground");
+				generateInfoWindow("playground", listForMarker.length);
+				markers[0].setMap(map);
+			}
+			else if(table === "playground") {
+				generateAndPushMarkers(favourite, "playground");
+				generateInfoWindow("playground", favourite.length);
+				markers[0].setMap(map);
+				markers = [];
+				generateAndPushMarkers(listForMarker, "toilet");
+				generateInfoWindow("toilet", listForMarker.length);
+				markers.forEach(marker => marker.setMap(map));
+				markers[0].setMap(map);
 			}
 
 			//lager en linje mellom favorittlekeplass og nærmeste toalett
