@@ -9,15 +9,11 @@
 /**
 * MAIN PAGE Structure
 */
-html{
-  font-family: sans-serif;
-  font-family: Tahoma;
-}
+
 main{
   display: flex;
   flex-direction: column;
   background-color: white;
-
 
 }
 body{
