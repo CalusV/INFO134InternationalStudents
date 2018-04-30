@@ -584,7 +584,7 @@ table {
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
-#cell1:hover {
+.cell1:hover {
   background-color: #022340;
   color: #dadad9;
 }
@@ -634,7 +634,7 @@ td {
     display: table-cell;
   }
 
-  #cell1, #cell2, #cell11{
+  .cell1, .cell2, .cell11{
     display: table-cell;
   }
 }
@@ -655,7 +655,7 @@ td {
     display: table-cell;
   }
 
-  #cell1, #cell2, #cell3, #cell4, #cell11 {
+  .cell1, .cell2, .cell3, .cell4, .cell11 {
     display: table-cell;
   }
 }

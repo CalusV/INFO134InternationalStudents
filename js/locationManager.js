@@ -321,28 +321,28 @@ function generateTableCells(searchTable, locationList, tableName) {
 			for (i = 0; i < locationEntries; i++) {
 				var newRow = searchTable.insertRow(i+1);
 				var firstCell = newRow.insertCell(0);
-				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("class", "cell1");
 				firstCell.setAttribute("onclick", "filterByIndex(this, 'toilet', 'https://hotell.difi.no/api/json/bergen/dokart?')");
 				var locCell = newRow.insertCell(1);
-				locCell.setAttribute("id", "cell2");
+				locCell.setAttribute("class", "cell2");
 				var adrCell = newRow.insertCell(2);
-				adrCell.setAttribute("id", "cell3");
+				adrCell.setAttribute("class", "cell3");
 				var wDayCell = newRow.insertCell(3);
-				wDayCell.setAttribute("id", "cell4");
+				wDayCell.setAttribute("class", "cell4");
 				var satCell = newRow.insertCell(4);
-				satCell.setAttribute("id", "cell5");
+				satCell.setAttribute("class", "cell5");
 				var sunCell = newRow.insertCell(5);
-				sunCell.setAttribute("id", "cell6");
+				sunCell.setAttribute("class", "cell6");
 				var genderCell = newRow.insertCell(6);
-				genderCell.setAttribute("id", "cell7");
+				genderCell.setAttribute("class", "cell7");
 				var wChairCell = newRow.insertCell(7);
-				wChairCell.setAttribute("id", "cell8");
+				wChairCell.setAttribute("class", "cell8");
 				var babyCell = newRow.insertCell(8);
-				babyCell.setAttribute("id", "cell9");
+				babyCell.setAttribute("class", "cell9");
 				var priceCell = newRow.insertCell(9);
-				priceCell.setAttribute("id", "cell10");
+				priceCell.setAttribute("class", "cell10");
 				var favLocal = newRow.insertCell(10);
-				favLocal.setAttribute("id", "cell11");
+				favLocal.setAttribute("class", "cell11");
 
 				// Cell value
 				firstCell.innerHTML = locationList[i].id + ".";
@@ -414,12 +414,12 @@ function generateTableCells(searchTable, locationList, tableName) {
 			for (i = 0; i < locationEntries; i++) {
 				var newRow = searchTable.insertRow(i+1);
 				var firstCell = newRow.insertCell(0);
-				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("class", "cell1");
 				firstCell.setAttribute("onclick", "filterByIndex(this, 'playground', 'https://hotell.difi.no/api/json/bergen/lekeplasser?')");
 				var locCell = newRow.insertCell(1);
-				locCell.setAttribute("id", "cell2");
+				locCell.setAttribute("class", "cell2");
 				var favLocal = newRow.insertCell(2);
-				favLocal.setAttribute("id", "cell3");
+				favLocal.setAttribute("class", "cell3");
 
 				// Cell value
 				firstCell.innerHTML = locationList[i].id + ".";
@@ -437,20 +437,20 @@ function generateTableCells(searchTable, locationList, tableName) {
 			for (i = 0; i < (locationEntries); i++) {
 				var newRow = searchTable.insertRow(i+1);
 				var firstCell = newRow.insertCell(0);
-				firstCell.setAttribute("id", "cell1");
+				firstCell.setAttribute("class", "cell1");
 				firstCell.setAttribute("onclick", "filterByIndex(this, 'kindergarden', 'https://data-nbr.udir.no/enheter/kommune/1201')");
 				var locCell = newRow.insertCell(1);
-				locCell.setAttribute("id", "cell2");
+				locCell.setAttribute("class", "cell2");
 				var adrCell = newRow.insertCell(2);
-				adrCell.setAttribute("id", "cell3");
+				adrCell.setAttribute("class", "cell3");
 				var emailCell = newRow.insertCell(3);
-				emailCell.setAttribute("id", "cell4");
+				emailCell.setAttribute("class", "cell4");
 				var fullName = newRow.insertCell(4);
-				fullName.setAttribute("id", "cell5");
+				fullName.setAttribute("class", "cell5");
 				var phoneCell = newRow.insertCell(5);
-				phoneCell.setAttribute("id", "cell6");
+				phoneCell.setAttribute("class", "cell6");
 				var favLocal = newRow.insertCell(6);
-				favLocal.setAttribute("id", "cel7");
+				favLocal.setAttribute("class", "cel7");
 
 				// Cell value
 				var locationName = locationList[i].BesoksAdresse.split(",");
