@@ -525,18 +525,35 @@ function favPlace() {
 		var favLong = favourite[0].longitude;
 		console.log("Lat to match is: " + favLat + " | Long to match is: " + favLong);
 
-		var favoriteMarker = new google.maps.Marker({
-			position: new google.maps.LatLng(favLat, favLong),
-			map:map
-		});
-
-		var infoW = new google.maps.InfoWindow();
-		if(favoriteMarker !== null) {
-			favoriteMarker.addListener('click', function() {
-				// Oppdatert infoWindow hos marker (Ø.J)
-				infoW.setContent("<h3>Playground:</h3>"+ params);
-				infoW.open(map, this);
+		if(table === "playground") {
+			var favoriteMarker = new google.maps.Marker({
+				position: new google.maps.LatLng(favLat, favLong),
+				map:map
 			});
+
+			var infoW = new google.maps.InfoWindow();
+			if(favoriteMarker !== null) {
+				favoriteMarker.addListener('click', function() {
+					// Oppdatert infoWindow hos marker (Ø.J)
+					infoW.setContent("<h3>Playground:</h3>"+ params);
+					infoW.open(map, this);
+				});
+			}
+		}
+		else if(table === "toilet") {
+			var favoriteMarker = new google.maps.Marker({
+				position: new google.maps.LatLng(favLat, favLong),
+				map:map
+			});
+
+			var infoW = new google.maps.InfoWindow();
+			if(favoriteMarker !== null) {
+				favoriteMarker.addListener('click', function() {
+					// Oppdatert infoWindow hos marker (Ø.J)
+					infoW.setContent("<h3>Toilet:</h3>"+ params);
+					infoW.open(map, this);
+				});
+			}
 		}
 
 		var nearestListPromise=getJSON(nearestURL);
@@ -575,17 +592,33 @@ function favPlace() {
 
 			console.log('siste least', leastDistance);
 			//markers for nærmeste toalett
-			var leastDistanceMarker = new google.maps.Marker({
-				position: new google.maps.LatLng(leastLat, leastLng),
-				map:map
-			});
-			var infoW = new google.maps.InfoWindow();
-			if(leastDistanceMarker !== null) {
-				leastDistanceMarker.addListener('click', function() {
-				// Oppdatert infoWindow hos marker
-				infoW.setContent("<h3>This Toilet</h3>" + place);
-				infoW.open(map, this);
+			if(table === "playground") {
+				var leastDistanceMarker = new google.maps.Marker({
+					position: new google.maps.LatLng(leastLat, leastLng),
+					map:map
 				});
+				var infoW = new google.maps.InfoWindow();
+				if(leastDistanceMarker !== null) {
+					leastDistanceMarker.addListener('click', function() {
+					// Oppdatert infoWindow hos marker
+					infoW.setContent("<h3>Toilet</h3>" + place);
+					infoW.open(map, this);
+					});
+				}
+			}
+			else if(table === "toilet") {
+				var leastDistanceMarker = new google.maps.Marker({
+					position: new google.maps.LatLng(leastLat, leastLng),
+					map:map
+				});
+				var infoW = new google.maps.InfoWindow();
+				if(leastDistanceMarker !== null) {
+					leastDistanceMarker.addListener('click', function() {
+					// Oppdatert infoWindow hos marker
+					infoW.setContent("<h3>Playground</h3>" + place);
+					infoW.open(map, this);
+					});
+				}
 			}
 
 			//lager en linje mellom favorittlekeplass og nærmeste toalett
