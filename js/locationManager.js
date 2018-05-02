@@ -886,7 +886,7 @@ function executeSearch(fullCollection, searchType) {
 
 	//FREE SEARCH WITH REGEX
 	if (definedParams.includes("search")){
-		var searchParams = ["plassering", "place", "adresse", "navn", "Besoksadresse"];
+		var searchParams = ["plassering", "place", "adresse", "navn", "BesoksAdresse", "Navn"];
 		var locationParams = Object.keys(locationCollection[0]);
 		var freeSearchArray = newQuery["search"].split("");
 		var builtRegString = "";
