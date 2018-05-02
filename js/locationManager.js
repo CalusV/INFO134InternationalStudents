@@ -1104,7 +1104,6 @@ function generateAndPushMarkers(locationList, tableName) {
 */
 function generateInfoWindow(tableName, locationEntries) {
 	for(i = 0; i < locationEntries; i++) {
-		console.log("This is tableName: " + tableName);
 		if(tableName === "toilet") {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {
