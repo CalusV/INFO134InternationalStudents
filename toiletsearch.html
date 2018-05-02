@@ -1,9 +1,7 @@
-<!-- Index frontpage for Bergensproject. This site is for exchange students
-trying to establish them selv in Norway -->
 <!Doctype HTML>
 <html lang="en">
 <head>
-  <title>Welcome</title>
+  <title>Toilets</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width = device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
@@ -11,6 +9,7 @@ trying to establish them selv in Norway -->
   <script src="js/locationManager.js"></script>
   <link rel="icon" type="image/ico" href="media/logo/bis_xOP_icon.ico">
 </head>
+<!-- onload brukes for å hente riktig url og sender til loadTable i JS -->
 <body onload="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'load')">
   <header class="site">
     <div class="banner">
@@ -37,17 +36,20 @@ trying to establish them selv in Norway -->
     </nav>
   </header>
   <main>
+    <!-- Fritekstsøk, henter inn datasettet fra url når man trykker på knappen og sender til loadTable i JS-->
     <section class="top">
       <div class="freeformSearchBar">
         <h3>Search:</h3>
         <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
         <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'search')">Search</button>
       </div>
+      <!-- Kartet -->
       <div id="map"></div>
       <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
       </script>
     </section>
+    <!-- Lager avansertsøk boksen med mulighet for å huke av og skrive fritekstsøk -->
     <details closed id="advDetails">
       <summary><h3>Advanced Search:</h3></summary>
       <div class="advancedSearchBar">
@@ -84,6 +86,7 @@ trying to establish them selv in Norway -->
               <input type="checkbox" id="advFree">
             </div>
           </div>
+          <!-- onload brukes for å hente riktig url og sedner til loadTable i JS-->
           <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'search')">Search</button>
         </div>
       </div>

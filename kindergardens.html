@@ -1,9 +1,7 @@
-<!-- Index frontpage for Bergensproject. This site is for exchange students
-trying to establish them selv in Norway -->
 <!Doctype HTML>
 <html lang="en">
 <head>
-  <title>Welcome</title>
+  <title>Kindergardens</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width = device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
@@ -11,6 +9,7 @@ trying to establish them selv in Norway -->
   <script src="js/locationManager.js"></script>
   <link rel="icon" type="image/ico" href="media/logo/bis_xOP_icon.ico">
 </head>
+<!-- onload brukes for å hente riktig url  og sender til loadTable-->
 <body onload="loadTable('https://data-nbr.udir.no/enheter/kommune/1201', 'load')">
   <header class="site">
     <div class="banner">
@@ -38,16 +37,19 @@ trying to establish them selv in Norway -->
   </header>
   <main>
     <section class="top">
+      <!-- Fritekstsøk, henter inn datasettet fra url når man trykker på knappen og sender til loadTable i JS-->
       <div class="freeformSearchBar">
         <h3>Search:</h3>
         <input placeholder="Freetext search" type="text" name="searchQuery" id="searchInput">
         <button onclick="loadTable('https://data-nbr.udir.no/enheter/kommune/1201', 'search')">Search</button>
       </div>
+      <!-- kartet til siden  -->
       <div id="map"></div>
       <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm3qkcxPKcY3yM-_dfetGNr8iJ6N87dqs&callback=initMap">
       </script>
     </section>
+    <!-- Table placeholder som blir fylt ut med JS -->
     <details open id="alltoilets-details">
       <summary><h3>Kindergarden Table:</h3></summary>
       <div class="allResults">
