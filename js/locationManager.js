@@ -1,13 +1,13 @@
-/// All global variables
+// All global variables
 var map, markers;
 markers = [];
 map = "";
 
-/*  getJSON(url)
- *	Tar string-url som parameter. Returnerer en gyldig liste eller feilmelding.
- * 	Sjekker at URL laster som den skal, og at URL inneholder en liste som kan parses av JSON.
- */
-
+/**
+ * getJSON(url)
+ * Tar string-url som parameter. Returnerer en gyldig liste eller feilmelding.
+ * Sjekker at URL laster som den skal, og at URL inneholder en liste som kan parses av JSON.
+**/
 function getJSON(url){
 	return new Promise(function(resolve, reject){
 		var xhr = new XMLHttpRequest();
@@ -20,7 +20,7 @@ function getJSON(url){
 						resolve(list);
 						console.log("JSON validated, promise succeeded.");
 					} else {
-						reject("JSON not validated.");
+						reject("JSON not validated.", null);
 					}
 				} else {
 					reject(xhr.statusText);
@@ -32,11 +32,11 @@ function getJSON(url){
 	});
 }
 
-/* loadTable(url, loadType)
+/**
+ * loadTable(url, loadType)
  * Tar en URL og en streng som informerer om det er et søk eller sidelast
  * Bruker et løfte og legger til et steg på vel utført løfte, som kjører et søk eller laster tabeller
- */
-
+**/
 function loadTable(url, loadType){
 	var searchTable = document.getElementById("searchTable");
 	var isToiletRegex = /dokart/;
@@ -106,11 +106,11 @@ function loadTable(url, loadType){
 	}});
 }
 
-/* SearchQuery(male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch)
+/**
+ * SearchQuery(male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch)
  * Tar en rekke mulige parametre for å bygge et søkeobjekt.
  * Søkeobjektet kan brukes uniformt uavhengig av hva som søkes på, da bare relevante variabler fylles
- */
-
+**/
 function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
 
 		this.herre = male;
@@ -124,11 +124,11 @@ function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access
 		this.search = freeSearch;
 	}
 
-	/*
-	 *
-	 *
-	 */
-
+/**
+ * clearTable(table, condition)
+ * Tar inn to parameter, tabellen som skal tømmes og en tilstand som sier om man
+ * skal klarere hele tabellen, eller alt under headeren.
+**/
 function clearTable(table, condition) { //Tøm tabellen fra søk til søk
 		if(condition === undefined || condition === null) {
 			var tableHeaderRowCount = 0;
@@ -144,6 +144,11 @@ function clearTable(table, condition) { //Tøm tabellen fra søk til søk
 	    }
 	}
 
+/**
+ * generateTableHeaders(searchTable, tableName)
+ * Generer navn til kolonner i tabell avhengig av hvilken tabell det gjelder.
+ * searchTable er en peker til tabellen som skal populerer med header.
+**/
 function generateTableHeaders(searchTable, tableName) {
 		if(tableName === "toilet") {
 			var toiletAttributeNames = ["Index", "Location", "Adresse", "Weekdays", "Saturdays", "Sundays", "Genders", "Wheelchair", "Changing Stations", "Price", "Mark Favorites"];
@@ -183,6 +188,11 @@ function generateTableHeaders(searchTable, tableName) {
 		}
 	}
 
+/**
+ * createIdAttributeForListElements(value)
+ * En funksjon som blir brukt til å genere id egeneskap til datalister som ikke
+ * allerede har en id på elementene sine.
+**/
 function createIdAttributeForListElements(value) {
 	for(i = 0; i < value.length; i++) {
 		value[i].id = i + 1;
@@ -190,7 +200,12 @@ function createIdAttributeForListElements(value) {
 }
 
 /**
- * By clicking on a cell index the map will zoom and center at the marker position
+ * filterByIndex(obj, tableName, url)
+ * Tar inn parameterene obj, tableName og url.
+ * obj representerer her (this), altså selve cellen vi vil filtrere på kartet
+ * tableName sier hvilket dataset vi vil ha
+ * url er link til dataset
+ * funksjonen scroller til kartet, zoomer inn på den valgte elementet fra listen
 **/
 function filterByIndex(obj, tableName, url){
 		window.scrollTo(0, 100);
@@ -225,6 +240,10 @@ function filterByIndex(obj, tableName, url){
 	}, 1000)
 }
 
+/**
+ * generateNewSortedTable(sortedList)
+ * Oppretter en ny sortert liste i tabellen det gjelder
+**/
 function generateNewSortedTable(sortedList) {
 	var table = document.getElementById('searchTable');
 	var rows = getTableRows();
@@ -234,6 +253,11 @@ function generateNewSortedTable(sortedList) {
 	}
 }
 
+/**
+ * getTableRows()
+ * Henter ut alle radene i tabellen som skal sorteres og returnerer dem
+ * som et array
+**/
 function getTableRows() {
 	var rows = document.getElementsByTagName('tr');
 	var length = document.getElementsByTagName('tr').length;
@@ -245,18 +269,20 @@ function getTableRows() {
 }
 
 /**
- * This chain of functions which starts a column sort uses quick sort
- * in sortTableAlfabetical function.
- * First we call generateNewSortedTable, then pass in the function that
- * actually sorts the table column selected by the user. This function takes in
- * a function getTableRows which returns all table rows packed in an array
- * and a indicator of which headerElement (column) to be sorted.
- * Not all columns is set to be able to be sortet because of the time it can take
+ * startSort(headerElement)
+ * headerElement er en indikator på hvilken overskrift som er trykket på
+ * Ved tastetrykk på en kolonne overskrift, starter sorteringsalgoritmen her
 **/
 function startSort(headerElement) {
 	generateNewSortedTable(sortTableAlfabetical(getTableRows(), headerElement));
 }
 
+/**
+ * sortTableAlfabetical(rows, headerElement)
+ * rows parameteret er getTableRows()
+ * headerElement får funksjonen fra startSort
+ * Bruker quicksort algoritme til å sortere radene i tabellen alfabetisk
+**/
 function sortTableAlfabetical(rows, headerElement) {
 		if(rows.length <= 1) {
 			console.log("Rows:");
@@ -293,9 +319,6 @@ function sortTableAlfabetical(rows, headerElement) {
 			var pivot = rows.pop();
 			var tableLength = rows.length;
 			for(i = 0; i < tableLength; i++) {
-				// console.log("Cell: " + rows[i].childNodes[rowChildNode].innerHTML);
-				// console.log("Pivot: " + pivot.childNodes[rowChildNode].innerHTML);
-				// console.log(rows[i].childNodes[rowChildNode].innerHTML.charAt(0), "greater than", pivot.childNodes[rowChildNode].innerHTML.charAt(0), " | ", rows[i].childNodes[rowChildNode].innerHTML.charAt(0) <= pivot.childNodes[rowChildNode].innerHTML.charAt(0));
 				if(rowChildNode === 0) {
 					var indexNr1 = parseInt(rows[i].childNodes[rowChildNode].innerHTML);
 					var indexNr2 = parseInt(pivot.childNodes[rowChildNode].innerHTML);
@@ -309,7 +332,6 @@ function sortTableAlfabetical(rows, headerElement) {
 				else {
 					if(rows[i].childNodes[rowChildNode].innerHTML <= pivot.childNodes[rowChildNode].innerHTML) {
 						left.push(rows[i]);
-						// console.log("Pushed to left: ", rows[i].childNodes[0].innerHTML + " | " + rows[i].childNodes[rowChildNode].innerHTML);
 					}
 					else {
 						right.push(rows[i]);
@@ -321,6 +343,16 @@ function sortTableAlfabetical(rows, headerElement) {
 		}
 }
 
+/**
+ * generateTableCells(searchTable, locationList, tableName)
+ * searchTable representerer hvilken tabell i html dokumentet vi skal populere
+ * med celler. locationList representerer datasettet som skal celler genereres for.
+ * tableName forteller hvilken data/tabell dette gjelder.
+ * funksjonen generer celler for dataset, slik at data kan representers
+ * strukturert og oversiktlig. Samtidig legges det inn klasse attributt, onClick
+ * funksjonalitet for filtrering av elementer på kartet og markering av favoritt
+ * element.
+**/
 function generateTableCells(searchTable, locationList, tableName) {
 	var locationEntries = locationList.length;
 		if(tableName === "toilet") {
@@ -470,16 +502,27 @@ function generateTableCells(searchTable, locationList, tableName) {
 			}
 		}
 	}
-/*Får navnet av favorittlekeplass/toalett fra samme rad som knappen og sender til Urlen til den nye htmlsiden.
-Sender også hvilken tabell det er fra
-*/
+/**
+ * buttonFunction(x, tableName)
+ * x representerer "this" i raden
+ * tableName representerer i en streng hvilke dataset/tabell vi har med å gjøre ('toilet' eller 'playground')
+ * Får navnet av favorittlekeplass/toalett fra samme rad som knappen og sender til Urlen til den nye htmlsiden.
+ * Sender også hvilken tabell det er fra
+**/
 function buttonFunction(x, tableName){
 	var table = document.getElementById('searchTable');
 	c = table.rows[x.parentElement.rowIndex].cells[1].innerHTML;
 	window.open("favLocal.html?"+c+'?'+tableName);
 
 }
-//Henter stedsnavn og tabell fra URL og rensker for kosmetiske feil som kom fra URL
+
+/**
+ * favPlace()
+ * Henter stedsnavn og tabell fra URL og rensker for kosmetiske feil som kom fra URL.
+ * Finner nærmeste toalett eller lekeplass avhengig av hvilken tabell favourite knappen
+ * ble trykket på. Deretter markerer dette visuelt på kartet med en linje som viser
+ * avstand.
+**/
 function favPlace() {
 	var x = document.location.href;
   var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ').replace(/%C3%98/g,'Ø');
@@ -513,7 +556,6 @@ function favPlace() {
 		/*Finnes lekeplassen/toalett med samme navn i listen og henter koordinater
 		Disse brukes for å lage markers og finne nærmeste toalett/lekeplass
 		*/
-
 		if(table === "playground"){
 			favourite = locationList.filter(location => location.navn.toString() === params);
 		} else if (table === "toilet"){
@@ -534,7 +576,7 @@ function favPlace() {
 
 			listForMarker = [];
 
-//Finner nærmeste toalett/lekeplass og putter inn hva de heter på siden
+			// Finner nærmeste toalett/lekeplass og putter inn hva de heter på siden
 			for(i = 0; i< andreListe.length; i++){
 				var otherLat = andreListe[i].latitude;
 				var otherLong = andreListe[i].longitude;
@@ -560,7 +602,7 @@ function favPlace() {
 					console.log(leastLat,leastLng)
 				}
 			}
-//henter ut plassering til nærmeste for å kunne lage marker
+			// henter ut plassering til nærmeste for å kunne lage marker
 			for(i = 0; i < andreListe.length; i++) {
 				if(andreListe[i].latitude === leastLat && andreListe[i].longitude === leastLng) {
 					console.log("Found Match: ", andreListe[i], "with", leastLat + " / " + leastLng);
@@ -571,7 +613,7 @@ function favPlace() {
 			console.log('siste least', leastDistance);
 			console.log("listForMarker er: ", listForMarker);
 			console.log("FavoriteList er: ", favourite);
-			//markers for nærmeste toalett
+			// Generer marker for favoritt og nærmeste til favoritt
 			if(table === "toilet") {
 				generateAndPushMarkers(favourite, "toilet");
 				generateInfoWindow("toilet", favourite.length);
@@ -592,7 +634,7 @@ function favPlace() {
 				markers[0].setMap(map);
 			}
 
-			//lager en linje mellom favorittlekeplass og nærmeste toalett
+			// Lager en linje mellom favorittlekeplass og nærmeste toalett
 			var leastLatLng = {lat:+leastLat  ,lng:+leastLng};
 			var favLatLng = {lat:+favLat, lng:+favLong};
 			var leastDistanceLine = [leastLatLng,favLatLng];
@@ -604,7 +646,7 @@ function favPlace() {
 			});
 			lineBetweenLeastDistance.setMap(map);
 
-			//zommer inn så man ser begge markers midt i bilde
+			// Zommer inn så man ser begge markers midt i bilde
 			if(favLat<leastLat && favLong<leastLng){
 				var lat_min = favLat;
 				var lat_max = leastLat;
@@ -628,25 +670,33 @@ function favPlace() {
 				((lng_max + lng_min) / 2.0)
 			));
 			map.fitBounds(new google.maps.LatLngBounds(
-				//bottom left
+				// Bottom left
 				new google.maps.LatLng(lat_min, lng_min),
-				//top right
+				// Top right
 				new google.maps.LatLng(lat_max, lng_max)
 			));
 		})
 	})
 }
 
+/**
+ * populateTable(searchTable, locationList, tableName)
+ * searchTable representerer tabellen som skal populeres
+ * locationList representerer hvilket datasett som det skal genereres tabell til
+ * tableName representerer navnet til hvilken tabell vi skal genere ('toilet', 'playground' eller 'kindergarden')
+ * Oppretter og populerer en ny tabell i html dokumentet
+**/
 function populateTable(searchTable, locationList, tableName) {
-	//Bygg en ny tabell
+	// Bygg en ny tabell
 	generateTableHeaders(searchTable, tableName);
 	generateTableCells(searchTable, locationList, tableName);
 }
 
-/* generateSearch(searchType)
+/**
+ * generateSearch(searchType)
  * tar en string som forteller hva søket handler om. Returnerer et SearchQuery objekt.
  * Behandler HTML-verdier og gjør dem til uniforme søkeverdier for bruk av SearchQuery.
- */
+**/
 function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	var freeInput = document.getElementById('searchInput');
 	if (searchType === "toilet"){
@@ -668,7 +718,7 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 		var qParamOpenSaturday = "";
 		var qParamOpenSunday = "";
 
-		//BRUKERDEFINERT DATO OG TID
+		// BRUKERDEFINERT DATO OG TID
 		var qParamDate = advInputDate.value;
 		var qParamHour = advInputHour.value;
 		var qParamMinute = advInputMinute.value;
@@ -691,7 +741,7 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 				}
 		}
 
-		//NÅVÆRENDE DATO OG TID
+		// NÅVÆRENDE DATO OG TID
 		if ((advInputOpen.checked === true) || (freeInputOpen === true)){
 			freeInputOpen == false;
 			var currentDate = new Date();
@@ -712,17 +762,17 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 				}
 		}
 
-		//HANDICAPTILGANG
+		// HANDICAPTILGANG
 		 var qParamAccess = (advInputAccess.checked === true)?"1":"0";
 
-		//MAKSPRIS FOR TOALETT
+		// MAKSPRIS FOR TOALETT
 		if (advInputMaxPrice.value === 0){
 			var qParamMaxPrice = "Free";
 		} else {
 				var qParamMaxPrice = advInputMaxPrice.value;
 			}
 
-		//GRATIS TOALETT
+		// GRATIS TOALETT
 		if (advInputFree.checked === true){
 			qParamMaxPrice = "Free";
 		}
@@ -735,7 +785,7 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	}
 
 
-	//FRITEKSTSSØK
+	// FRITEKSTSSØK
 	var qParamFreeSearch = freeInput.value;
 
 	if (searchType == "toilet"){
@@ -749,10 +799,10 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 
 	if(qParamFreeSearch && (searchType === "toilet")){
 		var inputString = qParamFreeSearch;
-		var stringArray = inputString.split(" "); //Del ved space for å se etter andre parametre
+		var stringArray = inputString.split(" "); // Del ved space for å se etter andre parametre
 		console.log(stringArray);
 
-		//Behandle håndskrevne parametre
+		// Behandle håndskrevne parametre
 		if(stringArray.length >= 1){
 			for (i=0; i < stringArray.length; i++){
 
@@ -770,7 +820,7 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 			var numberRegex = /\d\d/;
 			console.log(paramArray);
 
-			if(paramRegex.test(stringArray[i])){ //Om søket følger reglene for parametre, loop gjennom arrayet.
+			if(paramRegex.test(stringArray[i])){ // Om søket følger reglene for parametre, loop gjennom arrayet.
 				if (genderRegex.test(paramArray[0])){
 					if (maleRegex.test(paramArray[1])){
 						qParamMale = "1";
@@ -834,7 +884,7 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 		}
 	}
 
-	//Bygg søkeobjektet
+	// Bygg søkeobjektet
 	var generatedQuery = new SearchQuery(qParamMale,
 		                                   qParamBaby,
 		                                   qParamOpenSunday,
@@ -850,16 +900,17 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	return query;
 }
 
-/* executeSearch(fullCollection, searchType)
+/**
+ * executeSearch(fullCollection, searchType)
  * Søkemotoren vår. Tar en full samling av objekter og strenginformasjon om hva slags liste den leter i
  * Bygger søkeobjekt. Bygger en ny liste med matchende objekter. Returnerer den nye listen.
- */
+**/
 function executeSearch(fullCollection, searchType) {
-  var newQuery = generateSearch(searchType);	//Søkeobjektet
+  var newQuery = generateSearch(searchType);	// Søkeobjektet
 	console.log(newQuery);
-  var locationCollection = fullCollection; //Den fulle lista
-	var results = []; //Den nye resultatslista
-	var params = Object.keys(newQuery); //Liste over parameter i søkeobjektet
+  var locationCollection = fullCollection; // Den fulle lista
+	var results = []; // Den nye resultatslista
+	var params = Object.keys(newQuery); // Liste over parameter i søkeobjektet
 	var definedParams = [];
 	var listSwitcher = false;
 	var searchPrice = 0;
@@ -867,7 +918,7 @@ function executeSearch(fullCollection, searchType) {
 
 	//Building list of defined parameters.
 	for (i; i < params.length; i++){
-		if(newQuery[params[i]] && newQuery[params[i]]!="0"){ //Om parameteret er definert, skal det telles
+		if(newQuery[params[i]] && newQuery[params[i]]!="0"){ // Om parameteret er definert, skal det telles
 			console.log("Checking parameter: " + params[i]);
 			console.log("Parameter is defined! Parameter value is: " + newQuery[params[i]]);
 
@@ -878,7 +929,7 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
-	//FREE SEARCH WITH REGEX
+	// FREE SEARCH WITH REGEX
 	if (definedParams.includes("search")){
 		var searchParams = ["plassering", "place", "adresse", "navn", "BesoksAdresse", "Navn"];
 		var locationParams = Object.keys(locationCollection[0]);
@@ -889,7 +940,7 @@ function executeSearch(fullCollection, searchType) {
 
 		searchParams = searchParams.filter(param => locationParams.includes(param));
 
-		//Tilrettelegge for internasjonale tastatur
+		// Tilrettelegge for internasjonale tastatur
 		for (x; x < freeSearchArray.length; x++){
 			if (freeSearchArray[x] === "o"){
 				builtRegString += "(?:o|ø)";
@@ -906,7 +957,7 @@ function executeSearch(fullCollection, searchType) {
 
 		matchString = new RegExp(builtRegString, "i");
 
-		//Loop gjennom matchende søkeparameter
+		// Loop gjennom matchende søkeparameter
 		if(listSwitcher){
 			results = results.filter(result => filterByParam(result, searchParams, matchString));
 		} else {
@@ -915,7 +966,7 @@ function executeSearch(fullCollection, searchType) {
 			}
 	}
 
-	//DATE AND TIME SEARCH
+	// DATO OG TID SØK
 	if (definedParams.includes("tid_sondag") || definedParams.includes("tid_lordag") || definedParams.includes("tid_hverdag")){
 		if(listSwitcher){
 			results = results.filter(result => filterByTime(result, newQuery));
@@ -925,7 +976,7 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
-	//PRICE SEARCH
+	// PRIS SØK
 	if (definedParams.includes("pris")){
 
 		if (newQuery["pris"] !== "Free"){
@@ -943,7 +994,7 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
-	//DIAPER CHANGING ROOM SEARCH
+	// BLEIE BYTTE ROM SØK
 	if (definedParams.includes("stellerom")){
 		if(listSwitcher){
 			results = results.filter(result => result["stellerom"] === newQuery["stellerom"]);
@@ -953,7 +1004,7 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
-	//WHEEL CHAIR SEARCH
+	// RULLESTOL SØK
 	if (definedParams.includes("rullestol")){
 		if(listSwitcher){
 			results = results.filter(result => result["rullestol"] === newQuery["rullestol"]);
@@ -963,7 +1014,7 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
-	//MALE ACCESS SEARCH
+	// TILGJENGELIG FOR MENN SØK
 	if (definedParams.includes("herre")){
 		if(listSwitcher){
 			results = results.filter(result => result["herre"] === newQuery["herre"]);
@@ -973,7 +1024,7 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
-	//FEMALE ACCESS SEARCH
+	// TILGJENGELIG FOR DAME SØK
 	if (definedParams.includes("dame")){
 		if(listSwitcher){
 			results = results.filter(result => result["dame"] === newQuery["dame"]);
@@ -983,8 +1034,9 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 	/**
-		*	Function for filtering time of day.
-		*/
+	 * filterByTime(listEntry, searchQuery)
+	 * Subfunkjson for filtrering av tid på dag.
+	**/
 	function filterByTime (listEntry, searchQuery){
 		var targetDay = "";
 		if(searchQuery["tid_hverdag"]){
@@ -1020,6 +1072,10 @@ function executeSearch(fullCollection, searchType) {
 		}
 	}
 
+	/**
+	 * filterByParam(listEntry, paramList, regex)
+	 * Subfunksjon for å filtrere ved paramater
+	**/
 	function filterByParam(listEntry, paramList, regex){
 		var z = 0;
 		for(z; z < paramList.length; z++){
@@ -1042,7 +1098,9 @@ function executeSearch(fullCollection, searchType) {
 
 
 /**
+ * initMap()
  * Funksjon for å laste inn kart.
+ * Sentrerer kartet på kordinatene til Bergen
 **/
 function initMap() {
 	var bergen = {lat: 60.391, lng: 5.324};
@@ -1052,12 +1110,12 @@ function initMap() {
 	});
 }
 
-/*
- * Function for generation a list of markers
- * When all markers are made with the appropriate data, it is pushed in
- * to the markers array (markers array is a gloabl variable).
- * This way each marker can be set to a map with the setMap function.
-	*/
+/**
+ * generateAndPushMarkers(locationList, tableName)
+ * Funcksjon for å generere en et array av markers
+ * Når alle data er opprettet med nødvendig data fra locationList, blir de pushet
+ * til markers. Markers er et globalt array.
+**/
 function generateAndPushMarkers(locationList, tableName) {
 	for (i = 0; i < locationList.length; i++) {
 		if(tableName === "toilet") {
@@ -1097,13 +1155,11 @@ function generateAndPushMarkers(locationList, tableName) {
 	}
 }
 
-
-/*
- * Function for generating information windows for each marker
- * Param: array of markers
- * The setContent method used 'this' (a marker instance) and its attribute
- * value to fill the iWindow with value
-*/
+/**
+ * generateInfoWindow(tableName, locationEntries)
+ * Funksjon for å generere informasjons vinduer til hver marker
+ * Funksjon for generating information windows for each marker
+ **/
 function generateInfoWindow(tableName, locationEntries) {
 	for(i = 0; i < locationEntries; i++) {
 		if(tableName === "toilet") {
@@ -1157,11 +1213,13 @@ function generateInfoWindow(tableName, locationEntries) {
 		}
 	}
 }
-/*
- * Function for deleting all markers on the map
- * This is mainly used for refreshing the map with new markers when
- * someone makes a search.
-*/
+
+/**
+ * deleteMarkers()
+ * Funkson for å slette alle markers i array og på kartet
+ * Denne funksjonen blir i hovedsak brukt til å gjenopprette kartet med nye
+ * markers når noen gjør et søk.
+**/
 function deleteMarkers() {
 	for(i = 0; i < markers.length; i++) {
 		if(markers[i] !== null) {
