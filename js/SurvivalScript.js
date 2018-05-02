@@ -1,7 +1,7 @@
 /**
  * Function for showing and hiding subNav elements
 **/
-var currentSelection = getElementById("description-text");
+//var currentSelection = getElementById("description-text");
 function hideMe(value) {
     showOrHideDescriptionText();
     var x = document.getElementById(value);

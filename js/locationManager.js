@@ -449,8 +449,7 @@ function generateTableCells(searchTable, locationList, tableName) {
 				fullName.setAttribute("class", "cell5");
 				var phoneCell = newRow.insertCell(5);
 				phoneCell.setAttribute("class", "cell6");
-				var favLocal = newRow.insertCell(6);
-				favLocal.setAttribute("class", "cel7");
+
 
 				// Cell value
 				var locationName = locationList[i].BesoksAdresse.split(",");
@@ -461,16 +460,11 @@ function generateTableCells(searchTable, locationList, tableName) {
 				fullName.innerHTML = locationList[i].FulltNavn;
 				phoneCell.innerHTML = locationList[i].Telefon;
 
-				//Mark favorite
-					var favButton = document.createElement("Button");
-					var favMark = document.createTextNode("Mark Favorite!");
-					favButton.appendChild(favMark);
-					favLocal.appendChild(favButton);
-					favLocal.setAttribute ("onClick", "buttonFunction(this, 'kindergarden')");
+
 			}
 		}
 	}
-/*Får navnet av favorittlekeplass fra samme rad som knappen og sender til Urlen til den nye htmlsiden.
+/*Får navnet av favorittlekeplass/toalett fra samme rad som knappen og sender til Urlen til siden favplace.
 Sender også hvilken tabell det er fra
 */
 function buttonFunction(x, tableName){
@@ -479,23 +473,24 @@ function buttonFunction(x, tableName){
 	window.open("favLocal.html?"+c+'?'+tableName);
 
 }
-//funksjonen marker favorittlekeplass og finner og markerer nærmeste toalett.
+//Henter navnet på lekeplassen og tabellen og rensker navnet etter at noe ble endret i url.
 function favPlace() {
 	var x = document.location.href;
   var params = x.split('?')[1].replace(/%20/g,' ').replace(/%C3%A5/g,'å').replace(/%C3%B8/g,'ø').replace(/%C3%A6/g,'æ').replace(/%C3%98/g,'Ø');
 	var table=x.split('?')[2];
 
+//plasserer navnet på favoritt i html
 	if (table === "playground"){
-  	document.getElementById('placeFav').innerHTML ='Your favorite playground is '+ params;
+  	document.getElementById('placeFav').innerHTML ='Your favorite playground is '+ params.charAt(0).toUpperCase() + params.slice(1).toLowerCase();
 	} else if (table === "toilet"){
-  	document.getElementById('placeFav').innerHTML ='Your favorite toilet is '+ params;
+  	document.getElementById('placeFav').innerHTML ='Your favorite toilet is '+ params.charAt(0).toUpperCase() + params.slice(1).toLowerCase();
 	}
 
 
-	//hvis favoritt er toalett(slett om vi ikke skal brue favorittdo)
 	var url = "";
 	var nearestURL = "";
 
+//tar inn riktig url til promise
 	if(table === "toilet"){
 		url='https://hotell.difi.no/api/json/bergen/dokart?';
 		nearestURL='https://hotell.difi.no/api/json/bergen/lekeplasser?';
@@ -511,7 +506,7 @@ function favPlace() {
 		locationList = locationList.entries;
 		console.log(params);
 		console.log(locationList);
-		/*Finnes lekeplassen med samme navn i listen og henter koordinater
+		/*Finnes lekeplassen/toalett med samme navn i listen og henter koordinater
 		Disse brukes for å lage markers og finne nærmeste toalett
 		*/
 
@@ -547,6 +542,7 @@ function favPlace() {
 			var leastLat=0;
 			var leastLng=0;
 
+//finner nærmeste til favoritt
 			for(i = 0; i< andreListe.length; i++){
 				var otherLat = andreListe[i].latitude;
 				var otherLong = andreListe[i].longitude;
@@ -560,11 +556,11 @@ function favPlace() {
 					var place = "";
 					if (table === "playground"){
 						place = andreListe[i].plassering;
-						document.getElementById('placeNearest').innerHTML='Nearest toilet is '+ place;
+						document.getElementById('placeNearest').innerHTML='Nearest toilet is '+ place.charAt(0).toUpperCase() + place.slice(1).toLowerCase();
 
 					} else if (table === "toilet"){
 						place = andreListe[i].navn;
-						document.getElementById('placeNearest').innerHTML='Nearest playground is '+ place;
+						document.getElementById('placeNearest').innerHTML='Nearest playground is '+ place.charAt(0).toUpperCase() + place.slice(1).toLowerCase();
 
 					}
 
@@ -588,7 +584,7 @@ function favPlace() {
 				});
 			}
 
-			//lager en linje mellom favorittlekeplass og nærmeste toalett
+			//lager en linje mellom favorittlekeplass/toalett og nærmeste toalett/lekeplass
 			var leastLatLng = {lat:+leastLat  ,lng:+leastLng};
 			var favLatLng = {lat:+favLat, lng:+favLong};
 			var leastDistanceLine = [leastLatLng,favLatLng];

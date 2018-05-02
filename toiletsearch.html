@@ -57,34 +57,33 @@ trying to establish them selv in Norway -->
             <input type="text" name="searchQuery" id="advSearchInput">
           </div>
           <div class="searchForm">
+            <div class="accessContainer">
+              <label for="advMale" id="manChek">Man</label>
+              <input type="checkbox" id="advMale" class="acces">
+              <label for="advFemale"id="manChek">Female</label>
+              <input type="checkbox" id="advFemale" class="acces">
+              <label for="advAccess">Wheelchair</label>
+              <input type="checkbox" id="advAccess" class="acces">
+              <label for="advBaby">Baby</label>
+              <input type="checkbox" id="advBaby" class="acces">
+            </div>
             <div class="dateContainer">
-              <h4>Date details:</h4>
+              <h4 id="h4">Date details:</h4>
               <input type="date" name="requiredDate" id="advDate">
               <div class"clock">
                 <input type="number" name="hour" min="00" max="23" id="advHour" placeholder="Hour"> :
                 <input type="number" name="minute" min="00" max="59" id="advMin" placeholder="Minute">
               </div>
               <label>Open now?</label>
-              <input type="checkbox" id="advOpen">
+              <input type="checkbox" id="advOpen" display="block">
             </div>
             <div class="priceContainer">
               <h4>Price details</h4>
               <input placeholder="Max price" type="text" name="searchQuery" id="advMaxPrice">
               <label>Is free</label>
-              <input type="checkbox" id="advFree">
+              <input type="checkbox" id="advFree" display="block">
             </div>
-            <div class="accessContainer">
-              <h4>Accessibility details</h4>
-              <label>Male</label>
-              <input type="checkbox" id="advMale">
-              <label>Female</label>
-              <input type="checkbox" id="advFemale">
-              <label>Wheelchair Accessible</label>
-              <input type="checkbox" id="advAccess">
-              <label>Changing station</label>
-              <input type="checkbox" id="advBaby">
-            </div>
-          </div>
+      </div>
           <button onclick="loadTable('https://hotell.difi.no/api/json/bergen/dokart?', 'search')">Search</button>
         </div>
       </div>
