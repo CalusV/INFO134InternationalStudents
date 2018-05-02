@@ -9,22 +9,28 @@
 /**
 * MAIN PAGE Structure
 */
+
+/* standard-font for alle html-dokumenter */
 html{
   font-family: sans-serif;
   font-family: Tahoma;
 }
+
+/* setter grunnleggende flexbox-verdier for innholds-delen av html-dokumentene */
 main{
   display: flex;
   flex-direction: column;
   background-color: white;
 
 }
+
+/* setter 0-margin som standard for body*/
 body{
   margin: 0;
   /**background-color: #0B3861;**/
 }
 
-/* Knapper ble rar på iphone, denne kodesnutten fikset det */
+/* Standardiserer utseende av knapper når siden kjøres på iPhone */
 button {
   -webkit-appearance:none;
   border-radius: 0;
@@ -33,7 +39,7 @@ button {
 
 
 /**
-*header
+* Utseende og funksjonalitet for header og headerliste til bruk som meny.
 **/
 header{
   background-color: #0B3861;
@@ -81,6 +87,7 @@ header li{
   text-decoration: none;
   opacity: 0.8;
 }
+
 /*The logo in the header*/
 #logo{
   width:10%;
@@ -111,8 +118,8 @@ header li{
     max-width: 15%;
   }
 }
-/**footer
-**/
+
+/* Utseeende for footer */
 footer{
   width:100%;
   background-color: #0B3861;
@@ -120,8 +127,9 @@ footer{
   padding:10px;
   border-radius: 2px;
 }
+
 /**
-* FRONT PAGE
+* Utseende for forsiden
 */
 .frontpage {
   display:flex;
@@ -183,9 +191,9 @@ footer{
 #facebook{
   width:30%;
 }
-/**
-* MAP PAGE
 
+/**
+* Utseeende for kart
 */
 .mapDescription {
   margin: 5px;
@@ -263,7 +271,7 @@ select {
 }
 
 /**
-* Id's for controlling the dropdown meny's show and hide on map page.
+* Id's for controlling the dropdown meny's show and hide map.html.
 **/
 #drinking {
   display: none;
@@ -493,7 +501,7 @@ select {
 }
 
 /**
-* Styling for the toilet map site
+* Stiling for toalettsiden
 **/
 
 .freeformSearchBar {
@@ -580,6 +588,7 @@ input:focus {
   display: flex;
   flex-direction: row;
 }
+
 @media (max-width: 850px){
   .dateContainer{
     flex-direction: column;
@@ -594,7 +603,7 @@ input:focus {
     flex-direction: column;
   }
 }
-
+          /* Tabell-utseende, selve tabellen, onhover, rader og kolonner */
           table {
             border-collapse: collapse;
             background-color: #dadad9;
