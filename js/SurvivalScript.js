@@ -6,7 +6,6 @@ function hideMe(value) {
     showOrHideDescriptionText();
     var x = document.getElementById(value);
 
-    console.log(currentSelection);
     if(currentSelection != null) {
         currentSelection.style.display = "none";
     }
