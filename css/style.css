@@ -30,22 +30,7 @@ button {
   border-radius: 0;
   background: lightgrey;
 }
-/* Media screen for large screens
-- More white space required for large screen.
-*/
-@media (min-width : 1824px) {
-  body{
-    margin: 0 25% 0 25%;
-  }
-}
-/* Media screen for small screens
-- Much white space is unnecessary on phone
-*/
-@media (max-width : 800px) {
-  body{
-    margin: 0 5% 0 5%;
-  }
-}
+
 
 /**
 *header
