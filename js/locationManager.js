@@ -3,16 +3,10 @@ var map, markers;
 markers = [];
 map = "";
 
-/*
-	getJSON(url) = Løftefunksjon for å laste side og verifisere JSON.
-	loadTable() = Laster en ny liste med toaletter fra JSON-filen. Kan knyttes til API om nødvendig.
-		* refreshTable() = Clears and populates the table.
-				* clearTable() = Brukes til å tømme et table så man ikke må refreshe for å videreutvikle søk.
-				* populateTable() = Brukes til å generere listene over toaletter.
-		* executeSearch() = Genererer en mindre liste avhengig av søkekriterier.
-				* generateSearch() = Lager et searchQuery-objekt basert på data fra HTML-skjema.
-	SearchQuery() = PROTOTYPEN for query-objekter som brukes til å søke.
-*/
+/*  getJSON(url)
+ *	Tar string-url som parameter. Returnerer en gyldig liste eller feilmelding.
+ * 	Sjekker at URL laster som den skal, og at URL inneholder en liste som kan parses av JSON.
+ */
 
 function getJSON(url){
 	return new Promise(function(resolve, reject){
@@ -37,6 +31,11 @@ function getJSON(url){
 		xhr.send();
 	});
 }
+
+/* loadTable(url, loadType)
+ * Tar en URL og en streng som informerer om det er et søk eller sidelast
+ * Bruker et løfte og legger til et steg på vel utført løfte, som kjører et søk eller laster tabeller
+ */
 
 function loadTable(url, loadType){
 	var searchTable = document.getElementById("searchTable");
@@ -106,10 +105,12 @@ function loadTable(url, loadType){
 				generateInfoWindow(searchType, locationEntries);
 	}});
 }
-	/*
-	    SØKEFUNKSJONALITET
-	*/
-	//Konstruktør for søkeobjekt
+
+/* SearchQuery(male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch)
+ * Tar en rekke mulige parametre for å bygge et søkeobjekt.
+ * Søkeobjektet kan brukes uniformt uavhengig av hva som søkes på, da bare relevante variabler fylles
+ */
+
 function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access, maxPrice, female, freeSearch) {
 
 		this.herre = male;
@@ -122,6 +123,11 @@ function SearchQuery (male, baby, openSunday, openSaturday, openEveryday, access
 		this.dame = female;
 		this.search = freeSearch;
 	}
+
+	/*
+	 *
+	 *
+	 */
 
 function clearTable(table, condition) { //Tøm tabellen fra søk til søk
 		if(condition === undefined || condition === null) {
@@ -637,6 +643,10 @@ function populateTable(searchTable, locationList, tableName) {
 	generateTableCells(searchTable, locationList, tableName);
 }
 
+/* generateSearch(searchType)
+ * tar en string som forteller hva søket handler om. Returnerer et SearchQuery objekt.
+ * Behandler HTML-verdier og gjør dem til uniforme søkeverdier for bruk av SearchQuery.
+ */
 function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	var freeInput = document.getElementById('searchInput');
 	if (searchType === "toilet"){
@@ -653,10 +663,6 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 		var advInputBaby = document.getElementById('advBaby');
 	}
 
-	/*
-		Om bruker har valgt tid og dato må vi gjøre dette om til en String-verdi i relevant felt
-		Om bruker har valgt "Open now" må vi gjøre dette om til String-verdi i relevant felt
-	*/
 	if (searchType === "toilet"){
 		var qParamOpenEveryday = "";
 		var qParamOpenSaturday = "";
@@ -669,19 +675,19 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 
 		if (qParamDate && qParamHour && qParamMinute) {
 			var dateStringCollection = qParamDate.split("-");
-			var setDate = new Date(dateStringCollection[0], dateStringCollection[1], dateStringCollection[2], qParamHour, qParamMinute);
+			var setDate = new Date(dateStringCollection[0], dateStringCollection[1]-1, dateStringCollection[2], qParamHour, qParamMinute);
 
 			var timeBuilder = qParamHour + "." + qParamMinute;
 
 			var day = setDate.getDay();
 				switch(day){
-					case 0: qParamOpenEveryday = timeBuilder; break;
+					case 0: qParamOpenSunday = timeBuilder; break;
 					case 1: qParamOpenEveryday = timeBuilder; break;
 					case 2: qParamOpenEveryday = timeBuilder; break;
 					case 3: qParamOpenEveryday = timeBuilder; break;
 					case 4: qParamOpenEveryday = timeBuilder; break;
-					case 5: qParamOpenSaturday = timeBuilder; break;
-					case 6: qParamOpenSunday = timeBuilder; break;
+					case 5: qParamOpenEveryday = timeBuilder; break;
+					case 6: qParamOpenSaturday = timeBuilder; break;
 				}
 		}
 
@@ -728,10 +734,8 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 
 	}
 
-	/*
-		BEHANDLER FRITEKTSSØK TIL SLUTTEN I TILFELLE OVERSKREVNE VERDIER
-	*/
 
+	//FRITEKSTSSØK
 	var qParamFreeSearch = freeInput.value;
 
 	if (searchType == "toilet"){
@@ -846,11 +850,10 @@ function generateSearch(searchType){ //Lag et nytt søkeobjekt fra HTML-data
 	return query;
 }
 
-	/*
-		EXECUTE SEARCH FUNCTION
-		Dette er søkemotoren vår.
-		Tar en full liste og et søkeobjekt, bygger en ny liste med matchende objekter.
-	*/
+/* executeSearch(fullCollection, searchType)
+ * Søkemotoren vår. Tar en full samling av objekter og strenginformasjon om hva slags liste den leter i
+ * Bygger søkeobjekt. Bygger en ny liste med matchende objekter. Returnerer den nye listen.
+ */
 function executeSearch(fullCollection, searchType) {
   var newQuery = generateSearch(searchType);	//Søkeobjektet
 	console.log(newQuery);
@@ -877,7 +880,7 @@ function executeSearch(fullCollection, searchType) {
 
 	//FREE SEARCH WITH REGEX
 	if (definedParams.includes("search")){
-		var searchParams = ["plassering", "place", "adresse", "navn", "Besoksadresse"];
+		var searchParams = ["plassering", "place", "adresse", "navn", "BesoksAdresse", "Navn"];
 		var locationParams = Object.keys(locationCollection[0]);
 		var freeSearchArray = newQuery["search"].split("");
 		var builtRegString = "";
@@ -924,7 +927,11 @@ function executeSearch(fullCollection, searchType) {
 
 	//PRICE SEARCH
 	if (definedParams.includes("pris")){
-		searchPrice = parseInt(newQuery["pris"]);
+
+		if (newQuery["pris"] !== "Free"){
+			searchPrice = parseInt(newQuery["pris"]);
+		}
+
 
 		if(listSwitcher){
 			results = results.map(result => result["pris"] = parseInt(result["pris"]));
@@ -987,9 +994,10 @@ function executeSearch(fullCollection, searchType) {
 		} else if (searchQuery["tid_sondag"]){
 			targetDay = "tid_sondag";
 		}
-
 		if((listEntry[targetDay]) === "ALL"){
 			return true;
+		} else if((listEntry[targetDay]) === "NULL"){
+			return false;
 		} else {
 			var timeSplit = listEntry[targetDay].split(" - ");
 			var openingTime = timeSplit[0].split(".");
@@ -1098,7 +1106,6 @@ function generateAndPushMarkers(locationList, tableName) {
 */
 function generateInfoWindow(tableName, locationEntries) {
 	for(i = 0; i < locationEntries; i++) {
-		console.log("This is tableName: " + tableName);
 		if(tableName === "toilet") {
 			var infoW = new google.maps.InfoWindow();
 			if(markers[i] !== null) {

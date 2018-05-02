@@ -1,14 +1,15 @@
 /**
 * Function for showing and hiding subNav elements
 **/
+var currentSelection = document.getElementById("description-text");
 
 function hideMe(value) {
   showOrHideDescriptionText();
   var x = document.getElementById(value);
 
-  if(typeof currentSelection !== 'undefined') {
-    currentSelection.style.display = "none";
-  }
+    if(currentSelection != null) {
+        currentSelection.style.display = "none";
+    }
 
   x.style.display === "flex";
   if (x.style.display === "flex") {
