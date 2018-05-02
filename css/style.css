@@ -578,12 +578,12 @@ input:focus {
 
 .dateContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .priceContainer{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .accessContainer{
@@ -595,20 +595,20 @@ input:focus {
   display: flex;
   flex-direction: row;
 }
-+@media (max-width: 850px){
-  +  .dateContainer{
-    +    flex-direction: column;
-    +  }
-    +  .priceContainer{
-      +    flex-direction: column;
-      +  }
-      +  .accessContainer{
-        +    flex-direction: column;
-        +  }
-        +  .clock{
-          +    flex-direction: column;
-          +  }
-          +}
+@media (max-width: 850px){
+  .dateContainer{
+    flex-direction: column;
+  }
+  .priceContainer{
+    flex-direction: column;
+  }
+  .accessContainer{
+    flex-direction: column;
+  }
+  .clock{
+    flex-direction: column;
+  }
+}
 
           table {
             border-collapse: collapse;
